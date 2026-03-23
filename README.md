@@ -109,3 +109,23 @@ swift run neptune-gateway logs proxy ios show --raw
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift test
 ```
+
+## Performance Gate
+
+The performance gate is opt-in and does not run during the default test suite.
+It ingests 100,000 records concurrently, verifies the records remain queryable,
+and checks that record IDs stay unique and strictly increasing.
+
+Run it directly:
+
+```bash
+NEPTUNE_GATEWAY_PERF_GATE=1 \
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift test --filter PerformanceGateTests/testGatewayStoreHandles100kConcurrentIngestAndQuery
+```
+
+Or use the wrapper script:
+
+```bash
+./scripts/perf_gate.sh
+```
