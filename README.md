@@ -1,8 +1,8 @@
 # neptune-gateway-swift
 
-Vapor-based gateway skeleton for NeptuneKit v2.
+NeptuneKit v2 gateway current implementation: in-memory ingest, query, source aggregation, and simplified long polling.
 
-## Routes
+## Current Capabilities
 
 - `POST /v2/logs:ingest`
 - `GET /v2/logs`
@@ -11,7 +11,38 @@ Vapor-based gateway skeleton for NeptuneKit v2.
 - `GET /v2/health`
 - `GET /v2/gateway/discovery`
 
-`POST /v2/logs:ingest` currently validates `application/json` (single/array) and `application/x-ndjson`, then returns `202 Accepted`.
+`/v2/logs:ingest` supports:
+
+- `application/json` single record
+- `application/json` array payload
+- `application/x-ndjson`
+
+`/v2/logs` currently supports:
+
+- filters: `limit`, `beforeId`, `afterId`, `platform`, `appId`, `sessionId`, `level`, `contains`, `since`, `until`
+- formats: `json`, `ndjson`
+- simplified long polling: `afterId + waitMs`
+
+`/v2/metrics` currently returns:
+
+- `ingestAcceptedTotal`
+- `sourceCount`
+- `droppedOverflow`
+- `totalRecords`
+
+`/v2/sources` aggregates by:
+
+- `platform`
+- `appId`
+- `sessionId`
+- `deviceId`
+
+## Current Limits
+
+- storage is in-memory only; restart loses all records
+- `format=text` is not implemented and returns `400`
+- long polling is a simple retry loop, not a condition-based notifier
+- no SQLite retention, overflow, or backpressure policy yet
 
 ## Run
 

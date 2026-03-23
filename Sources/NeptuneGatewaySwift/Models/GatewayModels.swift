@@ -123,17 +123,21 @@ public struct IngestResponse: Content, Sendable {
 public struct MetricsResponse: Content, Sendable {
     public let ingestAcceptedTotal: Int
     public let sourceCount: Int
+    public let droppedOverflow: Int
+    public let totalRecords: Int
 
-    public init(ingestAcceptedTotal: Int, sourceCount: Int) {
+    public init(ingestAcceptedTotal: Int, sourceCount: Int, droppedOverflow: Int, totalRecords: Int) {
         self.ingestAcceptedTotal = ingestAcceptedTotal
         self.sourceCount = sourceCount
+        self.droppedOverflow = droppedOverflow
+        self.totalRecords = totalRecords
     }
 }
 
 public struct SourceResponse: Content, Sendable {
-    public let items: [String]
+    public let items: [SourceSnapshot]
 
-    public init(items: [String]) {
+    public init(items: [SourceSnapshot]) {
         self.items = items
     }
 }
