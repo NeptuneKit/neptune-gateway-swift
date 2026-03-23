@@ -22,6 +22,11 @@ NeptuneKit v2 gateway current implementation: in-memory ingest, query, source ag
 - filters: `limit`, `beforeId`, `afterId`, `platform`, `appId`, `sessionId`, `level`, `contains`, `since`, `until`
 - formats: `json`, `ndjson`
 - simplified long polling: `afterId + waitMs`
+- CLI log proxy commands:
+  - `logs proxy ios stream`
+  - `logs proxy ios show`
+  - `logs proxy android logcat`
+  - `logs proxy harmony hilog`
 
 `/v2/metrics` currently returns:
 
@@ -55,6 +60,42 @@ Optional environment variables:
 
 - `NEPTUNE_HOST` default `127.0.0.1`
 - `NEPTUNE_PORT` default `18765`
+
+## CLI Proxies
+
+Serve the gateway:
+
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway serve
+```
+
+Proxy Apple unified logging:
+
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy ios stream --app-id demo.app
+```
+
+Proxy Android logcat:
+
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy android logcat --gateway http://127.0.0.1:18765
+```
+
+Proxy Harmony hilog:
+
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy harmony hilog --app-id demo.harmony
+```
+
+Use `--raw` to print proxied lines without ingesting them:
+
+```bash
+swift run neptune-gateway logs proxy ios show --raw
+```
 
 ## Test
 
