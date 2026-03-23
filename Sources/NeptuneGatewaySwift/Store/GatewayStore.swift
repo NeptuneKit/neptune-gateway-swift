@@ -38,8 +38,19 @@ struct LogQuery: Sendable {
 }
 
 actor GatewayStore {
+    private struct InsertedRecord {
+        let id: Int64
+        let record: IngestLogRecord
+    }
+
+    private struct Waiter {
+        let query: LogQuery
+        let continuation: CheckedContinuation<Bool, Never>
+    }
+
     private let database: SQLiteGatewayDatabase
     private let configuration: GatewayStoreConfiguration
+    private var waiters: [UUID: Waiter] = [:]
 
     init(
         storageURL: URL? = nil,
@@ -65,6 +76,14 @@ actor GatewayStore {
             try database.deleteOrphanSources(db: db)
         }
 
+        if let newestID = try database.newestRecordID() {
+            let firstInsertedID = newestID - Int64(ingestRecords.count) + 1
+            let insertedRecords = ingestRecords.enumerated().map { offset, record in
+                InsertedRecord(id: firstInsertedID + Int64(offset), record: record)
+            }
+            resumeWaiters(matchingAnyOf: insertedRecords)
+        }
+
         return ingestRecords.count
     }
 
@@ -85,6 +104,33 @@ actor GatewayStore {
 
     func newestID() throws -> Int64? {
         try database.newestRecordID()
+    }
+
+    func waitForNewerRecord(matching query: LogQuery, waitMs: Int) async throws -> Bool {
+        guard waitMs > 0 else {
+            return false
+        }
+
+        let existing = try database.fetchRecords(query: query)
+        if !existing.records.isEmpty {
+            return true
+        }
+
+        let waiterID = UUID()
+        return await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                waiters[waiterID] = Waiter(query: query, continuation: continuation)
+
+                Task {
+                    try? await Task.sleep(for: .milliseconds(waitMs))
+                    self.finishWaiter(id: waiterID, matched: false)
+                }
+            }
+        } onCancel: {
+            Task {
+                await self.finishWaiter(id: waiterID, matched: false)
+            }
+        }
     }
 
     private func pruneIfNeeded(db: Database) throws {
@@ -111,6 +157,74 @@ actor GatewayStore {
         return directory
             .appendingPathComponent("gateway-\(ProcessInfo.processInfo.processIdentifier)-\(UUID().uuidString)")
             .appendingPathExtension("sqlite")
+    }
+
+    private func resumeWaiters(matchingAnyOf insertedRecords: [InsertedRecord]) {
+        let matchedWaiterIDs = waiters.compactMap { waiterID, waiter in
+            insertedRecords.contains { recordMatchesQuery(waiter.query, insertedRecord: $0) } ? waiterID : nil
+        }
+
+        for waiterID in matchedWaiterIDs {
+            finishWaiter(id: waiterID, matched: true)
+        }
+    }
+
+    private func finishWaiter(id: UUID, matched: Bool) {
+        guard let waiter = waiters.removeValue(forKey: id) else {
+            return
+        }
+
+        waiter.continuation.resume(returning: matched)
+    }
+
+    private func recordMatchesQuery(_ query: LogQuery, insertedRecord: InsertedRecord) -> Bool {
+        let record = insertedRecord.record
+
+        if let beforeID = query.beforeId, insertedRecord.id >= beforeID {
+            return false
+        }
+        if let afterID = query.afterId, insertedRecord.id <= afterID {
+            return false
+        }
+        if let platform = query.platform, record.platform != platform {
+            return false
+        }
+        if let appID = query.appId, record.appId != appID {
+            return false
+        }
+        if let sessionID = query.sessionId, record.sessionId != sessionID {
+            return false
+        }
+        if let level = query.level, record.level != level {
+            return false
+        }
+        if let contains = query.contains?.lowercased(), !contains.isEmpty {
+            let searchable = [
+                record.message,
+                record.category,
+                record.source?.file ?? "",
+                record.source?.function ?? ""
+            ].map { $0.lowercased() }
+            guard searchable.contains(where: { $0.contains(contains) }) else {
+                return false
+            }
+        }
+
+        let timestamp = parsedTimestamp(record.timestamp)
+        if let since = query.since, let timestamp, timestamp < since {
+            return false
+        }
+        if let until = query.until, let timestamp, timestamp > until {
+            return false
+        }
+
+        return true
+    }
+
+    private func parsedTimestamp(_ value: String) -> Date? {
+        let fractionalFormatter = ISO8601DateFormatter()
+        fractionalFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return fractionalFormatter.date(from: value) ?? ISO8601DateFormatter().date(from: value)
     }
 }
 

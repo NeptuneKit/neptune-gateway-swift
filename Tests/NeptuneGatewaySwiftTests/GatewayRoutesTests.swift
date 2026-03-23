@@ -161,6 +161,30 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
+    func testTextFormatReturnsPlainTextLines() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try Self.ingest(app: app, body: """
+        [\(sampleRecord),\(newerRecord)]
+        """, contentType: .json)
+
+        try app.test(.GET, "v2/logs?format=text") { response in
+            XCTAssertEqual(response.status, .ok)
+            XCTAssertEqual(response.headers.contentType?.type, "text")
+            XCTAssertEqual(response.headers.contentType?.subType, "plain")
+
+            let body = response.body.string
+            let lines = body
+                .split(separator: "\n", omittingEmptySubsequences: true)
+                .map(String.init)
+
+            XCTAssertEqual(lines.count, 2)
+            XCTAssertEqual(lines[0], "2026-03-23T12:00:00Z\tinfo\tios\tboot ok")
+            XCTAssertEqual(lines[1], "2026-03-23T12:01:00Z\tinfo\tios\tboot later")
+        }
+    }
+
     func testAfterIdWaitMsTimesOutWithEmptyRecords() throws {
         let app = try makeApplication()
         defer { app.shutdown() }
@@ -193,6 +217,81 @@ final class GatewayRoutesTests: XCTestCase {
             XCTAssertEqual(payload.records.first?.message, "boot later")
             XCTAssertEqual(payload.records.first?.id, 2)
         }
+    }
+
+    func testAfterIdWaitMsWithFilterIgnoresNonMatchingRecordUntilMatchArrives() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try Self.ingest(app: app, body: sampleRecord, contentType: .json)
+
+        let androidRecord = newerRecord
+            .replacingOccurrences(of: "\"platform\":\"ios\"", with: "\"platform\":\"android\"")
+            .replacingOccurrences(of: "\"message\":\"boot later\"", with: "\"message\":\"android later\"")
+        let iosRecord = newerRecord
+            .replacingOccurrences(of: "\"message\":\"boot later\"", with: "\"message\":\"ios after filter\"")
+
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(60)) {
+            try? Self.ingest(app: app, body: androidRecord, contentType: .json)
+        }
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(140)) {
+            try? Self.ingest(app: app, body: iosRecord, contentType: .json)
+        }
+
+        try app.test(.GET, "v2/logs?afterId=1&platform=ios&waitMs=500") { response in
+            let payload = try response.content.decode(QueryResponse.self)
+            XCTAssertEqual(payload.records.count, 1)
+            XCTAssertEqual(payload.records.first?.platform, "ios")
+            XCTAssertEqual(payload.records.first?.message, "ios after filter")
+        }
+    }
+
+    func testStoreWaitForNewerRecordReturnsFalseOnTimeout() async throws {
+        let databaseURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID().uuidString)
+            .appendingPathExtension("sqlite")
+        addTeardownBlock {
+            try? FileManager.default.removeItem(at: databaseURL)
+        }
+
+        let store = try GatewayStore(storageURL: databaseURL, configuration: .default)
+        let accepted = try await store.ingest([try makeRecord(from: sampleRecord)])
+        XCTAssertEqual(accepted, 1)
+
+        let start = Date()
+        let matched = try await store.waitForNewerRecord(
+            matching: LogQuery(afterId: 1),
+            waitMs: 120
+        )
+
+        XCTAssertFalse(matched)
+        XCTAssertGreaterThanOrEqual(Date().timeIntervalSince(start), 0.1)
+    }
+
+    func testStoreWaitForNewerRecordReturnsTrueWhenIngestedLater() async throws {
+        let databaseURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            .appendingPathComponent(UUID().uuidString)
+            .appendingPathExtension("sqlite")
+        addTeardownBlock {
+            try? FileManager.default.removeItem(at: databaseURL)
+        }
+
+        let store = try GatewayStore(storageURL: databaseURL, configuration: .default)
+        let first = try makeRecord(from: sampleRecord)
+        let second = try makeRecord(from: newerRecord)
+
+        _ = try await store.ingest([first])
+
+        Task {
+            try? await Task.sleep(for: .milliseconds(60))
+            _ = try? await store.ingest([second])
+        }
+
+        let matched = try await store.waitForNewerRecord(
+            matching: LogQuery(afterId: 1),
+            waitMs: 500
+        )
+        XCTAssertTrue(matched)
     }
 
     func testStorePersistsAcrossApplicationInstances() throws {
@@ -281,5 +380,9 @@ final class GatewayRoutesTests: XCTestCase {
         }, afterResponse: { response in
             XCTAssertEqual(response.status, .accepted)
         })
+    }
+
+    private func makeRecord(from json: String) throws -> IngestLogRecord {
+        try JSONDecoder().decode(IngestLogRecord.self, from: Data(json.utf8))
     }
 }

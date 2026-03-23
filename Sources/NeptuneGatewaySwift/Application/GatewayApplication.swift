@@ -45,12 +45,12 @@ public enum NeptuneGatewaySwiftApp {
             let query = try parseLogQuery(from: req)
             let format = req.query[String.self, at: "format"]?.lowercased() ?? "json"
 
-            if format == "text" {
-                throw Abort(.badRequest, reason: "Unsupported format 'text'.")
-            }
-
             let waitMs = max(0, req.query[Int.self, at: "waitMs"] ?? 0)
             let result = try await waitForQueryIfNeeded(store: req.gatewayStore, query: query, waitMs: waitMs)
+
+            if format == "text" {
+                return textResponse(for: result)
+            }
 
             if format == "ndjson" {
                 let lines = try result.records.map { record in
@@ -168,21 +168,30 @@ public enum NeptuneGatewaySwiftApp {
     }
 
     private static func waitForQueryIfNeeded(store: GatewayStore, query: LogQuery, waitMs: Int) async throws -> QueryResponse {
-        let clock = ContinuousClock()
         let initial = try await store.query(query)
         guard initial.records.isEmpty, waitMs > 0, query.afterId != nil else {
             return initial
         }
 
-        let deadline = clock.now + .milliseconds(waitMs)
-        while clock.now < deadline {
-            try await Task.sleep(for: .milliseconds(100))
-            let updated = try await store.query(query)
-            if !updated.records.isEmpty {
-                return updated
-            }
-        }
+        _ = try await store.waitForNewerRecord(matching: query, waitMs: waitMs)
         return try await store.query(query)
+    }
+
+    private static func textResponse(for result: QueryResponse) -> Response {
+        let lines = result.records.map { record in
+            [
+                record.timestamp,
+                record.level,
+                record.platform,
+                record.message.replacingOccurrences(of: "\n", with: "\\n")
+            ].joined(separator: "\t")
+        }.joined(separator: "\n")
+        let buffer = ByteBuffer(string: lines.isEmpty ? "" : lines + "\n")
+        return Response(
+            status: .ok,
+            headers: HTTPHeaders([("Content-Type", "text/plain; charset=utf-8")]),
+            body: .init(buffer: buffer)
+        )
     }
 }
 
