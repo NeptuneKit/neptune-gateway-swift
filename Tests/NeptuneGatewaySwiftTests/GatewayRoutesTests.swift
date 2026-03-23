@@ -105,6 +105,48 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
+    func testSourcesEndpointReturnsDistinctSourcesAndRetentionRemovesOrphans() throws {
+        let retention = GatewayStoreConfiguration(maxRecordCount: 1, maxAge: 60 * 60 * 24 * 14)
+        let app = try makeApplication(retention: retention)
+        defer { app.shutdown() }
+
+        let secondRecord = newerRecord
+            .replacingOccurrences(of: "\"sessionId\":\"s-1\"", with: "\"sessionId\":\"s-2\"")
+            .replacingOccurrences(of: "\"deviceId\":\"d-1\"", with: "\"deviceId\":\"d-2\"")
+
+        try Self.ingest(app: app, body: sampleRecord, contentType: .json)
+        try Self.ingest(app: app, body: secondRecord, contentType: .json)
+
+        try app.test(.GET, "v2/sources") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(SourceResponse.self)
+            XCTAssertEqual(payload.items.count, 1)
+            XCTAssertEqual(payload.items.first?.platform, "ios")
+            XCTAssertEqual(payload.items.first?.appId, "demo.app")
+            XCTAssertEqual(payload.items.first?.sessionId, "s-2")
+            XCTAssertEqual(payload.items.first?.deviceId, "d-2")
+            XCTAssertEqual(payload.items.first?.lastSeenAt, "2026-03-23T12:01:00Z")
+        }
+    }
+
+    func testAfterIdFilterReturnsOnlyNewerRecordsWithoutWaiting() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try Self.ingest(app: app, body: """
+        [\(sampleRecord),\(newerRecord)]
+        """, contentType: .json)
+
+        try app.test(.GET, "v2/logs?afterId=1") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(QueryResponse.self)
+            XCTAssertEqual(payload.records.count, 1)
+            XCTAssertEqual(payload.records.first?.id, 2)
+            XCTAssertEqual(payload.records.first?.message, "boot later")
+            XCTAssertFalse(payload.hasMore)
+        }
+    }
+
     func testNDJSONIngestMatchesJSONCount() throws {
         let app = try makeApplication()
         defer { app.shutdown() }

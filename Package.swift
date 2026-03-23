@@ -11,6 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0"),
+        .package(url: "https://github.com/groue/GRDB.swift", from: "7.0.0"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.110.1"),
     ],
     targets: [
@@ -18,6 +19,7 @@ let package = Package(
             name: "NeptuneGatewaySwift",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "GRDB", package: "GRDB.swift"),
                 .product(name: "Vapor", package: "vapor"),
             ]
         ),

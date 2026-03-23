@@ -1,6 +1,12 @@
 # neptune-gateway-swift
 
-NeptuneKit v2 gateway current implementation: SQLite-backed ingest, query, source aggregation, retention, and simplified long polling.
+NeptuneKit v2 gateway current implementation: GRDB-backed SQLite ingest, query, source aggregation, retention, and simplified long polling.
+
+## Runtime Stack
+
+- HTTP server: Vapor
+- CLI parsing: ArgumentParser
+- SQLite persistence: GRDB
 
 ## Current Capabilities
 
@@ -47,6 +53,7 @@ NeptuneKit v2 gateway current implementation: SQLite-backed ingest, query, sourc
 - `format=text` is not implemented and returns `400`
 - long polling is a simple retry loop, not a condition-based notifier
 - retention defaults to `maxRecordCount=200000` and `maxAge=14d`, both configurable via the application entrypoint
+- persistence no longer uses handwritten `SQLite3` C API bindings; schema/migration/query execution is handled through GRDB
 
 ## Run
 
