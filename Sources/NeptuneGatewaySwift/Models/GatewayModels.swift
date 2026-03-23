@@ -125,12 +125,45 @@ public struct MetricsResponse: Content, Sendable {
     public let sourceCount: Int
     public let droppedOverflow: Int
     public let totalRecords: Int
+    public let retainedRecordCount: Int
+    public let retentionMaxRecordCount: Int
+    public let retentionMaxAgeSeconds: Int
+    public let retentionDroppedTotal: Int
 
-    public init(ingestAcceptedTotal: Int, sourceCount: Int, droppedOverflow: Int, totalRecords: Int) {
+    public init(
+        ingestAcceptedTotal: Int,
+        sourceCount: Int,
+        droppedOverflow: Int,
+        totalRecords: Int,
+        retainedRecordCount: Int? = nil,
+        retentionMaxRecordCount: Int = 200_000,
+        retentionMaxAgeSeconds: Int = 60 * 60 * 24 * 14,
+        retentionDroppedTotal: Int? = nil
+    ) {
         self.ingestAcceptedTotal = ingestAcceptedTotal
         self.sourceCount = sourceCount
         self.droppedOverflow = droppedOverflow
         self.totalRecords = totalRecords
+        self.retainedRecordCount = retainedRecordCount ?? totalRecords
+        self.retentionMaxRecordCount = retentionMaxRecordCount
+        self.retentionMaxAgeSeconds = retentionMaxAgeSeconds
+        self.retentionDroppedTotal = retentionDroppedTotal ?? droppedOverflow
+    }
+}
+
+public struct SourceSnapshot: Codable, Sendable, Equatable {
+    public let platform: String
+    public let appId: String
+    public let sessionId: String
+    public let deviceId: String
+    public let lastSeenAt: String
+
+    public init(platform: String, appId: String, sessionId: String, deviceId: String, lastSeenAt: String) {
+        self.platform = platform
+        self.appId = appId
+        self.sessionId = sessionId
+        self.deviceId = deviceId
+        self.lastSeenAt = lastSeenAt
     }
 }
 

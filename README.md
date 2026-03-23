@@ -1,6 +1,6 @@
 # neptune-gateway-swift
 
-NeptuneKit v2 gateway current implementation: in-memory ingest, query, source aggregation, and simplified long polling.
+NeptuneKit v2 gateway current implementation: SQLite-backed ingest, query, source aggregation, retention, and simplified long polling.
 
 ## Current Capabilities
 
@@ -44,10 +44,9 @@ NeptuneKit v2 gateway current implementation: in-memory ingest, query, source ag
 
 ## Current Limits
 
-- storage is in-memory only; restart loses all records
 - `format=text` is not implemented and returns `400`
 - long polling is a simple retry loop, not a condition-based notifier
-- no SQLite retention, overflow, or backpressure policy yet
+- retention defaults to `maxRecordCount=200000` and `maxAge=14d`, both configurable via the application entrypoint
 
 ## Run
 

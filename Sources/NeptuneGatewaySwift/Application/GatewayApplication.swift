@@ -13,24 +13,30 @@ public enum NeptuneGatewaySwiftApp {
     public static func makeApplication(
         environment: Environment = .development,
         hostname: String = "127.0.0.1",
-        port: Int = 18765
+        port: Int = 18765,
+        storageURL: URL? = nil,
+        storeConfiguration: GatewayStoreConfiguration = .default
     ) throws -> Application {
         let app = Application(environment)
         app.http.server.configuration.hostname = hostname
         app.http.server.configuration.port = port
-        try configure(app)
+        try configure(app, storageURL: storageURL, storeConfiguration: storeConfiguration)
         return app
     }
 
-    public static func configure(_ app: Application) throws {
-        app.storage[GatewayStoreKey.self] = GatewayStore()
+    public static func configure(
+        _ app: Application,
+        storageURL: URL? = nil,
+        storeConfiguration: GatewayStoreConfiguration = .default
+    ) throws {
+        app.storage[GatewayStoreKey.self] = try GatewayStore(storageURL: storageURL, configuration: storeConfiguration)
         try registerRoutes(on: app)
     }
 
     private static func registerRoutes(on app: Application) throws {
         app.post("v2", "logs:ingest") { req async throws -> Response in
             let ingestRecords = try decodeIngestRecords(from: req)
-            let accepted = await req.gatewayStore.ingest(ingestRecords)
+            let accepted = try await req.gatewayStore.ingest(ingestRecords)
             let response = IngestResponse(accepted: accepted)
             return try await response.encodeResponse(status: .accepted, for: req)
         }
@@ -63,17 +69,21 @@ public enum NeptuneGatewaySwiftApp {
         }
 
         app.get("v2", "metrics") { req async throws -> MetricsResponse in
-            let snapshot = await req.gatewayStore.metrics()
+            let snapshot = try await req.gatewayStore.metrics()
             return MetricsResponse(
                 ingestAcceptedTotal: snapshot.ingestAcceptedTotal,
                 sourceCount: snapshot.sourceCount,
                 droppedOverflow: snapshot.droppedOverflow,
-                totalRecords: snapshot.totalRecords
+                totalRecords: snapshot.totalRecords,
+                retainedRecordCount: snapshot.retainedRecordCount,
+                retentionMaxRecordCount: snapshot.retentionMaxRecordCount,
+                retentionMaxAgeSeconds: snapshot.retentionMaxAgeSeconds,
+                retentionDroppedTotal: snapshot.retentionDroppedTotal
             )
         }
 
         app.get("v2", "sources") { req async throws -> SourceResponse in
-            SourceResponse(items: await req.gatewayStore.sources())
+            SourceResponse(items: try await req.gatewayStore.sources())
         }
 
         app.get("v2", "health") { _ async throws -> HealthResponse in
@@ -159,7 +169,7 @@ public enum NeptuneGatewaySwiftApp {
 
     private static func waitForQueryIfNeeded(store: GatewayStore, query: LogQuery, waitMs: Int) async throws -> QueryResponse {
         let clock = ContinuousClock()
-        let initial = await store.query(query)
+        let initial = try await store.query(query)
         guard initial.records.isEmpty, waitMs > 0, query.afterId != nil else {
             return initial
         }
@@ -167,12 +177,12 @@ public enum NeptuneGatewaySwiftApp {
         let deadline = clock.now + .milliseconds(waitMs)
         while clock.now < deadline {
             try await Task.sleep(for: .milliseconds(100))
-            let updated = await store.query(query)
+            let updated = try await store.query(query)
             if !updated.records.isEmpty {
                 return updated
             }
         }
-        return await store.query(query)
+        return try await store.query(query)
     }
 }
 
