@@ -1,0 +1,24 @@
+name: Release CLI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build CLI release artifacts
+        run: |
+          ./scripts/build-cli-release.sh
+
+      - name: Upload CLI release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cli-release
+          path: dist/cli-release/*
+          if-no-files-found: error
+          retention-days: 14
