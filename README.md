@@ -98,23 +98,22 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 - `dist/cli-release/neptune-gateway-<version>.sha256`
 - `dist/cli-release/neptune-gateway-<version>.release-info.txt`
 
-## 手动发布 Workflow
+## GitHub Release 发布
 
-仓库提供了 GitHub Actions 手动发布流程 `.github/workflows/release-cli.yml`。
+正式发布入口是 `.github/workflows/release-cli-tag.yml`。
 
-使用方式：
+触发方式有两种：
 
-1. 打开 GitHub 仓库页面的 Actions。
-2. 选择 `Release CLI` workflow。
-3. 点击 `Run workflow` 手动触发。
+1. 向仓库推送 `v*` 格式的 tag，例如 `v1.2.3`。
+2. 在 GitHub Actions 页面手动执行 `Release CLI (tag)` workflow，并填写 `tag_name`。
 
-执行后，workflow 会：
+workflow 会：
 
-- 调用 `./scripts/build-cli-release.sh` 生成发布产物
-- 收集 `dist/cli-release/` 下的全部文件
-- 以 `cli-release` 名称上传为 Actions artifact
+- 使用 `./scripts/build-cli-release.sh` 生成发布二进制、`sha256` 文件和发布清单
+- 将 `dist/cli-release/` 下的产物上传到对应 GitHub Release
+- 自动生成 Release notes
 
-上传的 artifact 包含：
+发布到 Release 的文件包含：
 
 - `neptune-gateway-<version>`
 - `neptune-gateway-<version>.sha256`
