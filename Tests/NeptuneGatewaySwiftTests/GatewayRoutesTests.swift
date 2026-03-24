@@ -38,6 +38,18 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
+    func testMetricsEndpointIncludesCORSHeadersForInspectorOrigin() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/metrics", beforeRequest: { request in
+            request.headers.replaceOrAdd(name: .origin, value: "http://127.0.0.1:4173")
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .ok)
+            XCTAssertEqual(response.headers.first(name: .accessControlAllowOrigin), "*")
+        })
+    }
+
     func testLogsEndpointReturnsRecordsField() throws {
         let app = try makeApplication()
         defer { app.shutdown() }

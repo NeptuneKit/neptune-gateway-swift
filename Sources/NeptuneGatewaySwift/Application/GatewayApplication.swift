@@ -29,8 +29,18 @@ public enum NeptuneGatewaySwiftApp {
         storageURL: URL? = nil,
         storeConfiguration: GatewayStoreConfiguration = .default
     ) throws {
+        configureCORS(on: app)
         app.storage[GatewayStoreKey.self] = try GatewayStore(storageURL: storageURL, configuration: storeConfiguration)
         try registerRoutes(on: app)
+    }
+
+    private static func configureCORS(on app: Application) {
+        let configuration = CORSMiddleware.Configuration(
+            allowedOrigin: .all,
+            allowedMethods: [.GET, .POST, .OPTIONS],
+            allowedHeaders: [.accept, .authorization, .contentType, .origin, .xRequestedWith]
+        )
+        app.middleware.use(CORSMiddleware(configuration: configuration))
     }
 
     private static func registerRoutes(on app: Application) throws {
