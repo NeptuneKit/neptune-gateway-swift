@@ -109,6 +109,8 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 
 workflow 会：
 
+- 在执行发布前校验 tag 必须符合 `v1.2.3` 或 `v1.2.3-rc.1` 这类语义化版本格式，不合法会直接失败
+- 先用 `git log` 生成一个简要 changelog 片段，并作为 release body 前置内容
 - 使用 `./scripts/build-cli-release.sh` 生成发布二进制、`sha256` 文件和发布清单
 - 将 `dist/cli-release/` 下的产物上传到对应 GitHub Release
 - 自动生成 Release notes
