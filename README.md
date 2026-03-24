@@ -68,6 +68,42 @@ Optional environment variables:
 - `NEPTUNE_HOST` default `127.0.0.1`
 - `NEPTUNE_PORT` default `18765`
 
+## 构建/分发 CLI
+
+优先使用 SwiftPM 的成熟构建链：
+
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift build -c release --product neptune-gateway
+```
+
+如果需要生成可分发的发布包，使用仓库脚本：
+
+```bash
+./scripts/build-cli-release.sh
+```
+
+脚本会优先通过 `xcrun` 选择当前 Xcode 安装里的 Swift 工具链；如果环境里没有 `xcrun`，才回退到 `swift`。
+
+脚本会：
+
+- 通过 `swift build -c release --product neptune-gateway` 生成发布二进制
+- 将产物复制到 `dist/cli-release/`
+- 生成带版本号的二进制文件名
+- 输出 `sha256` 校验文件和发布清单
+
+默认产物示例：
+
+- `dist/cli-release/neptune-gateway-<version>`
+- `dist/cli-release/neptune-gateway-<version>.sha256`
+- `dist/cli-release/neptune-gateway-<version>.release-info.txt`
+
+自检模式只验证脚本依赖和包根目录，不会真正编译：
+
+```bash
+./scripts/build-cli-release.sh --self-check
+```
+
 ## CLI Proxies
 
 Serve the gateway:
@@ -77,21 +113,32 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway serve
 ```
 
-Proxy Apple unified logging:
+### iOS Unified Logging
+
+`logs proxy ios stream` 会实时运行系统 `log stream`，适合盯住新日志；`logs proxy ios show` 会运行 `log show`，适合拉历史区间或补查过去日志。两者都支持透传原生 `log` 参数，例如 `--predicate`、`--style`、`--info`。
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy ios stream --app-id demo.app
 ```
 
-Proxy Android logcat:
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy ios show --raw --predicate 'subsystem == "com.demo.app"'
+```
+
+### Android logcat
+
+`logs proxy android logcat` 直接代理 `adb logcat`。先确保 `adb` 可用并且设备或模拟器已连接，然后把需要的 `adb logcat` 过滤参数原样透传给命令。
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy android logcat --gateway http://127.0.0.1:18765
 ```
 
-Proxy Harmony hilog:
+### Harmony hdc hilog
+
+`logs proxy harmony hilog` 代理 `hdc hilog`。先确认 `hdc` 已安装且设备在线，再透传 `hilog` 的过滤参数。命令默认按行转发到网关，也可以加 `--raw` 只做直通输出。
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
