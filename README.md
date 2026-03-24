@@ -111,6 +111,9 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift test
 ```
 
+GitHub Actions 会在 `push` 到 `main` 和 `pull_request` 时自动跑同样的 `swift test`。
+手动触发 workflow 时可勾选 `perf_gate` 运行 100k 性能门禁。
+
 ## Performance Gate
 
 The performance gate is opt-in and does not run during the default test suite.
