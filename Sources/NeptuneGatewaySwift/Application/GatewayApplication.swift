@@ -9,35 +9,103 @@ private struct GatewayStoreKey: StorageKey {
     typealias Value = GatewayStore
 }
 
+private struct GatewayWebSocketHubKey: StorageKey {
+    typealias Value = GatewayWebSocketHub
+}
+
+private struct GatewayClientRegistryKey: StorageKey {
+    typealias Value = GatewayClientRegistry
+}
+
+private struct GatewayDiscoveryRuntimeConfigurationKey: StorageKey {
+    typealias Value = GatewayDiscoveryRuntimeConfiguration
+}
+
+private struct GatewayDiscoveryRuntimeConfiguration: Sendable {
+    let advertiseHost: String?
+
+    init(advertiseHost: String?) {
+        let normalized = advertiseHost?.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.advertiseHost = (normalized?.isEmpty == false) ? normalized : nil
+    }
+}
+
 public enum NeptuneGatewaySwiftApp {
     public static func makeApplication(
         environment: Environment = .development,
         hostname: String = "127.0.0.1",
         port: Int = 18765,
+        advertiseHost: String? = nil,
         storageURL: URL? = nil,
-        storeConfiguration: GatewayStoreConfiguration = .default
+        storeConfiguration: GatewayStoreConfiguration = .default,
+        webSocketConfiguration: GatewayWebSocketConfiguration = .default
     ) throws -> Application {
         let app = Application(environment)
         app.http.server.configuration.hostname = hostname
         app.http.server.configuration.port = port
-        try configure(app, storageURL: storageURL, storeConfiguration: storeConfiguration)
+        try configure(
+            app,
+            advertiseHost: advertiseHost,
+            storageURL: storageURL,
+            storeConfiguration: storeConfiguration,
+            webSocketConfiguration: webSocketConfiguration
+        )
         return app
     }
 
     public static func configure(
         _ app: Application,
+        advertiseHost: String? = nil,
         storageURL: URL? = nil,
-        storeConfiguration: GatewayStoreConfiguration = .default
+        storeConfiguration: GatewayStoreConfiguration = .default,
+        webSocketConfiguration: GatewayWebSocketConfiguration = .default
     ) throws {
         configureCORS(on: app)
-        app.storage[GatewayStoreKey.self] = try GatewayStore(storageURL: storageURL, configuration: storeConfiguration)
+        app.storage[GatewayDiscoveryRuntimeConfigurationKey.self] = GatewayDiscoveryRuntimeConfiguration(
+            advertiseHost: advertiseHost
+        )
+        let store = try GatewayStore(storageURL: storageURL, configuration: storeConfiguration)
+        let clientRegistry = GatewayClientRegistry()
+        let hub = GatewayWebSocketHub(configuration: webSocketConfiguration)
+        hub.configureCommandPipeline(
+            resolveRecipients: { target in
+                let selected = await clientRegistry.selectedOnlineClients(matching: target)
+                return selected.map { snapshot in
+                    GatewayCallbackClient(
+                        recipientID: [snapshot.platform, snapshot.appId, snapshot.deviceId].joined(separator: "|"),
+                        platform: snapshot.platform,
+                        appId: snapshot.appId,
+                        sessionId: snapshot.sessionId,
+                        deviceId: snapshot.deviceId,
+                        callbackEndpoint: snapshot.callbackEndpoint
+                    )
+                }
+            },
+            invokeCommand: { client, command in
+                await sendCommandToClient(
+                    endpoint: client.callbackEndpoint,
+                    command: command,
+                    timeout: webSocketConfiguration.commandCallbackTimeout
+                )
+            }
+        )
+
+        app.storage[GatewayStoreKey.self] = store
+        app.storage[GatewayClientRegistryKey.self] = clientRegistry
+        app.storage[GatewayWebSocketHubKey.self] = hub
+        app.lifecycle.use(
+            GatewayClientRegistryCleanupLifecycleHandler(
+                registry: clientRegistry,
+                interval: 30
+            )
+        )
         try registerRoutes(on: app)
     }
 
     private static func configureCORS(on app: Application) {
         let configuration = CORSMiddleware.Configuration(
             allowedOrigin: .all,
-            allowedMethods: [.GET, .POST, .OPTIONS],
+            allowedMethods: [.GET, .POST, .PUT, .OPTIONS],
             allowedHeaders: [.accept, .authorization, .contentType, .origin, .xRequestedWith]
         )
         app.middleware.use(CORSMiddleware(configuration: configuration))
@@ -45,8 +113,26 @@ public enum NeptuneGatewaySwiftApp {
 
     private static func registerRoutes(on app: Application) throws {
         app.post("v2", "logs:ingest") { req async throws -> Response in
+            let previousNewestID = try await req.gatewayStore.newestID()
             let ingestRecords = try decodeIngestRecords(from: req)
             let accepted = try await req.gatewayStore.ingest(ingestRecords)
+            if accepted > 0 {
+                let insertedRecords = try await req.gatewayStore.query(
+                    LogQuery(
+                        limit: accepted,
+                        beforeId: nil,
+                        afterId: previousNewestID,
+                        platform: nil,
+                        appId: nil,
+                        sessionId: nil,
+                        level: nil,
+                        contains: nil,
+                        since: nil,
+                        until: nil
+                    )
+                ).records
+                req.gatewayWebSocketHub.publishLogRecords(insertedRecords)
+            }
             let response = IngestResponse(accepted: accepted)
             return try await response.encodeResponse(status: .accepted, for: req)
         }
@@ -96,16 +182,41 @@ public enum NeptuneGatewaySwiftApp {
             SourceResponse(items: try await req.gatewayStore.sources())
         }
 
+        app.post("v2", "clients:register") { req async throws -> ClientRegisterResponse in
+            let payload = try req.content.decode(ClientRegisterRequest.self)
+            let snapshot = try await req.gatewayClientRegistry.register(payload)
+            return ClientRegisterResponse(client: snapshot)
+        }
+
+        app.get("v2", "clients") { req async throws -> ClientListResponse in
+            ClientListResponse(items: await req.gatewayClientRegistry.listClients())
+        }
+
+        app.put("v2", "clients:selected") { req async throws -> ClientsSelectedResponse in
+            let payload = try req.content.decode(ClientsSelectedRequest.self)
+            return try await req.gatewayClientRegistry.replaceSelected(with: payload.items)
+        }
+
         app.get("v2", "health") { _ async throws -> HealthResponse in
             HealthResponse(status: "ok", version: NeptuneGatewayVersion.current)
         }
 
         app.get("v2", "gateway", "discovery") { req async throws -> DiscoveryResponse in
             DiscoveryResponse(
-                host: req.application.http.server.configuration.hostname,
+                host: resolveDiscoveryHost(for: req),
                 port: req.application.http.server.configuration.port,
                 version: NeptuneGatewayVersion.current
             )
+        }
+
+        app.webSocket("v2", "ws") { req, webSocket in
+            let clientID = req.gatewayWebSocketHub.connect(webSocket)
+            webSocket.onText { _, text in
+                req.gatewayWebSocketHub.handleText(text, from: clientID)
+            }
+            webSocket.onClose.whenComplete { _ in
+                req.gatewayWebSocketHub.disconnect(clientID)
+            }
         }
     }
 
@@ -203,6 +314,37 @@ public enum NeptuneGatewaySwiftApp {
             body: .init(buffer: buffer)
         )
     }
+
+    private static func resolveDiscoveryHost(for req: Request) -> String {
+        if let advertiseHost = req.gatewayDiscoveryRuntimeConfiguration.advertiseHost {
+            return advertiseHost
+        }
+
+        if let host = hostFromHeader(req.headers.first(name: .host)) {
+            return host
+        }
+
+        let configuredHost = req.application.http.server.configuration.hostname
+        if configuredHost == "0.0.0.0" || configuredHost == "::" || configuredHost == "[::]" || configuredHost.isEmpty {
+            return "127.0.0.1"
+        }
+        return configuredHost
+    }
+
+    private static func hostFromHeader(_ rawHost: String?) -> String? {
+        guard let rawHost = rawHost?.trimmingCharacters(in: .whitespacesAndNewlines), !rawHost.isEmpty else {
+            return nil
+        }
+
+        let candidate = rawHost.contains("://") ? rawHost : "http://\(rawHost)"
+        guard let components = URLComponents(string: candidate),
+              let host = components.host?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !host.isEmpty
+        else {
+            return nil
+        }
+        return host
+    }
 }
 
 private extension Request {
@@ -211,5 +353,89 @@ private extension Request {
             fatalError("GatewayStore not configured")
         }
         return store
+    }
+
+    var gatewayWebSocketHub: GatewayWebSocketHub {
+        guard let hub = application.storage[GatewayWebSocketHubKey.self] else {
+            fatalError("GatewayWebSocketHub not configured")
+        }
+        return hub
+    }
+
+    var gatewayClientRegistry: GatewayClientRegistry {
+        guard let registry = application.storage[GatewayClientRegistryKey.self] else {
+            fatalError("GatewayClientRegistry not configured")
+        }
+        return registry
+    }
+
+    var gatewayDiscoveryRuntimeConfiguration: GatewayDiscoveryRuntimeConfiguration {
+        guard let configuration = application.storage[GatewayDiscoveryRuntimeConfigurationKey.self] else {
+            return GatewayDiscoveryRuntimeConfiguration(advertiseHost: nil)
+        }
+        return configuration
+    }
+}
+
+private struct GatewayClientRegistryCleanupLifecycleHandler: LifecycleHandler {
+    let registry: GatewayClientRegistry
+    let interval: TimeInterval
+
+    func didBoot(_ application: Application) throws {
+        let interval = max(1, Int64(self.interval.rounded()))
+        let task = Task.detached(priority: .background) {
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: UInt64(interval) * 1_000_000_000)
+                await registry.cleanupExpired()
+            }
+        }
+
+        application.lifecycle.use(
+            GatewayClientRegistryCleanupCancellationLifecycleHandler(task: task)
+        )
+    }
+}
+
+private struct GatewayClientRegistryCleanupCancellationLifecycleHandler: LifecycleHandler {
+    let task: Task<Void, Never>
+
+    func shutdown(_ application: Application) {
+        task.cancel()
+    }
+}
+
+private func sendCommandToClient(
+    endpoint: String,
+    command: GatewayCommandRequest,
+    timeout: TimeInterval
+) async -> GatewayCommandAck? {
+    guard let endpointURL = URL(string: endpoint) else {
+        return nil
+    }
+    let path = endpointURL.path.trimmingCharacters(in: .whitespacesAndNewlines)
+    let requestURL: URL
+    if path.hasSuffix("/v2/client/command") {
+        requestURL = endpointURL
+    } else {
+        requestURL = endpointURL
+            .appending(path: "v2")
+            .appending(path: "client")
+            .appending(path: "command")
+    }
+
+    var request = URLRequest(url: requestURL)
+    request.httpMethod = "POST"
+    request.timeoutInterval = max(0.1, timeout)
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    do {
+        request.httpBody = try JSONEncoder().encode(command)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+            return nil
+        }
+        return try JSONDecoder().decode(GatewayCommandAck.self, from: data)
+    } catch {
+        return nil
     }
 }

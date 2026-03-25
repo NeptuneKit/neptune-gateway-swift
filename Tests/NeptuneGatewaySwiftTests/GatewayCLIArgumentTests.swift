@@ -22,4 +22,29 @@ final class GatewayCLIArgumentTests: XCTestCase {
         XCTAssertEqual(streamCommand.options.sessionID, "session-1")
         XCTAssertEqual(streamCommand.options.deviceID, "device-1")
     }
+
+    func testServeArgumentsParseWithMDNSFlags() throws {
+        let command = try NeptuneGatewayCommand.parseAsRoot([
+            "serve",
+            "--host", "0.0.0.0",
+            "--port", "18766",
+            "--no-mdns",
+            "--advertise-host", "linhey.local",
+            "--mdns-service-name", "gateway-dev",
+            "--mdns-service-type", "_neptune._tcp.",
+            "--mdns-domain", "local.",
+        ])
+
+        guard let serveCommand = command as? ServeCommand else {
+            return XCTFail("Expected ServeCommand.")
+        }
+
+        XCTAssertEqual(serveCommand.host, "0.0.0.0")
+        XCTAssertEqual(serveCommand.port, 18766)
+        XCTAssertFalse(serveCommand.mdns)
+        XCTAssertEqual(serveCommand.advertiseHost, "linhey.local")
+        XCTAssertEqual(serveCommand.mdnsServiceName, "gateway-dev")
+        XCTAssertEqual(serveCommand.mdnsServiceType, "_neptune._tcp.")
+        XCTAssertEqual(serveCommand.mdnsDomain, "local.")
+    }
 }

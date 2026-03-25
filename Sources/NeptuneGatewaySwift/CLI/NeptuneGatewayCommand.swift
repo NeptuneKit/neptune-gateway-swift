@@ -28,6 +28,32 @@ public struct ServeCommand: ParsableCommand {
     @ArgumentParser.Option(name: .long, help: "Gateway port.")
     var port: Int = Int(ProcessInfo.processInfo.environment["NEPTUNE_PORT"] ?? "18765") ?? 18765
 
+    @ArgumentParser.Flag(
+        name: .long,
+        inversion: .prefixedNo,
+        help: "Enable mDNS publish for gateway discovery."
+    )
+    var mdns: Bool = GatewayMDNSConfiguration.parseEnabled(
+        from: ProcessInfo.processInfo.environment["NEPTUNE_MDNS_ENABLED"]
+    )
+
+    @ArgumentParser.Option(name: .long, help: "mDNS service name.")
+    var mdnsServiceName: String = ProcessInfo.processInfo.environment["NEPTUNE_MDNS_SERVICE_NAME"]
+        ?? GatewayMDNSConfiguration.defaultServiceName
+
+    @ArgumentParser.Option(name: .long, help: "mDNS service type.")
+    var mdnsServiceType: String = ProcessInfo.processInfo.environment["NEPTUNE_MDNS_SERVICE_TYPE"]
+        ?? "_neptune._tcp."
+
+    @ArgumentParser.Option(name: .long, help: "mDNS service domain.")
+    var mdnsDomain: String = ProcessInfo.processInfo.environment["NEPTUNE_MDNS_DOMAIN"] ?? "local."
+
+    @ArgumentParser.Option(
+        name: .long,
+        help: "Advertised host returned by /v2/gateway/discovery."
+    )
+    var advertiseHost: String = ProcessInfo.processInfo.environment["NEPTUNE_ADVERTISE_HOST"] ?? ""
+
     public init() {}
 
     public mutating func validate() throws {
@@ -37,8 +63,37 @@ public struct ServeCommand: ParsableCommand {
     }
 
     public mutating func run() throws {
-        let app = try NeptuneGatewaySwift.makeApplication(hostname: host, port: port)
+        let executable = CommandLine.arguments.first ?? "neptune-gateway"
+        let environmentName = ProcessInfo.processInfo.environment["VAPOR_ENV"] ?? "development"
+        let environment = Environment(name: environmentName, arguments: [executable, "serve"])
+        let app = try NeptuneGatewaySwift.makeApplication(
+            environment: environment,
+            hostname: host,
+            port: port,
+            advertiseHost: normalizeAdvertiseHost(advertiseHost)
+        )
+        let mdnsPublisher = GatewayMDNSPublisher(
+            configuration: GatewayMDNSConfiguration(
+                enabled: mdns,
+                serviceType: mdnsServiceType,
+                domain: mdnsDomain,
+                serviceName: mdnsServiceName
+            ),
+            port: port,
+            log: { message in
+                app.logger.info("\(message)")
+            }
+        )
+        mdnsPublisher.startIfEnabled()
+        defer { mdnsPublisher.stop() }
         try app.run()
+    }
+
+    private func normalizeAdvertiseHost(_ value: String?) -> String? {
+        guard let value = value?.trimmingCharacters(in: .whitespacesAndNewlines), !value.isEmpty else {
+            return nil
+        }
+        return value
     }
 }
 

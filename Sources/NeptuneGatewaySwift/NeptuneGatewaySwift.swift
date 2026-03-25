@@ -5,15 +5,19 @@ public enum NeptuneGatewaySwift {
         environment: Environment = .development,
         hostname: String = "127.0.0.1",
         port: Int = 18765,
+        advertiseHost: String? = nil,
         storageURL: URL? = nil,
-        storeConfiguration: GatewayStoreConfiguration = .default
+        storeConfiguration: GatewayStoreConfiguration = .default,
+        webSocketConfiguration: GatewayWebSocketConfiguration = .default
     ) throws -> Application {
         try NeptuneGatewaySwiftApp.makeApplication(
             environment: environment,
             hostname: hostname,
             port: port,
+            advertiseHost: advertiseHost,
             storageURL: storageURL,
-            storeConfiguration: storeConfiguration
+            storeConfiguration: storeConfiguration,
+            webSocketConfiguration: webSocketConfiguration
         )
     }
 }
