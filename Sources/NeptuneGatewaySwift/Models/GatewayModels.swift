@@ -432,17 +432,23 @@ public struct USBMuxdHint: Content, Sendable, Equatable {
 
 public struct BusEnvelope: Content, Sendable {
     public let requestId: String
+    public let direction: String
+    public let kind: String
     public let command: String
     public let payload: [String: String]?
     public let timestamp: String
 
     public init(
         requestId: String,
+        direction: String = "cli_to_client",
+        kind: String = "command",
         command: String,
         payload: [String: String]? = nil,
         timestamp: String
     ) {
         self.requestId = requestId
+        self.direction = direction
+        self.kind = kind
         self.command = command
         self.payload = payload
         self.timestamp = timestamp
