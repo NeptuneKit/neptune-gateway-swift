@@ -12,6 +12,8 @@ actor GatewayClientRegistry {
         let key: ClientKey
         let sessionId: String
         let callbackEndpoint: String
+        let preferredTransports: [ClientTransport]
+        let usbmuxdHint: USBMuxdHint?
         let lastSeenAt: Date
         let expiresAt: Date
     }
@@ -37,12 +39,16 @@ actor GatewayClientRegistry {
         )
         let sessionId = optional(request.sessionId) ?? "unknown"
         let endpoint = try normalizedEndpoint(request.callbackEndpoint)
+        let preferredTransports = try normalizedPreferredTransports(request.preferredTransports)
+        let usbmuxdHint = try normalizedUSBMuxdHint(request.usbmuxdHint, preferredTransports: preferredTransports)
         let expiresAt = normalizedExpiration(from: request.expiresAt, now: now)
 
         let registered = RegisteredClient(
             key: key,
             sessionId: sessionId,
             callbackEndpoint: endpoint,
+            preferredTransports: preferredTransports,
+            usbmuxdHint: usbmuxdHint,
             lastSeenAt: now,
             expiresAt: expiresAt
         )
@@ -120,6 +126,8 @@ actor GatewayClientRegistry {
             sessionId: client.sessionId,
             deviceId: client.key.deviceId,
             callbackEndpoint: client.callbackEndpoint,
+            preferredTransports: client.preferredTransports,
+            usbmuxdHint: client.usbmuxdHint,
             lastSeenAt: Self.iso8601(client.lastSeenAt),
             expiresAt: Self.iso8601(client.expiresAt),
             ttlSeconds: ttl,
@@ -143,10 +151,44 @@ actor GatewayClientRegistry {
 
     private func normalizedEndpoint(_ value: String) throws -> String {
         let endpoint = try required(value, name: "callbackEndpoint")
-        guard let url = URL(string: endpoint), url.scheme?.isEmpty == false, url.host?.isEmpty == false else {
-            throw Abort(.badRequest, reason: "callbackEndpoint must be a valid absolute URL.")
+        guard
+            let url = URL(string: endpoint),
+            let scheme = url.scheme?.lowercased(),
+            ["http", "https"].contains(scheme),
+            url.host?.isEmpty == false
+        else {
+            throw Abort(.badRequest, reason: "callbackEndpoint must be a valid absolute http(s) URL.")
         }
         return endpoint
+    }
+
+    private func normalizedPreferredTransports(_ transports: [ClientTransport]?) throws -> [ClientTransport] {
+        guard let transports else {
+            return [.httpCallback]
+        }
+
+        guard !transports.isEmpty else {
+            throw Abort(.badRequest, reason: "preferredTransports must not be empty.")
+        }
+
+        var ordered: [ClientTransport] = []
+        for transport in transports where !ordered.contains(transport) {
+            ordered.append(transport)
+        }
+        return ordered.isEmpty ? [.httpCallback] : ordered
+    }
+
+    private func normalizedUSBMuxdHint(
+        _ hint: USBMuxdHint?,
+        preferredTransports: [ClientTransport]
+    ) throws -> USBMuxdHint? {
+        if let hint, hint.deviceID <= 0 {
+            throw Abort(.badRequest, reason: "usbmuxdHint.deviceID must be greater than 0.")
+        }
+        if preferredTransports.contains(.usbmuxdHTTP), hint == nil {
+            throw Abort(.badRequest, reason: "usbmuxdHint is required when preferredTransports includes usbmuxdHTTP.")
+        }
+        return hint
     }
 
     private func required(_ value: String, name: String) throws -> String {

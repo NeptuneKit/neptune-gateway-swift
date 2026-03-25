@@ -500,7 +500,7 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
-    func testClientsRegisterAcceptsCommandURLAlias() throws {
+    func testClientsRegisterRejectsLegacyCommandURLAliasWithoutCallbackEndpoint() throws {
         let app = try makeApplication()
         defer { app.shutdown() }
 
@@ -517,13 +517,11 @@ final class GatewayRoutesTests: XCTestCase {
             request.headers.contentType = .json
             request.body = .init(string: body)
         }, afterResponse: { response in
-            XCTAssertEqual(response.status, .ok)
-            let registerResponse = try response.content.decode(ClientRegisterResponse.self)
-            XCTAssertEqual(registerResponse.client.callbackEndpoint, "http://127.0.0.1:18080/v2/client/command")
+            XCTAssertEqual(response.status, .badRequest)
         })
     }
 
-    func testClientsRegisterAcceptsCallbackBaseURLAndPath() throws {
+    func testClientsRegisterRejectsLegacyCallbackBaseURLAndPathWithoutCallbackEndpoint() throws {
         let app = try makeApplication()
         defer { app.shutdown() }
 
@@ -541,10 +539,60 @@ final class GatewayRoutesTests: XCTestCase {
             request.headers.contentType = .json
             request.body = .init(string: body)
         }, afterResponse: { response in
+            XCTAssertEqual(response.status, .badRequest)
+        })
+    }
+
+    func testClientsRegisterPersistsPreferredTransportsAndUSBMuxdHint() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let body = """
+        {
+          "platform": "ios",
+          "appId": "demo.app",
+          "sessionId": "s-preferred",
+          "deviceId": "d-preferred",
+          "callbackEndpoint": "http://127.0.0.1:18080/v2/client/command",
+          "preferredTransports": ["usbmuxdHTTP", "httpCallback"],
+          "usbmuxdHint": {
+            "deviceID": 17
+          }
+        }
+        """
+
+        try app.test(.POST, "v2/clients:register", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: body)
+        }, afterResponse: { response in
             XCTAssertEqual(response.status, .ok)
             let registerResponse = try response.content.decode(ClientRegisterResponse.self)
-            XCTAssertEqual(registerResponse.client.callbackEndpoint, "http://127.0.0.1:19090/v2/client/command")
-            XCTAssertEqual(registerResponse.client.platform, "harmony")
+            XCTAssertEqual(registerResponse.client.callbackEndpoint, "http://127.0.0.1:18080/v2/client/command")
+            XCTAssertEqual(registerResponse.client.preferredTransports, [.usbmuxdHTTP, .httpCallback])
+            XCTAssertEqual(registerResponse.client.usbmuxdHint?.deviceID, 17)
+        })
+    }
+
+    func testClientsRegisterRejectsUSBMuxdTransportWithoutHint() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let body = """
+        {
+          "platform": "ios",
+          "appId": "demo.app",
+          "sessionId": "s-usbmuxd-missing-hint",
+          "deviceId": "d-usbmuxd-missing-hint",
+          "callbackEndpoint": "http://127.0.0.1:18080/v2/client/command",
+          "preferredTransports": ["usbmuxdHTTP"]
+        }
+        """
+
+        try app.test(.POST, "v2/clients:register", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: body)
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .badRequest)
         })
     }
 

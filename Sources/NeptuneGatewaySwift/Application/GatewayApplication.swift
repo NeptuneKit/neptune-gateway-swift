@@ -17,6 +17,10 @@ private struct GatewayClientRegistryKey: StorageKey {
     typealias Value = GatewayClientRegistry
 }
 
+private struct GatewayMessageBusKey: StorageKey {
+    typealias Value = GatewayMessageBus
+}
+
 private struct GatewayDiscoveryRuntimeConfigurationKey: StorageKey {
     typealias Value = GatewayDiscoveryRuntimeConfiguration
 }
@@ -67,32 +71,36 @@ public enum NeptuneGatewaySwiftApp {
         let store = try GatewayStore(storageURL: storageURL, configuration: storeConfiguration)
         let clientRegistry = GatewayClientRegistry()
         let hub = GatewayWebSocketHub(configuration: webSocketConfiguration)
+        let messageBus = GatewayMessageBus(
+            adapters: [
+                WebSocketAdapter(),
+                USBMuxdHTTPAdapter(timeout: webSocketConfiguration.commandCallbackTimeout),
+                HTTPCallbackAdapter(timeout: webSocketConfiguration.commandCallbackTimeout),
+            ]
+        )
         hub.configureCommandPipeline(
             resolveRecipients: { target in
                 let selected = await clientRegistry.selectedOnlineClients(matching: target)
                 return selected.map { snapshot in
-                    GatewayCallbackClient(
+                    GatewayBusClient(
                         recipientID: [snapshot.platform, snapshot.appId, snapshot.deviceId].joined(separator: "|"),
                         platform: snapshot.platform,
                         appId: snapshot.appId,
                         sessionId: snapshot.sessionId,
                         deviceId: snapshot.deviceId,
-                        callbackEndpoint: snapshot.callbackEndpoint
+                        callbackEndpoint: snapshot.callbackEndpoint,
+                        preferredTransports: snapshot.preferredTransports,
+                        usbmuxdHint: snapshot.usbmuxdHint
                     )
                 }
             },
-            invokeCommand: { client, command in
-                await sendCommandToClient(
-                    endpoint: client.callbackEndpoint,
-                    command: command,
-                    timeout: webSocketConfiguration.commandCallbackTimeout
-                )
-            }
+            messageBus: messageBus
         )
 
         app.storage[GatewayStoreKey.self] = store
         app.storage[GatewayClientRegistryKey.self] = clientRegistry
         app.storage[GatewayWebSocketHubKey.self] = hub
+        app.storage[GatewayMessageBusKey.self] = messageBus
         app.lifecycle.use(
             GatewayClientRegistryCleanupLifecycleHandler(
                 registry: clientRegistry,
@@ -369,6 +377,13 @@ private extension Request {
         return registry
     }
 
+    var gatewayMessageBus: GatewayMessageBus {
+        guard let messageBus = application.storage[GatewayMessageBusKey.self] else {
+            fatalError("GatewayMessageBus not configured")
+        }
+        return messageBus
+    }
+
     var gatewayDiscoveryRuntimeConfiguration: GatewayDiscoveryRuntimeConfiguration {
         guard let configuration = application.storage[GatewayDiscoveryRuntimeConfigurationKey.self] else {
             return GatewayDiscoveryRuntimeConfiguration(advertiseHost: nil)
@@ -401,41 +416,5 @@ private struct GatewayClientRegistryCleanupCancellationLifecycleHandler: Lifecyc
 
     func shutdown(_ application: Application) {
         task.cancel()
-    }
-}
-
-private func sendCommandToClient(
-    endpoint: String,
-    command: GatewayCommandRequest,
-    timeout: TimeInterval
-) async -> GatewayCommandAck? {
-    guard let endpointURL = URL(string: endpoint) else {
-        return nil
-    }
-    let path = endpointURL.path.trimmingCharacters(in: .whitespacesAndNewlines)
-    let requestURL: URL
-    if path.hasSuffix("/v2/client/command") {
-        requestURL = endpointURL
-    } else {
-        requestURL = endpointURL
-            .appending(path: "v2")
-            .appending(path: "client")
-            .appending(path: "command")
-    }
-
-    var request = URLRequest(url: requestURL)
-    request.httpMethod = "POST"
-    request.timeoutInterval = max(0.1, timeout)
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-    do {
-        request.httpBody = try JSONEncoder().encode(command)
-        let (data, response) = try await URLSession.shared.data(for: request)
-        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-            return nil
-        }
-        return try JSONDecoder().decode(GatewayCommandAck.self, from: data)
-    } catch {
-        return nil
     }
 }

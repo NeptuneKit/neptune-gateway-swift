@@ -203,6 +203,8 @@ public struct ClientRegisterRequest: Content, Sendable {
     public let sessionId: String?
     public let deviceId: String
     public let callbackEndpoint: String
+    public let preferredTransports: [ClientTransport]?
+    public let usbmuxdHint: USBMuxdHint?
     public let expiresAt: String?
 
     public init(
@@ -211,6 +213,8 @@ public struct ClientRegisterRequest: Content, Sendable {
         sessionId: String? = nil,
         deviceId: String,
         callbackEndpoint: String,
+        preferredTransports: [ClientTransport]? = nil,
+        usbmuxdHint: USBMuxdHint? = nil,
         expiresAt: String? = nil
     ) {
         self.platform = platform
@@ -218,6 +222,8 @@ public struct ClientRegisterRequest: Content, Sendable {
         self.sessionId = sessionId
         self.deviceId = deviceId
         self.callbackEndpoint = callbackEndpoint
+        self.preferredTransports = preferredTransports
+        self.usbmuxdHint = usbmuxdHint
         self.expiresAt = expiresAt
     }
 
@@ -227,10 +233,8 @@ public struct ClientRegisterRequest: Content, Sendable {
         case sessionId
         case deviceId
         case callbackEndpoint
-        case callbackUrl
-        case commandUrl
-        case callbackBaseUrl
-        case callbackPath
+        case preferredTransports
+        case usbmuxdHint
         case expiresAt
     }
 
@@ -240,22 +244,7 @@ public struct ClientRegisterRequest: Content, Sendable {
         let appId = try container.decode(String.self, forKey: .appId)
         let sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
         let deviceId = try container.decode(String.self, forKey: .deviceId)
-        let callbackBaseUrl = try container.decodeIfPresent(String.self, forKey: .callbackBaseUrl)
-        let callbackPath = try container.decodeIfPresent(String.self, forKey: .callbackPath)
-        let callbackFromBaseAndPath: String? = {
-            guard let callbackBaseUrl else { return nil }
-            guard var components = URLComponents(string: callbackBaseUrl) else { return nil }
-            if let callbackPath, !callbackPath.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                let normalizedPath = callbackPath.hasPrefix("/") ? callbackPath : "/" + callbackPath
-                components.path = normalizedPath
-            }
-            return components.url?.absoluteString
-        }()
-        let callbackEndpointRaw =
-            try container.decodeIfPresent(String.self, forKey: .callbackEndpoint)
-            ?? container.decodeIfPresent(String.self, forKey: .callbackUrl)
-            ?? container.decodeIfPresent(String.self, forKey: .commandUrl)
-            ?? callbackFromBaseAndPath
+        let callbackEndpointRaw = try container.decodeIfPresent(String.self, forKey: .callbackEndpoint)
         guard let callbackEndpoint = callbackEndpointRaw else {
             throw DecodingError.keyNotFound(
                 CodingKeys.callbackEndpoint,
@@ -265,6 +254,8 @@ public struct ClientRegisterRequest: Content, Sendable {
                 )
             )
         }
+        let preferredTransports = try container.decodeIfPresent([ClientTransport].self, forKey: .preferredTransports)
+        let usbmuxdHint = try container.decodeIfPresent(USBMuxdHint.self, forKey: .usbmuxdHint)
         let expiresAt = try container.decodeIfPresent(String.self, forKey: .expiresAt)
 
         self.init(
@@ -273,6 +264,8 @@ public struct ClientRegisterRequest: Content, Sendable {
             sessionId: sessionId,
             deviceId: deviceId,
             callbackEndpoint: callbackEndpoint,
+            preferredTransports: preferredTransports,
+            usbmuxdHint: usbmuxdHint,
             expiresAt: expiresAt
         )
     }
@@ -284,6 +277,8 @@ public struct ClientRegisterRequest: Content, Sendable {
         try container.encodeIfPresent(sessionId, forKey: .sessionId)
         try container.encode(deviceId, forKey: .deviceId)
         try container.encode(callbackEndpoint, forKey: .callbackEndpoint)
+        try container.encodeIfPresent(preferredTransports, forKey: .preferredTransports)
+        try container.encodeIfPresent(usbmuxdHint, forKey: .usbmuxdHint)
         try container.encodeIfPresent(expiresAt, forKey: .expiresAt)
     }
 }
@@ -294,6 +289,8 @@ public struct ClientSnapshot: Content, Sendable, Equatable {
     public let sessionId: String
     public let deviceId: String
     public let callbackEndpoint: String
+    public let preferredTransports: [ClientTransport]
+    public let usbmuxdHint: USBMuxdHint?
     public let lastSeenAt: String
     public let expiresAt: String
     public let ttlSeconds: Int
@@ -305,6 +302,8 @@ public struct ClientSnapshot: Content, Sendable, Equatable {
         sessionId: String,
         deviceId: String,
         callbackEndpoint: String,
+        preferredTransports: [ClientTransport],
+        usbmuxdHint: USBMuxdHint?,
         lastSeenAt: String,
         expiresAt: String,
         ttlSeconds: Int,
@@ -315,6 +314,8 @@ public struct ClientSnapshot: Content, Sendable, Equatable {
         self.sessionId = sessionId
         self.deviceId = deviceId
         self.callbackEndpoint = callbackEndpoint
+        self.preferredTransports = preferredTransports
+        self.usbmuxdHint = usbmuxdHint
         self.lastSeenAt = lastSeenAt
         self.expiresAt = expiresAt
         self.ttlSeconds = ttlSeconds
@@ -393,7 +394,43 @@ public struct ClientsSelectedResponse: Content, Sendable {
     }
 }
 
-public struct GatewayCommandRequest: Content, Sendable {
+public enum ClientTransport: String, Codable, CaseIterable, Sendable {
+    case httpCallback
+    case webSocket
+    case usbmuxdHTTP
+}
+
+public struct USBMuxdHint: Content, Sendable, Equatable {
+    public let deviceID: Int
+    public let socketPath: String?
+
+    public init(deviceID: Int, socketPath: String? = nil) {
+        self.deviceID = deviceID
+        self.socketPath = socketPath
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case deviceID
+        case deviceId
+        case socketPath
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.deviceID =
+            try container.decodeIfPresent(Int.self, forKey: .deviceID)
+            ?? container.decode(Int.self, forKey: .deviceId)
+        self.socketPath = try container.decodeIfPresent(String.self, forKey: .socketPath)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(deviceID, forKey: .deviceID)
+        try container.encodeIfPresent(socketPath, forKey: .socketPath)
+    }
+}
+
+public struct BusEnvelope: Content, Sendable {
     public let requestId: String
     public let command: String
     public let payload: [String: String]?
@@ -412,24 +449,33 @@ public struct GatewayCommandRequest: Content, Sendable {
     }
 }
 
-public struct GatewayCommandAck: Content, Sendable {
+public struct BusAck: Content, Sendable {
     public let requestId: String
     public let command: String
     public let status: String
     public let message: String?
     public let timestamp: String
+    public let recipientID: String?
+    public let transport: ClientTransport?
 
     public init(
         requestId: String,
         command: String,
         status: String,
         message: String? = nil,
-        timestamp: String
+        timestamp: String,
+        recipientID: String? = nil,
+        transport: ClientTransport? = nil
     ) {
         self.requestId = requestId
         self.command = command
         self.status = status
         self.message = message
         self.timestamp = timestamp
+        self.recipientID = recipientID
+        self.transport = transport
     }
 }
+
+public typealias GatewayCommandRequest = BusEnvelope
+public typealias GatewayCommandAck = BusAck

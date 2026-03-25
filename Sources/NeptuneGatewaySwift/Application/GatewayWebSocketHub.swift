@@ -48,14 +48,7 @@ struct GatewayWSClientContext: Codable, Sendable {
     let deviceId: String?
 }
 
-struct GatewayCallbackClient: Sendable {
-    let recipientID: String
-    let platform: String
-    let appId: String
-    let sessionId: String
-    let deviceId: String
-    let callbackEndpoint: String
-
+private extension GatewayBusClient {
     var context: GatewayWSClientContext {
         GatewayWSClientContext(
             clientId: recipientID,
@@ -128,8 +121,7 @@ private struct GatewayWSLogRecordEvent: Encodable {
     let record: LogRecord
 }
 
-typealias GatewayCommandRecipientsResolver = @Sendable (GatewayWSClientTarget?) async -> [GatewayCallbackClient]
-typealias GatewayCommandCallbackInvoker = @Sendable (GatewayCallbackClient, GatewayCommandRequest) async -> GatewayCommandAck?
+typealias GatewayCommandRecipientsResolver = @Sendable (GatewayWSClientTarget?) async -> [GatewayBusClient]
 
 final class GatewayWebSocketHub: @unchecked Sendable {
     private struct Client {
@@ -185,7 +177,7 @@ final class GatewayWebSocketHub: @unchecked Sendable {
     private let decoder = JSONDecoder()
     private let configuration: GatewayWebSocketConfiguration
     private var resolveRecipients: GatewayCommandRecipientsResolver?
-    private var invokeCommand: GatewayCommandCallbackInvoker?
+    private var messageBus: GatewayMessageBus?
 
     init(configuration: GatewayWebSocketConfiguration = .default) {
         self.configuration = configuration
@@ -193,11 +185,11 @@ final class GatewayWebSocketHub: @unchecked Sendable {
 
     func configureCommandPipeline(
         resolveRecipients: @escaping GatewayCommandRecipientsResolver,
-        invokeCommand: @escaping GatewayCommandCallbackInvoker
+        messageBus: GatewayMessageBus
     ) {
         lock.withLockVoid {
             self.resolveRecipients = resolveRecipients
-            self.invokeCommand = invokeCommand
+            self.messageBus = messageBus
         }
     }
 
@@ -459,28 +451,25 @@ final class GatewayWebSocketHub: @unchecked Sendable {
             return
         }
 
-        guard let invoker = lock.withLock({ invokeCommand }) else {
+        guard let messageBus = lock.withLock({ messageBus }) else {
             return
         }
 
-        let request = GatewayCommandRequest(
+        let request = BusEnvelope(
             requestId: requestId ?? commandId,
             command: command,
             payload: nil,
             timestamp: Self.iso8601Now()
         )
 
-        for recipient in recipients {
-            Task { [weak self] in
-                guard let self else {
-                    return
-                }
-                guard let ack = await invoker(recipient, request) else {
-                    return
-                }
+        Task { [weak self] in
+            guard let self else {
+                return
+            }
+            _ = await messageBus.dispatch(request, to: recipients) { client, ack in
                 self.recordCallbackAck(
                     commandId: commandId,
-                    recipient: recipient,
+                    recipient: client,
                     ack: ack
                 )
             }
@@ -489,8 +478,8 @@ final class GatewayWebSocketHub: @unchecked Sendable {
 
     private func recordCallbackAck(
         commandId: String,
-        recipient: GatewayCallbackClient,
-        ack: GatewayCommandAck
+        recipient: GatewayBusClient,
+        ack: BusAck
     ) {
         guard let pending = acknowledgeCommand(commandId: commandId, recipientID: recipient.recipientID) else {
             return
