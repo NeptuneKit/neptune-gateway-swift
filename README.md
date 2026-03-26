@@ -1,12 +1,14 @@
 # neptune-gateway-swift
 
-NeptuneKit v2 gateway current implementation: GRDB-backed SQLite ingest, query, source aggregation, retention, and condition-based long polling.
+NeptuneKit v2 gateway current implementation: relay-first architecture.  
+Gateway ingests upstream logs and serves query/dispatch APIs, while log records are queried from online clients and aggregated in gateway.
 
 ## Runtime Stack
 
 - HTTP server: Vapor
 - CLI parsing: ArgumentParser
-- SQLite persistence: GRDB
+- Relay query coordinator: `GatewayClientLogRelay`
+- Runtime counters: `GatewayRuntimeStats`
 
 ## Current Capabilities
 
@@ -25,12 +27,11 @@ NeptuneKit v2 gateway current implementation: GRDB-backed SQLite ingest, query, 
 
 `/v2/logs` currently supports:
 
+- fan-out query to online callback clients
 - filters: `limit`, `beforeId`, `afterId`, `platform`, `appId`, `sessionId`, `level`, `contains`, `since`, `until`
 - formats: `json`, `ndjson`, `text`
 - `format=text` returns one record per line as `timestamp<TAB>level<TAB>platform<TAB>message`
-- long polling: `afterId + waitMs`
-  - returns immediately when a record newer than `afterId` is ingested
-  - times out after `waitMs` and then re-runs the same query once
+- partial upstream failures are returned in `meta.partialFailures` without changing HTTP `200`
 - CLI log proxy commands:
   - `logs proxy ios stream`
   - `logs proxy ios show`
@@ -41,8 +42,10 @@ NeptuneKit v2 gateway current implementation: GRDB-backed SQLite ingest, query, 
 
 - `ingestAcceptedTotal`
 - `sourceCount`
-- `droppedOverflow`
-- `totalRecords`
+- `retainedRecordCount`
+- `retentionMaxRecordCount`
+- `retentionMaxAgeSeconds`
+- `retentionDroppedTotal`
 
 `/v2/sources` aggregates by:
 
@@ -53,8 +56,8 @@ NeptuneKit v2 gateway current implementation: GRDB-backed SQLite ingest, query, 
 
 ## Current Limits
 
-- retention defaults to `maxRecordCount=200000` and `maxAge=14d`, both configurable via the application entrypoint
-- persistence no longer uses handwritten `SQLite3` C API bindings; schema/migration/query execution is handled through GRDB
+- query result size is controlled by `limit`
+- fan-out latency depends on callback client responsiveness and `waitMs`
 
 ## Run
 
