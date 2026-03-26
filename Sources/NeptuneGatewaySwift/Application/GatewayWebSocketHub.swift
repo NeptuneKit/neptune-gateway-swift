@@ -75,6 +75,7 @@ private struct GatewayWSInboundMessage: Decodable {
     let data: JSONValue?
     let message: String?
     let target: GatewayWSClientTarget?
+    let record: LogRecord?
 }
 
 private struct GatewayWSCommandAcceptedAck: Encodable {
@@ -262,6 +263,8 @@ final class GatewayWebSocketHub: @unchecked Sendable {
             handleHeartbeat(inbound, from: clientID)
         case "command.send":
             handleCommandSend(inbound, from: clientID)
+        case "event.log_record":
+            handleLogRecordRelay(inbound, from: clientID)
         default:
             sendError(
                 .unsupportedCommand,
@@ -389,6 +392,33 @@ final class GatewayWebSocketHub: @unchecked Sendable {
                 requestId: requestId
             )
         }
+    }
+
+    private func handleLogRecordRelay(_ message: GatewayWSInboundMessage, from clientID: UUID) {
+        guard let sender = snapshotClient(clientID) else {
+            return
+        }
+        guard sender.role == .sdk else {
+            sendError(
+                .forbiddenRole,
+                "Only sdk clients can publish log records.",
+                to: clientID,
+                requestId: message.requestId,
+                commandId: message.commandId
+            )
+            return
+        }
+        guard let record = message.record else {
+            sendError(
+                .invalidPayload,
+                "event.log_record payload missing record.",
+                to: clientID,
+                requestId: message.requestId,
+                commandId: message.commandId
+            )
+            return
+        }
+        publishLogRecords([record])
     }
 
     private func processCommandSend(

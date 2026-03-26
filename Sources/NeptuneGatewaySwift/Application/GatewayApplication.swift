@@ -21,6 +21,14 @@ private struct GatewayMessageBusKey: StorageKey {
     typealias Value = GatewayMessageBus
 }
 
+private struct GatewayClientLogRelayKey: StorageKey {
+    typealias Value = GatewayClientLogRelay
+}
+
+private struct GatewayRuntimeStatsKey: StorageKey {
+    typealias Value = GatewayRuntimeStats
+}
+
 private struct GatewayDiscoveryRuntimeConfigurationKey: StorageKey {
     typealias Value = GatewayDiscoveryRuntimeConfiguration
 }
@@ -71,6 +79,8 @@ public enum NeptuneGatewaySwiftApp {
         let store = try GatewayStore(storageURL: storageURL, configuration: storeConfiguration)
         let clientRegistry = GatewayClientRegistry()
         let hub = GatewayWebSocketHub(configuration: webSocketConfiguration)
+        let relay = GatewayClientLogRelay()
+        let runtimeStats = GatewayRuntimeStats()
         let messageBus = GatewayMessageBus(
             adapters: [
                 WebSocketAdapter(),
@@ -101,6 +111,8 @@ public enum NeptuneGatewaySwiftApp {
         app.storage[GatewayClientRegistryKey.self] = clientRegistry
         app.storage[GatewayWebSocketHubKey.self] = hub
         app.storage[GatewayMessageBusKey.self] = messageBus
+        app.storage[GatewayClientLogRelayKey.self] = relay
+        app.storage[GatewayRuntimeStatsKey.self] = runtimeStats
         app.lifecycle.use(
             GatewayClientRegistryCleanupLifecycleHandler(
                 registry: clientRegistry,
@@ -121,25 +133,27 @@ public enum NeptuneGatewaySwiftApp {
 
     private static func registerRoutes(on app: Application) throws {
         app.post("v2", "logs:ingest") { req async throws -> Response in
-            let previousNewestID = try await req.gatewayStore.newestID()
             let ingestRecords = try decodeIngestRecords(from: req)
-            let accepted = try await req.gatewayStore.ingest(ingestRecords)
+            let accepted = ingestRecords.count
             if accepted > 0 {
-                let insertedRecords = try await req.gatewayStore.query(
-                    LogQuery(
-                        limit: accepted,
-                        beforeId: nil,
-                        afterId: previousNewestID,
-                        platform: nil,
-                        appId: nil,
-                        sessionId: nil,
-                        level: nil,
-                        contains: nil,
-                        since: nil,
-                        until: nil
+                let baseID = await req.gatewayRuntimeStats.reserveSyntheticIDs(count: accepted)
+                await req.gatewayRuntimeStats.incrementIngestAccepted(by: accepted)
+                let emittedRecords = ingestRecords.enumerated().map { offset, record in
+                    LogRecord(
+                        id: baseID + Int64(offset),
+                        timestamp: record.timestamp,
+                        level: record.level,
+                        message: record.message,
+                        platform: record.platform,
+                        appId: record.appId,
+                        sessionId: record.sessionId,
+                        deviceId: record.deviceId,
+                        category: record.category,
+                        attributes: record.attributes,
+                        source: record.source
                     )
-                ).records
-                req.gatewayWebSocketHub.publishLogRecords(insertedRecords)
+                }
+                req.gatewayWebSocketHub.publishLogRecords(emittedRecords)
             }
             let response = IngestResponse(accepted: accepted)
             return try await response.encodeResponse(status: .accepted, for: req)
@@ -148,9 +162,23 @@ public enum NeptuneGatewaySwiftApp {
         app.get("v2", "logs") { req async throws -> Response in
             let query = try parseLogQuery(from: req)
             let format = req.query[String.self, at: "format"]?.lowercased() ?? "json"
-
             let waitMs = max(0, req.query[Int.self, at: "waitMs"] ?? 0)
-            let result = try await waitForQueryIfNeeded(store: req.gatewayStore, query: query, waitMs: waitMs)
+            let clients = await req.gatewayClientRegistry.listClients().filter { client in
+                if let platform = query.platform, platform != client.platform {
+                    return false
+                }
+                if let appId = query.appId, appId != client.appId {
+                    return false
+                }
+                if let sessionId = query.sessionId, sessionId != client.sessionId {
+                    return false
+                }
+                return true
+            }
+            let relayResult = await req.gatewayClientLogRelay.query(clients: clients, query: query, waitMs: waitMs)
+            req.gatewayWebSocketHub.publishLogRecords(relayResult.forwardedRecords)
+
+            let result = relayResult.response
 
             if format == "text" {
                 return textResponse(for: result)
@@ -173,21 +201,23 @@ public enum NeptuneGatewaySwiftApp {
         }
 
         app.get("v2", "metrics") { req async throws -> MetricsResponse in
-            let snapshot = try await req.gatewayStore.metrics()
-            return MetricsResponse(
-                ingestAcceptedTotal: snapshot.ingestAcceptedTotal,
-                sourceCount: snapshot.sourceCount,
-                droppedOverflow: snapshot.droppedOverflow,
-                totalRecords: snapshot.totalRecords,
-                retainedRecordCount: snapshot.retainedRecordCount,
-                retentionMaxRecordCount: snapshot.retentionMaxRecordCount,
-                retentionMaxAgeSeconds: snapshot.retentionMaxAgeSeconds,
-                retentionDroppedTotal: snapshot.retentionDroppedTotal
-            )
+            let sourceCount = await req.gatewayClientRegistry.listClients().count
+            return await req.gatewayRuntimeStats.snapshot(sourceCount: sourceCount)
         }
 
         app.get("v2", "sources") { req async throws -> SourceResponse in
-            SourceResponse(items: try await req.gatewayStore.sources())
+            let clients = await req.gatewayClientRegistry.listClients()
+            return SourceResponse(
+                items: clients.map { client in
+                    SourceSnapshot(
+                        platform: client.platform,
+                        appId: client.appId,
+                        sessionId: client.sessionId,
+                        deviceId: client.deviceId,
+                        lastSeenAt: client.lastSeenAt
+                    )
+                }
+            )
         }
 
         app.post("v2", "clients:register") { req async throws -> ClientRegisterResponse in
@@ -296,16 +326,6 @@ public enum NeptuneGatewaySwiftApp {
         )
     }
 
-    private static func waitForQueryIfNeeded(store: GatewayStore, query: LogQuery, waitMs: Int) async throws -> QueryResponse {
-        let initial = try await store.query(query)
-        guard initial.records.isEmpty, waitMs > 0, query.afterId != nil else {
-            return initial
-        }
-
-        _ = try await store.waitForNewerRecord(matching: query, waitMs: waitMs)
-        return try await store.query(query)
-    }
-
     private static func textResponse(for result: QueryResponse) -> Response {
         let lines = result.records.map { record in
             [
@@ -368,6 +388,20 @@ private extension Request {
             fatalError("GatewayWebSocketHub not configured")
         }
         return hub
+    }
+
+    var gatewayClientLogRelay: GatewayClientLogRelay {
+        guard let relay = application.storage[GatewayClientLogRelayKey.self] else {
+            fatalError("GatewayClientLogRelay not configured")
+        }
+        return relay
+    }
+
+    var gatewayRuntimeStats: GatewayRuntimeStats {
+        guard let stats = application.storage[GatewayRuntimeStatsKey.self] else {
+            fatalError("GatewayRuntimeStats not configured")
+        }
+        return stats
     }
 
     var gatewayClientRegistry: GatewayClientRegistry {

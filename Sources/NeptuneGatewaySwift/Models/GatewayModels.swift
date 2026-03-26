@@ -104,11 +104,46 @@ public struct QueryResponse: Content, Sendable {
     public let records: [LogRecord]
     public let nextCursor: String?
     public let hasMore: Bool
+    public let meta: QueryResponseMeta?
 
-    public init(records: [LogRecord], nextCursor: String?, hasMore: Bool) {
+    public init(records: [LogRecord], nextCursor: String?, hasMore: Bool, meta: QueryResponseMeta? = nil) {
         self.records = records
         self.nextCursor = nextCursor
         self.hasMore = hasMore
+        self.meta = meta
+    }
+}
+
+public struct QueryResponseMeta: Content, Sendable {
+    public let partialFailures: [QueryPartialFailure]
+
+    public init(partialFailures: [QueryPartialFailure]) {
+        self.partialFailures = partialFailures
+    }
+}
+
+public struct QueryPartialFailure: Content, Sendable {
+    public let platform: String
+    public let appId: String
+    public let sessionId: String
+    public let deviceId: String
+    public let callbackEndpoint: String
+    public let reason: String
+
+    public init(
+        platform: String,
+        appId: String,
+        sessionId: String,
+        deviceId: String,
+        callbackEndpoint: String,
+        reason: String
+    ) {
+        self.platform = platform
+        self.appId = appId
+        self.sessionId = sessionId
+        self.deviceId = deviceId
+        self.callbackEndpoint = callbackEndpoint
+        self.reason = reason
     }
 }
 
@@ -123,8 +158,6 @@ public struct IngestResponse: Content, Sendable {
 public struct MetricsResponse: Content, Sendable {
     public let ingestAcceptedTotal: Int
     public let sourceCount: Int
-    public let droppedOverflow: Int
-    public let totalRecords: Int
     public let retainedRecordCount: Int
     public let retentionMaxRecordCount: Int
     public let retentionMaxAgeSeconds: Int
@@ -133,21 +166,17 @@ public struct MetricsResponse: Content, Sendable {
     public init(
         ingestAcceptedTotal: Int,
         sourceCount: Int,
-        droppedOverflow: Int,
-        totalRecords: Int,
-        retainedRecordCount: Int? = nil,
+        retainedRecordCount: Int = 0,
         retentionMaxRecordCount: Int = 200_000,
         retentionMaxAgeSeconds: Int = 60 * 60 * 24 * 14,
-        retentionDroppedTotal: Int? = nil
+        retentionDroppedTotal: Int = 0
     ) {
         self.ingestAcceptedTotal = ingestAcceptedTotal
         self.sourceCount = sourceCount
-        self.droppedOverflow = droppedOverflow
-        self.totalRecords = totalRecords
-        self.retainedRecordCount = retainedRecordCount ?? totalRecords
+        self.retainedRecordCount = retainedRecordCount
         self.retentionMaxRecordCount = retentionMaxRecordCount
         self.retentionMaxAgeSeconds = retentionMaxAgeSeconds
-        self.retentionDroppedTotal = retentionDroppedTotal ?? droppedOverflow
+        self.retentionDroppedTotal = retentionDroppedTotal
     }
 }
 
