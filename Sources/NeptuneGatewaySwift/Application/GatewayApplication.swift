@@ -162,7 +162,6 @@ public enum NeptuneGatewaySwiftApp {
         app.get("v2", "logs") { req async throws -> Response in
             let query = try parseLogQuery(from: req)
             let format = req.query[String.self, at: "format"]?.lowercased() ?? "json"
-            let waitMs = max(0, req.query[Int.self, at: "waitMs"] ?? 0)
             let clients = await req.gatewayClientRegistry.listClients().filter { client in
                 if let platform = query.platform, platform != client.platform {
                     return false
@@ -175,8 +174,7 @@ public enum NeptuneGatewaySwiftApp {
                 }
                 return true
             }
-            let relayResult = await req.gatewayClientLogRelay.query(clients: clients, query: query, waitMs: waitMs)
-            req.gatewayWebSocketHub.publishLogRecords(relayResult.forwardedRecords)
+            let relayResult = await req.gatewayClientLogRelay.query(clients: clients, query: query)
 
             let result = relayResult.response
 
@@ -310,12 +308,16 @@ public enum NeptuneGatewaySwiftApp {
             return date
         }
 
-        let limit = min(max(req.query[Int.self, at: "limit"] ?? 200, 1), 1_000)
+        let length: Int?
+        if let rawLength = req.query[Int.self, at: "length"], rawLength > 0 {
+            length = min(rawLength, 10_000)
+        } else {
+            length = nil
+        }
 
         return LogQuery(
-            limit: limit,
-            beforeId: req.query[Int64.self, at: "beforeId"],
-            afterId: req.query[Int64.self, at: "afterId"],
+            cursor: req.query[Int64.self, at: "cursor"],
+            length: length,
             platform: req.query[String.self, at: "platform"],
             appId: req.query[String.self, at: "appId"],
             sessionId: req.query[String.self, at: "sessionId"],

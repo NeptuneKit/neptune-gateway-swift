@@ -102,13 +102,11 @@ public struct LogRecord: Content, Sendable {
 
 public struct QueryResponse: Content, Sendable {
     public let records: [LogRecord]
-    public let nextCursor: String?
     public let hasMore: Bool
     public let meta: QueryResponseMeta?
 
-    public init(records: [LogRecord], nextCursor: String?, hasMore: Bool, meta: QueryResponseMeta? = nil) {
+    public init(records: [LogRecord], hasMore: Bool, meta: QueryResponseMeta? = nil) {
         self.records = records
-        self.nextCursor = nextCursor
         self.hasMore = hasMore
         self.meta = meta
     }

@@ -41,7 +41,7 @@ public struct GatewayMDNSConfiguration: Sendable, Equatable {
     public static var defaultServiceName: String {
         let host = Host.current().localizedName?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if host.isEmpty {
-            return "neptune-gateway"
+            return "neptune"
         }
         return host
     }

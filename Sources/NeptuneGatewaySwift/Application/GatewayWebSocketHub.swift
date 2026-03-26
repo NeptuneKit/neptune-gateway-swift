@@ -115,11 +115,10 @@ private struct GatewayWSErrorEvent: Encodable {
     let message: String
 }
 
-private struct GatewayWSLogRecordEvent: Encodable {
-    let type: String = "event.log_record"
-    let topic: String = "log_record"
-    let topicId: Int = 101
-    let record: LogRecord
+private struct GatewayWSLogsUpdatedSignal: Encodable {
+    let type: String = "logs.updated"
+    let ts: String
+    let deviceId: String
 }
 
 typealias GatewayCommandRecipientsResolver = @Sendable (GatewayWSClientTarget?) async -> [GatewayBusClient]
@@ -263,8 +262,6 @@ final class GatewayWebSocketHub: @unchecked Sendable {
             handleHeartbeat(inbound, from: clientID)
         case "command.send":
             handleCommandSend(inbound, from: clientID)
-        case "event.log_record":
-            handleLogRecordRelay(inbound, from: clientID)
         default:
             sendError(
                 .unsupportedCommand,
@@ -282,8 +279,16 @@ final class GatewayWebSocketHub: @unchecked Sendable {
         }
 
         let recipients = snapshotClients().filter { $0.role == .inspector }
-        for record in records {
-            let event = GatewayWSLogRecordEvent(record: record)
+        guard !recipients.isEmpty else {
+            return
+        }
+
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let signalTime = formatter.string(from: Date())
+        let uniqueDeviceIDs = Set(records.map(\.deviceId))
+        for deviceId in uniqueDeviceIDs where !deviceId.isEmpty {
+            let event = GatewayWSLogsUpdatedSignal(ts: signalTime, deviceId: deviceId)
             recipients.forEach { send(event, to: $0.socket) }
         }
     }
@@ -392,33 +397,6 @@ final class GatewayWebSocketHub: @unchecked Sendable {
                 requestId: requestId
             )
         }
-    }
-
-    private func handleLogRecordRelay(_ message: GatewayWSInboundMessage, from clientID: UUID) {
-        guard let sender = snapshotClient(clientID) else {
-            return
-        }
-        guard sender.role == .sdk else {
-            sendError(
-                .forbiddenRole,
-                "Only sdk clients can publish log records.",
-                to: clientID,
-                requestId: message.requestId,
-                commandId: message.commandId
-            )
-            return
-        }
-        guard let record = message.record else {
-            sendError(
-                .invalidPayload,
-                "event.log_record payload missing record.",
-                to: clientID,
-                requestId: message.requestId,
-                commandId: message.commandId
-            )
-            return
-        }
-        publishLogRecords([record])
     }
 
     private func processCommandSend(

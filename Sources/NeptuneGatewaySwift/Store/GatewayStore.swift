@@ -25,9 +25,8 @@ struct GatewayMetricsSnapshot: Sendable, Equatable {
 }
 
 struct LogQuery: Sendable {
-    var limit: Int = 200
-    var beforeId: Int64?
-    var afterId: Int64?
+    var cursor: Int64?
+    var length: Int?
     var platform: String?
     var appId: String?
     var sessionId: String?
@@ -43,14 +42,8 @@ actor GatewayStore {
         let record: IngestLogRecord
     }
 
-    private struct Waiter {
-        let query: LogQuery
-        let continuation: CheckedContinuation<Bool, Never>
-    }
-
     private let database: SQLiteGatewayDatabase
     private let configuration: GatewayStoreConfiguration
-    private var waiters: [UUID: Waiter] = [:]
 
     init(
         storageURL: URL? = nil,
@@ -76,14 +69,6 @@ actor GatewayStore {
             try database.deleteOrphanSources(db: db)
         }
 
-        if let newestID = try database.newestRecordID() {
-            let firstInsertedID = newestID - Int64(ingestRecords.count) + 1
-            let insertedRecords = ingestRecords.enumerated().map { offset, record in
-                InsertedRecord(id: firstInsertedID + Int64(offset), record: record)
-            }
-            resumeWaiters(matchingAnyOf: insertedRecords)
-        }
-
         return ingestRecords.count
     }
 
@@ -104,33 +89,6 @@ actor GatewayStore {
 
     func newestID() throws -> Int64? {
         try database.newestRecordID()
-    }
-
-    func waitForNewerRecord(matching query: LogQuery, waitMs: Int) async throws -> Bool {
-        guard waitMs > 0 else {
-            return false
-        }
-
-        let existing = try database.fetchRecords(query: query)
-        if !existing.records.isEmpty {
-            return true
-        }
-
-        let waiterID = UUID()
-        return await withTaskCancellationHandler {
-            await withCheckedContinuation { continuation in
-                waiters[waiterID] = Waiter(query: query, continuation: continuation)
-
-                Task {
-                    try? await Task.sleep(for: .milliseconds(waitMs))
-                    self.finishWaiter(id: waiterID, matched: false)
-                }
-            }
-        } onCancel: {
-            Task {
-                await self.finishWaiter(id: waiterID, matched: false)
-            }
-        }
     }
 
     private func pruneIfNeeded(db: Database) throws {
@@ -159,31 +117,10 @@ actor GatewayStore {
             .appendingPathExtension("sqlite")
     }
 
-    private func resumeWaiters(matchingAnyOf insertedRecords: [InsertedRecord]) {
-        let matchedWaiterIDs = waiters.compactMap { waiterID, waiter in
-            insertedRecords.contains { recordMatchesQuery(waiter.query, insertedRecord: $0) } ? waiterID : nil
-        }
-
-        for waiterID in matchedWaiterIDs {
-            finishWaiter(id: waiterID, matched: true)
-        }
-    }
-
-    private func finishWaiter(id: UUID, matched: Bool) {
-        guard let waiter = waiters.removeValue(forKey: id) else {
-            return
-        }
-
-        waiter.continuation.resume(returning: matched)
-    }
-
     private func recordMatchesQuery(_ query: LogQuery, insertedRecord: InsertedRecord) -> Bool {
         let record = insertedRecord.record
 
-        if let beforeID = query.beforeId, insertedRecord.id >= beforeID {
-            return false
-        }
-        if let afterID = query.afterId, insertedRecord.id <= afterID {
+        if let cursor = query.cursor, insertedRecord.id <= cursor {
             return false
         }
         if let platform = query.platform, record.platform != platform {
@@ -272,13 +209,9 @@ private final class SQLiteGatewayDatabase {
         """
         var arguments = StatementArguments()
 
-        if let beforeId = query.beforeId {
-            sql += " AND id < @beforeId"
-            arguments += ["beforeId": beforeId]
-        }
-        if let afterId = query.afterId {
-            sql += " AND id > @afterId"
-            arguments += ["afterId": afterId]
+        if let cursor = query.cursor {
+            sql += " AND id > @cursor"
+            arguments += ["cursor": cursor]
         }
         if let platform = query.platform {
             sql += " AND platform = @platform"
@@ -316,18 +249,28 @@ private final class SQLiteGatewayDatabase {
             arguments += ["until": until.timeIntervalSince1970]
         }
 
-        sql += " ORDER BY id ASC LIMIT @limit"
-        arguments += ["limit": query.limit + 1]
+        sql += " ORDER BY id ASC"
+        if let length = query.length {
+            sql += " LIMIT @length"
+            arguments += ["length": length + 1]
+        }
 
         let rows = try queue.read { db in
             try Row.fetchAll(db, sql: sql, arguments: arguments)
         }
         let records = try rows.map(decodeRecord)
-        let limited = Array(records.prefix(query.limit))
+        let limited: [LogRecord]
+        let hasMore: Bool
+        if let length = query.length {
+            limited = Array(records.prefix(length))
+            hasMore = records.count > length
+        } else {
+            limited = records
+            hasMore = false
+        }
         return QueryResponse(
             records: limited,
-            nextCursor: limited.last.map { String($0.id) },
-            hasMore: records.count > query.limit
+            hasMore: hasMore
         )
     }
 

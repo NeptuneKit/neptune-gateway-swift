@@ -28,15 +28,14 @@ Gateway ingests upstream logs and serves query/dispatch APIs, while log records 
 `/v2/logs` currently supports:
 
 - fan-out query to online callback clients
-- filters: `limit`, `beforeId`, `afterId`, `platform`, `appId`, `sessionId`, `level`, `contains`, `since`, `until`
+- filters: `cursor`, `length`, `platform`, `appId`, `sessionId`, `level`, `contains`, `since`, `until`
 - formats: `json`, `ndjson`, `text`
 - `format=text` returns one record per line as `timestamp<TAB>level<TAB>platform<TAB>message`
 - partial upstream failures are returned in `meta.partialFailures` without changing HTTP `200`
 - CLI log proxy commands:
-  - `logs proxy ios stream`
-  - `logs proxy ios show`
-  - `logs proxy android logcat`
-  - `logs proxy harmony hilog`
+  - `clients list`
+  - `logs`（默认输出全部在线设备日志）
+  - `logs --stream --device-id <id>`（按设备反推平台做本地代理）
 
 `/v2/metrics` currently returns:
 
@@ -56,14 +55,14 @@ Gateway ingests upstream logs and serves query/dispatch APIs, while log records 
 
 ## Current Limits
 
-- query result size is controlled by `limit`
-- fan-out latency depends on callback client responsiveness and `waitMs`
+- query result size is controlled by `length`（为空表示返回全部）
+- fan-out latency depends on callback client responsiveness
 
 ## Run
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune
 ```
 
 Optional environment variables:
@@ -77,7 +76,7 @@ Optional environment variables:
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift build -c release --product neptune-gateway
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift build -c release --product neptune
 ```
 
 如果需要生成可分发的发布包，使用仓库脚本：
@@ -90,16 +89,16 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 
 脚本会：
 
-- 通过 `swift build -c release --product neptune-gateway` 生成发布二进制
+- 通过 `swift build -c release --product neptune` 生成发布二进制
 - 将产物复制到 `dist/cli-release/`
 - 生成带版本号的二进制文件名
 - 输出 `sha256` 校验文件和发布清单
 
 默认产物示例：
 
-- `dist/cli-release/neptune-gateway-<version>`
-- `dist/cli-release/neptune-gateway-<version>.sha256`
-- `dist/cli-release/neptune-gateway-<version>.release-info.txt`
+- `dist/cli-release/neptune-<version>`
+- `dist/cli-release/neptune-<version>.sha256`
+- `dist/cli-release/neptune-<version>.release-info.txt`
 
 ## GitHub Release 发布
 
@@ -120,9 +119,9 @@ workflow 会：
 
 发布到 Release 的文件包含：
 
-- `neptune-gateway-<version>`
-- `neptune-gateway-<version>.sha256`
-- `neptune-gateway-<version>.release-info.txt`
+- `neptune-<version>`
+- `neptune-<version>.sha256`
+- `neptune-<version>.release-info.txt`
 
 自检模式只验证脚本依赖和包根目录，不会真正编译：
 
@@ -136,45 +135,50 @@ Serve the gateway:
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway serve
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune serve
 ```
 
-### iOS Unified Logging
-
-`logs proxy ios stream` 会实时运行系统 `log stream`，适合盯住新日志；`logs proxy ios show` 会运行 `log show`，适合拉历史区间或补查过去日志。两者都支持透传原生 `log` 参数，例如 `--predicate`、`--style`、`--info`。
+List online clients from gateway:
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy ios stream --app-id demo.app
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune clients list --format text
+```
+
+Text format output:
+
+```text
+- [ios-com.neptunekit.demo.ios] 0A9C614E-1DC9-4B0F-AB80-11448EAE708E
+```
+
+YAML output grouped by `deviceId`:
+
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune clients list --format yml
+```
+
+### Unified Stream Proxy
+
+`logs`（无 `--device-id`）会持续拉取网关 `GET /v2/logs`，输出全部在线设备日志。
+
+`logs --stream --device-id <id>` 会根据 `--device-id` 在 `GET /v2/clients` 中反推平台，再自动选择对应系统日志命令：
+
+- iOS -> `log stream`
+- Android -> `adb logcat`
+- Harmony -> `hdc hilog`
+
+可选附加过滤：`--app-id`、`--session-id`。  
+`--raw` 可只打印原始日志，不上报网关。
+
+```bash
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune logs
 ```
 
 ```bash
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy ios show --raw --predicate 'subsystem == "com.demo.app"'
-```
-
-### Android logcat
-
-`logs proxy android logcat` 直接代理 `adb logcat`。先确保 `adb` 可用并且设备或模拟器已连接，然后把需要的 `adb logcat` 过滤参数原样透传给命令。
-
-```bash
-DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy android logcat --gateway http://127.0.0.1:18765
-```
-
-### Harmony hdc hilog
-
-`logs proxy harmony hilog` 代理 `hdc hilog`。先确认 `hdc` 已安装且设备在线，再透传 `hilog` 的过滤参数。命令默认按行转发到网关，也可以加 `--raw` 只做直通输出。
-
-```bash
-DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune-gateway logs proxy harmony hilog --app-id demo.harmony
-```
-
-Use `--raw` to print proxied lines without ingesting them:
-
-```bash
-swift run neptune-gateway logs proxy ios show --raw
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift run neptune logs --stream --device-id 0A9C614E-1DC9-4B0F-AB80-11448EAE708E
 ```
 
 ## Test

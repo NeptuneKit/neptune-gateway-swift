@@ -79,7 +79,7 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
-    func testWebSocketHelloAndIngestPublishesLogRecordEventToInspector() async throws {
+    func testWebSocketHelloAndIngestPublishesLogsUpdatedSignalToInspector() async throws {
         let app = try makeRunningApplication()
 
         let inspectorCapture = WebSocketCapture()
@@ -95,15 +95,11 @@ final class GatewayRoutesTests: XCTestCase {
         try await Task.sleep(for: .milliseconds(150))
 
         let frames = try Self.decodeFrames(from: inspectorCapture.snapshot())
-        let logRecordEvent = try XCTUnwrap(frames.first(where: { $0.topic == "log_record" }))
-        XCTAssertEqual(logRecordEvent.type, "event.log_record")
-        XCTAssertEqual(logRecordEvent.topic, "log_record")
-        XCTAssertEqual(logRecordEvent.topicId, 101)
-        XCTAssertEqual(logRecordEvent.record?.message, "boot ok")
-        XCTAssertEqual(logRecordEvent.record?.platform, "ios")
+        let signal = try XCTUnwrap(frames.first(where: { $0.type == "logs.updated" }))
+        XCTAssertEqual(signal.deviceId, "d-1")
     }
 
-    func testWebSocketRelaysSdkLogRecordEventsToInspector() async throws {
+    func testWebSocketRejectsUnsupportedLogRelayEvents() async throws {
         let app = try makeRunningApplication()
 
         let inspectorCapture = WebSocketCapture()
@@ -122,9 +118,7 @@ final class GatewayRoutesTests: XCTestCase {
         try await Task.sleep(for: .milliseconds(120))
 
         let frames = try Self.decodeFrames(from: inspectorCapture.snapshot())
-        let event = try XCTUnwrap(frames.first(where: { $0.type == "event.log_record" }))
-        XCTAssertEqual(event.record?.message, "relay-from-sdk")
-        XCTAssertEqual(event.record?.platform, "ios")
+        XCTAssertNil(frames.first(where: { $0.type == "event.log_record" }))
     }
 
     func testCommandSendDispatchesToSelectedOnlineClientAndSummarizesAckedCommand() async throws {
@@ -363,7 +357,7 @@ final class GatewayRoutesTests: XCTestCase {
         defer { app.shutdown() }
 
         let logsAEndpoint = try makeClientLogsServer { req in
-            let afterId = req.query[Int64.self, at: "afterId"]
+            let cursor = req.query[Int64.self, at: "cursor"]
             let records = [
                 LogRecord(
                     id: 2,
@@ -377,14 +371,14 @@ final class GatewayRoutesTests: XCTestCase {
                     category: "client"
                 )
             ].filter { record in
-                guard let afterId else { return true }
-                return record.id > afterId
+                guard let cursor else { return true }
+                return record.id > cursor
             }
-            return QueryResponse(records: records, nextCursor: records.last.map { String($0.id) } ?? afterId.map(String.init), hasMore: false)
+            return QueryResponse(records: records, hasMore: false)
         }
 
         let logsBEndpoint = try makeClientLogsServer { req in
-            let afterId = req.query[Int64.self, at: "afterId"]
+            let cursor = req.query[Int64.self, at: "cursor"]
             let records = [
                 LogRecord(
                     id: 1,
@@ -398,21 +392,20 @@ final class GatewayRoutesTests: XCTestCase {
                     category: "client"
                 )
             ].filter { record in
-                guard let afterId else { return true }
-                return record.id > afterId
+                guard let cursor else { return true }
+                return record.id > cursor
             }
-            return QueryResponse(records: records, nextCursor: records.last.map { String($0.id) } ?? afterId.map(String.init), hasMore: false)
+            return QueryResponse(records: records, hasMore: false)
         }
 
         try registerClient(app: app, platform: "ios", appId: "demo.app", sessionId: "s-ios", deviceId: "d-ios", callbackEndpoint: logsAEndpoint)
         try registerClient(app: app, platform: "android", appId: "demo.app", sessionId: "s-android", deviceId: "d-android", callbackEndpoint: logsBEndpoint)
 
-        try app.test(.GET, "v2/logs?limit=10") { response in
+        try app.test(.GET, "v2/logs?length=10") { response in
             XCTAssertEqual(response.status, .ok)
             let payload = try response.content.decode(QueryResponse.self)
             XCTAssertEqual(payload.records.count, 2)
             XCTAssertEqual(payload.records.map(\.message), ["android-1", "ios-2"])
-            XCTAssertEqual(payload.nextCursor, "2")
         }
     }
 
@@ -429,35 +422,29 @@ final class GatewayRoutesTests: XCTestCase {
             callbackEndpoint: "http://127.0.0.1:1/v2/client/command"
         )
 
-        try app.test(.GET, "v2/logs?afterId=9&waitMs=10") { response in
+        try app.test(.GET, "v2/logs?cursor=9&length=10") { response in
             XCTAssertEqual(response.status, .ok)
             let payload = try response.content.decode(QueryResponse.self)
             XCTAssertEqual(payload.records.count, 0)
-            XCTAssertEqual(payload.nextCursor, "9")
             XCTAssertEqual(payload.meta?.partialFailures.count, 1)
         }
     }
 
-    func testLogsWaitMsTimeoutStillReturns200AndCursor() throws {
+    func testLogsLengthCanBeEmptyWhenUpstreamReturnsNoRecords() throws {
         let app = try makeApplication()
         defer { app.shutdown() }
 
         let endpoint = try makeClientLogsServer { req in
-            let afterId = req.query[Int64.self, at: "afterId"]
-            let waitMs = req.query[Int.self, at: "waitMs"] ?? 0
-            if waitMs > 0 {
-                usleep(useconds_t(min(waitMs, 100) * 1_000))
-            }
-            return QueryResponse(records: [], nextCursor: afterId.map(String.init), hasMore: false)
+            XCTAssertNil(req.query[Int.self, at: "length"])
+            return QueryResponse(records: [], hasMore: false)
         }
 
         try registerClient(app: app, platform: "ios", appId: "demo.app", sessionId: "s-timeout", deviceId: "d-timeout", callbackEndpoint: endpoint)
 
-        try app.test(.GET, "v2/logs?afterId=11&waitMs=80") { response in
+        try app.test(.GET, "v2/logs?cursor=11") { response in
             XCTAssertEqual(response.status, .ok)
             let payload = try response.content.decode(QueryResponse.self)
             XCTAssertEqual(payload.records.count, 0)
-            XCTAssertEqual(payload.nextCursor, "11")
         }
     }
 
@@ -478,7 +465,7 @@ final class GatewayRoutesTests: XCTestCase {
                     deviceId: "d-ios-only",
                     category: "client"
                 )
-            ], nextCursor: "3", hasMore: false)
+            ], hasMore: false)
         }
 
         let androidEndpoint = try makeClientLogsServer { _ in
@@ -494,7 +481,7 @@ final class GatewayRoutesTests: XCTestCase {
                     deviceId: "d-android-only",
                     category: "client"
                 )
-            ], nextCursor: "4", hasMore: false)
+            ], hasMore: false)
         }
 
         try registerClient(app: app, platform: "ios", appId: "demo.app", sessionId: "s-ios-only", deviceId: "d-ios-only", callbackEndpoint: iosEndpoint)
@@ -866,51 +853,11 @@ final class GatewayRoutesTests: XCTestCase {
     }
 
     func testStoreWaitForNewerRecordReturnsFalseOnTimeout() async throws {
-        let databaseURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("sqlite")
-        addTeardownBlock {
-            try? FileManager.default.removeItem(at: databaseURL)
-        }
-
-        let store = try GatewayStore(storageURL: databaseURL, configuration: .default)
-        let accepted = try await store.ingest([try makeRecord(from: sampleRecord)])
-        XCTAssertEqual(accepted, 1)
-
-        let start = Date()
-        let matched = try await store.waitForNewerRecord(
-            matching: LogQuery(afterId: 1),
-            waitMs: 120
-        )
-
-        XCTAssertFalse(matched)
-        XCTAssertGreaterThanOrEqual(Date().timeIntervalSince(start), 0.1)
+        throw XCTSkip("obsolete: waitForNewerRecord removed with strict cursor/length contract")
     }
 
     func testStoreWaitForNewerRecordReturnsTrueWhenIngestedLater() async throws {
-        let databaseURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("sqlite")
-        addTeardownBlock {
-            try? FileManager.default.removeItem(at: databaseURL)
-        }
-
-        let store = try GatewayStore(storageURL: databaseURL, configuration: .default)
-        let first = try makeRecord(from: sampleRecord)
-        let second = try makeRecord(from: newerRecord)
-
-        _ = try await store.ingest([first])
-
-        Task {
-            try? await Task.sleep(for: .milliseconds(60))
-            _ = try? await store.ingest([second])
-        }
-
-        let matched = try await store.waitForNewerRecord(
-            matching: LogQuery(afterId: 1),
-            waitMs: 500
-        )
-        XCTAssertTrue(matched)
+        throw XCTSkip("obsolete: waitForNewerRecord removed with strict cursor/length contract")
     }
 
     func testStorePersistsAcrossApplicationInstances() throws {
@@ -1226,6 +1173,8 @@ private struct WebSocketEnvelope: Decodable {
     let type: String
     let topic: String?
     let topicId: Int?
+    let ts: String?
+    let deviceId: String?
     let code: String?
     let requestId: String?
     let commandId: String?

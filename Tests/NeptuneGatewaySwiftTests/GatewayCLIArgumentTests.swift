@@ -2,9 +2,47 @@ import XCTest
 @testable import NeptuneGatewaySwift
 
 final class GatewayCLIArgumentTests: XCTestCase {
-    func testIOSStreamArgumentsParse() throws {
+    func testClientsListArgumentsParse() throws {
         let command = try NeptuneGatewayCommand.parseAsRoot([
-            "logs", "proxy", "ios", "stream",
+            "clients", "list",
+            "--gateway", "http://127.0.0.1:19999",
+            "--format", "json",
+        ])
+
+        guard let clientsCommand = command as? ClientsListCommand else {
+            return XCTFail("Expected ClientsListCommand.")
+        }
+
+        XCTAssertEqual(clientsCommand.gateway, "http://127.0.0.1:19999")
+        XCTAssertEqual(clientsCommand.format, .json)
+    }
+
+    func testClientsListSupportsYMLAlias() throws {
+        let command = try NeptuneGatewayCommand.parseAsRoot([
+            "clients", "list",
+            "--format", "yml",
+        ])
+
+        guard let clientsCommand = command as? ClientsListCommand else {
+            return XCTFail("Expected ClientsListCommand.")
+        }
+
+        XCTAssertEqual(clientsCommand.format, .yaml)
+    }
+
+    func testClientsDefaultSubcommandParsesToList() throws {
+        let command = try NeptuneGatewayCommand.parseAsRoot(["clients"])
+        XCTAssertTrue(command is ClientsListCommand)
+    }
+
+    func testLogsParsesWithoutStreamFlag() throws {
+        let command = try NeptuneGatewayCommand.parseAsRoot(["logs"])
+        XCTAssertTrue(command is LogsCommand)
+    }
+
+    func testLogsStreamArgumentsParse() throws {
+        let command = try NeptuneGatewayCommand.parseAsRoot([
+            "logs", "--stream",
             "--raw",
             "--gateway", "http://127.0.0.1:19999",
             "--app-id", "demo.app",
@@ -12,10 +50,11 @@ final class GatewayCLIArgumentTests: XCTestCase {
             "--device-id", "device-1",
         ])
 
-        guard let streamCommand = command as? IOSStreamProxyCommand else {
-            return XCTFail("Expected IOSStreamProxyCommand.")
+        guard let streamCommand = command as? LogsCommand else {
+            return XCTFail("Expected LogsCommand.")
         }
 
+        XCTAssertTrue(streamCommand.stream)
         XCTAssertTrue(streamCommand.options.raw)
         XCTAssertEqual(streamCommand.options.gateway, "http://127.0.0.1:19999")
         XCTAssertEqual(streamCommand.options.appID, "demo.app")

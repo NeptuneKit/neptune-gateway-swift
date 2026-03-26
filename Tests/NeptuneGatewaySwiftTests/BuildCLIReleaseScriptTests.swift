@@ -24,6 +24,6 @@ final class BuildCLIReleaseScriptTests: XCTestCase {
 
         let output = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
         XCTAssertEqual(process.terminationStatus, 0, output)
-        XCTAssertTrue(output.contains("self-check ok: neptune-gateway"), output)
+        XCTAssertTrue(output.contains("self-check ok: neptune"), output)
     }
 }

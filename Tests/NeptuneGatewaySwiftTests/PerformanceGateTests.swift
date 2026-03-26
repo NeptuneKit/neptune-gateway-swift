@@ -41,12 +41,11 @@ final class PerformanceGateTests: XCTestCase {
         let ingestDuration = clock.now - ingestStart
 
         let queryStart = clock.now
-        let response = try await store.query(LogQuery(limit: totalRecords))
+        let response = try await store.query(LogQuery(length: totalRecords))
         let queryDuration = clock.now - queryStart
 
         XCTAssertEqual(response.records.count, totalRecords)
         XCTAssertFalse(response.hasMore)
-        XCTAssertEqual(response.nextCursor, String(totalRecords))
 
         let ids = response.records.map(\.id)
         XCTAssertEqual(ids.first, 1)
@@ -57,7 +56,7 @@ final class PerformanceGateTests: XCTestCase {
         try await withThrowingTaskGroup(of: [Int64].self) { group in
             for _ in 0..<4 {
                 group.addTask {
-                    let snapshot = try await store.query(LogQuery(limit: totalRecords))
+                    let snapshot = try await store.query(LogQuery(length: totalRecords))
                     return snapshot.records.map(\.id)
                 }
             }

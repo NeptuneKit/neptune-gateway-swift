@@ -15,7 +15,7 @@ EOF
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-PRODUCT_NAME="neptune-gateway"
+PRODUCT_NAME="neptune"
 OUTPUT_DIR="${ROOT_DIR}/dist/cli-release"
 SELF_CHECK=0
 

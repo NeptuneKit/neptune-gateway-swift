@@ -249,6 +249,18 @@ final class GatewayBatchUploader: @unchecked Sendable {
     private let queue = DispatchQueue(label: "NeptuneGatewaySwift.GatewayBatchUploader")
     private let timer: DispatchSourceTimer
     private var buffered: [IngestLogRecord] = []
+    
+    private struct UploadFailure: Error, CustomStringConvertible {
+        let statusCode: Int
+        let responseBody: String
+        
+        var description: String {
+            if responseBody.isEmpty {
+                return "HTTP \(statusCode)"
+            }
+            return "HTTP \(statusCode): \(responseBody)"
+        }
+    }
 
     init(baseURL: String) throws {
         guard var components = URLComponents(string: baseURL) else {
@@ -291,32 +303,58 @@ final class GatewayBatchUploader: @unchecked Sendable {
         buffered.removeAll(keepingCapacity: true)
 
         do {
-            var request = URLRequest(url: gatewayURL)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = try JSONEncoder().encode(snapshot)
-            request.timeoutInterval = 5
-
-            let semaphore = DispatchSemaphore(value: 0)
-            var resultError: Error?
-            var statusCode = -1
-            URLSession.shared.dataTask(with: request) { _, response, error in
-                resultError = error
-                statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-                semaphore.signal()
-            }.resume()
-            semaphore.wait()
-
-            if let resultError {
-                throw resultError
-            }
-
-            guard (200...299).contains(statusCode) else {
-                throw URLError(.badServerResponse)
-            }
+            try uploadWithAutoSplit(snapshot)
         } catch {
             FileHandle.standardError.write(Data("gateway upload failed: \(error)\n".utf8))
             buffered.insert(contentsOf: snapshot, at: 0)
+        }
+    }
+
+    private func uploadWithAutoSplit(_ records: [IngestLogRecord]) throws {
+        do {
+            try upload(records)
+        } catch let failure as UploadFailure where failure.statusCode == 413 {
+            if records.count == 1 {
+                FileHandle.standardError.write(
+                    Data("gateway upload dropped oversized record (deviceId=\(records[0].deviceId), appId=\(records[0].appId)).\n".utf8)
+                )
+                return
+            }
+            let mid = records.count / 2
+            let left = Array(records[..<mid])
+            let right = Array(records[mid...])
+            try uploadWithAutoSplit(left)
+            try uploadWithAutoSplit(right)
+        }
+    }
+
+    private func upload(_ records: [IngestLogRecord]) throws {
+        var request = URLRequest(url: gatewayURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONEncoder().encode(records)
+        request.timeoutInterval = 5
+
+        let semaphore = DispatchSemaphore(value: 0)
+        var resultError: Error?
+        var statusCode = -1
+        var responseBody = ""
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            resultError = error
+            statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+            if let data, !data.isEmpty {
+                responseBody = String(decoding: data.prefix(400), as: UTF8.self)
+            }
+            semaphore.signal()
+        }.resume()
+        semaphore.wait()
+
+        if let resultError {
+            throw resultError
+        }
+
+        guard (200...299).contains(statusCode) else {
+            throw UploadFailure(statusCode: statusCode, responseBody: responseBody)
         }
     }
 }

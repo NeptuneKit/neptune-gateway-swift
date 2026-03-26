@@ -8,14 +8,12 @@ struct GatewayClientLogRelayResult: Sendable {
 actor GatewayClientLogRelay {
     func query(
         clients: [ClientSnapshot],
-        query: LogQuery,
-        waitMs: Int
+        query: LogQuery
     ) async -> GatewayClientLogRelayResult {
         guard !clients.isEmpty else {
             return GatewayClientLogRelayResult(
                 response: QueryResponse(
                     records: [],
-                    nextCursor: query.afterId.map(String.init),
                     hasMore: false
                 ),
                 forwardedRecords: []
@@ -25,7 +23,7 @@ actor GatewayClientLogRelay {
         let collected = await withTaskGroup(of: ClientQueryResult.self, returning: [ClientQueryResult].self) { group in
             for client in clients {
                 group.addTask {
-                    await self.querySingleClient(client, query: query, waitMs: waitMs)
+                    await self.querySingleClient(client, query: query)
                 }
             }
 
@@ -50,15 +48,20 @@ actor GatewayClientLogRelay {
         }
 
         let mergedSorted = mergedByKey.values.sorted(by: compareRecords)
-        let limitedRecords = Array(mergedSorted.prefix(query.limit))
-        let hasMore = mergedSorted.count > limitedRecords.count
-        let nextCursor = limitedRecords.last.map { String($0.id) } ?? query.afterId.map(String.init)
+        let limitedRecords: [LogRecord]
+        let hasMore: Bool
+        if let length = query.length {
+            limitedRecords = Array(mergedSorted.prefix(length))
+            hasMore = mergedSorted.count > length
+        } else {
+            limitedRecords = mergedSorted
+            hasMore = false
+        }
         let meta = failures.isEmpty ? nil : QueryResponseMeta(partialFailures: failures)
 
         return GatewayClientLogRelayResult(
             response: QueryResponse(
                 records: limitedRecords,
-                nextCursor: nextCursor,
                 hasMore: hasMore,
                 meta: meta
             ),
@@ -66,7 +69,7 @@ actor GatewayClientLogRelay {
         )
     }
 
-    private func querySingleClient(_ client: ClientSnapshot, query: LogQuery, waitMs: Int) async -> ClientQueryResult {
+    private func querySingleClient(_ client: ClientSnapshot, query: LogQuery) async -> ClientQueryResult {
         guard var components = logsURLComponents(from: client.callbackEndpoint) else {
             return .failure(
                 QueryPartialFailure(
@@ -82,13 +85,11 @@ actor GatewayClientLogRelay {
 
         var queryItems = components.queryItems ?? []
         queryItems.append(URLQueryItem(name: "format", value: "json"))
-        queryItems.append(URLQueryItem(name: "limit", value: String(query.limit)))
-        queryItems.append(URLQueryItem(name: "waitMs", value: String(max(0, waitMs))))
-        if let beforeId = query.beforeId {
-            queryItems.append(URLQueryItem(name: "beforeId", value: String(beforeId)))
+        if let cursor = query.cursor {
+            queryItems.append(URLQueryItem(name: "cursor", value: String(cursor)))
         }
-        if let afterId = query.afterId {
-            queryItems.append(URLQueryItem(name: "afterId", value: String(afterId)))
+        if let length = query.length {
+            queryItems.append(URLQueryItem(name: "length", value: String(length)))
         }
         if let platform = query.platform {
             queryItems.append(URLQueryItem(name: "platform", value: platform))
@@ -117,7 +118,7 @@ actor GatewayClientLogRelay {
             return .failure(clientFailure(client, reason: "invalid_logs_url"))
         }
 
-        switch await fetchLogs(url: url, timeout: TimeInterval(max(1, waitMs / 1000 + 2))) {
+        switch await fetchLogs(url: url, timeout: 5) {
         case .success(let records):
             return .success(records)
         case .failure(let error):
@@ -246,12 +247,10 @@ private enum ClientLogFetchError: Error, Sendable {
 
 private struct ClientLogsResponse: Decodable {
     let records: [LogRecord]
-    let nextCursor: String?
     let hasMore: Bool
 
     private enum CodingKeys: String, CodingKey {
         case records
-        case nextCursor
         case hasMore
     }
 
@@ -259,13 +258,5 @@ private struct ClientLogsResponse: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         records = try container.decode([LogRecord].self, forKey: .records)
         hasMore = try container.decodeIfPresent(Bool.self, forKey: .hasMore) ?? false
-
-        if let stringCursor = try? container.decode(String.self, forKey: .nextCursor) {
-            nextCursor = stringCursor
-        } else if let intCursor = try? container.decode(Int64.self, forKey: .nextCursor) {
-            nextCursor = String(intCursor)
-        } else {
-            nextCursor = nil
-        }
     }
 }
