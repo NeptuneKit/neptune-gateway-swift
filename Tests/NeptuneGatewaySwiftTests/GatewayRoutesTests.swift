@@ -773,6 +773,61 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
+    func testViewTreeSnapshotEndpointPrefersHarmonyFillWhenBackgroundIsTransparent() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let rawPayload = """
+        {
+          "platform": "harmony",
+          "appId": "demo.app",
+          "sessionId": "s-harmony-circle-fill",
+          "deviceId": "d-harmony-circle-fill",
+          "snapshotId": "raw-harmony-circle-fill-1",
+          "capturedAt": "2026-03-27T12:00:00Z",
+          "payload": {
+            "type": "root",
+            "content": {
+              "$resolution": "3.5",
+              "$children": [
+                {
+                  "$ID": 137,
+                  "$type": "Circle",
+                  "$rect": "[143.00, 953.00],[153.00,963.00]",
+                  "$attrs": {
+                    "backgroundColor": "#00000000",
+                    "fill": "#FF74D3F7",
+                    "stroke": "#FF000000",
+                    "strokeWidth": 0,
+                    "visible": true
+                  },
+                  "$children": []
+                }
+              ]
+            }
+          }
+        }
+        """
+
+        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: rawPayload)
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .accepted)
+        })
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony-circle-fill&deviceId=d-harmony-circle-fill") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            let root = try XCTUnwrap(payload.roots.first)
+            XCTAssertEqual(root.name, "Circle")
+            XCTAssertEqual(root.style?.backgroundColor, "#74D3F7FF")
+            let expectedRadius = (root.frame?.height ?? 0) / 2
+            let actualRadius = try XCTUnwrap(root.style?.borderRadius)
+            XCTAssertEqual(actualRadius, expectedRadius, accuracy: 0.0001)
+        }
+    }
+
     func testViewTreeSnapshotEndpointAutoBackfillsFromClientInspector() throws {
         let app = try makeApplication()
         defer { app.shutdown() }

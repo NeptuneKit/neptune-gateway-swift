@@ -247,6 +247,17 @@ actor GatewayViewTreeStore {
                 borderRadius = height / 2
             }
         }
+        if platform == "harmony", nodeName == "Circle" {
+            if borderRadius <= 0 {
+                if let width = frame?.width, let height = frame?.height, width > 0, height > 0 {
+                    borderRadius = min(width, height) / 2
+                } else if let width = frame?.width, width > 0 {
+                    borderRadius = width / 2
+                } else if let height = frame?.height, height > 0 {
+                    borderRadius = height / 2
+                }
+            }
+        }
 
         return ViewTreeNode.Style(
             opacity: style.opacity,
@@ -285,9 +296,11 @@ actor GatewayViewTreeStore {
         }
         if let attrs = objectValue(object["$attrs"]) {
             let opacity = decodeNumber(attrs["opacity"])
-            let backgroundColor = normalizeArkUIColor(
-                stringValue(attrs["backgroundColor"]) ?? stringValue(attrs["background"]) ?? stringValue(attrs["bgColor"]) ?? stringValue(attrs["fill"])
+            let rawBackgroundColor = normalizeArkUIColor(
+                stringValue(attrs["backgroundColor"]) ?? stringValue(attrs["background"]) ?? stringValue(attrs["bgColor"])
             )
+            let fillColor = normalizeArkUIColor(stringValue(attrs["fill"]))
+            let backgroundColor = preferVisibleColor(primary: rawBackgroundColor, fallback: fillColor)
             let textColor = normalizeArkUIColor(stringValue(attrs["fontColor"]) ?? stringValue(attrs["textColor"]))
             let borderColor = normalizeArkUIColor(stringValue(attrs["borderColor"]) ?? stringValue(attrs["stroke"]))
             let borderWidth = decodeNumber(attrs["borderWidth"]) ?? decodeNumber(attrs["strokeWidth"])
@@ -537,6 +550,31 @@ actor GatewayViewTreeStore {
             return "#\(r)\(g)\(b)\(a)".uppercased()
         }
         return trimmed.uppercased()
+    }
+
+    private static func preferVisibleColor(primary: String?, fallback: String?) -> String? {
+        if let primary, !isFullyTransparent(primary) {
+            return primary
+        }
+        if let fallback, !isFullyTransparent(fallback) {
+            return fallback
+        }
+        return primary ?? fallback
+    }
+
+    private static func isFullyTransparent(_ color: String) -> Bool {
+        let normalized = color.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard normalized.hasPrefix("#") else { return false }
+        let hex = String(normalized.dropFirst())
+        if hex.count == 8 {
+            // CSS #RRGGBBAA
+            return hex.suffix(2) == "00"
+        }
+        if hex.count == 4 {
+            // CSS #RGBA
+            return hex.suffix(1) == "0"
+        }
+        return false
     }
 
     private static func rfc3339(_ date: Date) -> String {
