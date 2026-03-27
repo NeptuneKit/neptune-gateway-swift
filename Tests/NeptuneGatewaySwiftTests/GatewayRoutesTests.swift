@@ -720,6 +720,59 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
+    func testViewTreeSnapshotEndpointMapsHarmonyFillAndStrokeToStandardStyle() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let rawPayload = """
+        {
+          "platform": "harmony",
+          "appId": "demo.app",
+          "sessionId": "s-harmony-fill-stroke",
+          "deviceId": "d-harmony-fill-stroke",
+          "snapshotId": "raw-harmony-fill-stroke-1",
+          "capturedAt": "2026-03-27T12:00:00Z",
+          "payload": {
+            "type": "root",
+            "content": {
+              "$resolution": "3.5",
+              "$children": [
+                {
+                  "$ID": 31,
+                  "$type": "Rect",
+                  "$rect": "[160.00, 420.00],[220.00,480.00]",
+                  "$attrs": {
+                    "fill": "#FF74D3F7",
+                    "stroke": "#FF000000",
+                    "strokeWidth": 2,
+                    "visible": true
+                  },
+                  "$children": []
+                }
+              ]
+            }
+          }
+        }
+        """
+
+        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: rawPayload)
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .accepted)
+        })
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony-fill-stroke&deviceId=d-harmony-fill-stroke") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            let root = try XCTUnwrap(payload.roots.first)
+            XCTAssertEqual(root.name, "Rect")
+            XCTAssertEqual(root.style?.backgroundColor, "#74D3F7FF")
+            XCTAssertEqual(root.style?.borderColor, "#000000FF")
+            XCTAssertEqual(root.style?.borderWidth, 2)
+        }
+    }
+
     func testViewTreeSnapshotEndpointAutoBackfillsFromClientInspector() throws {
         let app = try makeApplication()
         defer { app.shutdown() }

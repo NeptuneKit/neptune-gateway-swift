@@ -285,10 +285,12 @@ actor GatewayViewTreeStore {
         }
         if let attrs = objectValue(object["$attrs"]) {
             let opacity = decodeNumber(attrs["opacity"])
-            let backgroundColor = normalizeArkUIColor(stringValue(attrs["backgroundColor"]))
+            let backgroundColor = normalizeArkUIColor(
+                stringValue(attrs["backgroundColor"]) ?? stringValue(attrs["background"]) ?? stringValue(attrs["bgColor"]) ?? stringValue(attrs["fill"])
+            )
             let textColor = normalizeArkUIColor(stringValue(attrs["fontColor"]) ?? stringValue(attrs["textColor"]))
-            let borderColor = normalizeArkUIColor(stringValue(attrs["borderColor"]))
-            let borderWidth = decodeNumber(attrs["borderWidth"])
+            let borderColor = normalizeArkUIColor(stringValue(attrs["borderColor"]) ?? stringValue(attrs["stroke"]))
+            let borderWidth = decodeNumber(attrs["borderWidth"]) ?? decodeNumber(attrs["strokeWidth"])
             let borderRadius = decodeNumber(attrs["borderRadius"])
             let platformFontScale = decodeNumber(attrs["platformFontScale"])
             let fontSizeToken = stringValue(attrs["fontSize"])?.lowercased()
