@@ -1,5 +1,6 @@
 import Foundation
 import Vapor
+import STJSON
 
 public struct SourceInfo: Content, Sendable {
     public let sdkName: String?
@@ -199,6 +200,228 @@ public struct SourceResponse: Content, Sendable {
 
     public init(items: [SourceSnapshot]) {
         self.items = items
+    }
+}
+
+public struct ViewTreeNode: Content, Sendable, Equatable {
+    public struct Frame: Content, Sendable, Equatable {
+        public let x: Double
+        public let y: Double
+        public let width: Double
+        public let height: Double
+
+        public init(x: Double, y: Double, width: Double, height: Double) {
+            self.x = x
+            self.y = y
+            self.width = width
+            self.height = height
+        }
+    }
+
+    public struct Style: Content, Sendable, Equatable {
+        public let opacity: Double?
+        public let backgroundColor: String?
+        public let textColor: String?
+        public let typographyUnit: String?
+        public let sourceTypographyUnit: String?
+        public let platformFontScale: Double?
+        public let fontSize: Double?
+        public let lineHeight: Double?
+        public let letterSpacing: Double?
+        public let fontWeight: String?
+        public let fontWeightRaw: String?
+        public let fontFamily: String?
+        public let borderRadius: Double?
+        public let borderWidth: Double?
+        public let borderColor: String?
+        public let zIndex: Double?
+        public let textAlign: String?
+        public let textContentAlign: String?
+        public let textOverflow: String?
+        public let wordBreak: String?
+        public let paddingTop: Double?
+        public let paddingRight: Double?
+        public let paddingBottom: Double?
+        public let paddingLeft: Double?
+
+        public init(
+            opacity: Double? = nil,
+            backgroundColor: String? = nil,
+            textColor: String? = nil,
+            typographyUnit: String? = nil,
+            sourceTypographyUnit: String? = nil,
+            platformFontScale: Double? = nil,
+            fontSize: Double? = nil,
+            lineHeight: Double? = nil,
+            letterSpacing: Double? = nil,
+            fontWeight: String? = nil,
+            fontWeightRaw: String? = nil,
+            fontFamily: String? = nil,
+            borderRadius: Double? = nil,
+            borderWidth: Double? = nil,
+            borderColor: String? = nil,
+            zIndex: Double? = nil,
+            textAlign: String? = nil,
+            textContentAlign: String? = nil,
+            textOverflow: String? = nil,
+            wordBreak: String? = nil,
+            paddingTop: Double? = nil,
+            paddingRight: Double? = nil,
+            paddingBottom: Double? = nil,
+            paddingLeft: Double? = nil
+        ) {
+            self.opacity = opacity
+            self.backgroundColor = backgroundColor
+            self.textColor = textColor
+            self.typographyUnit = typographyUnit
+            self.sourceTypographyUnit = sourceTypographyUnit
+            self.platformFontScale = platformFontScale
+            self.fontSize = fontSize
+            self.lineHeight = lineHeight
+            self.letterSpacing = letterSpacing
+            self.fontWeight = fontWeight
+            self.fontWeightRaw = fontWeightRaw
+            self.fontFamily = fontFamily
+            self.borderRadius = borderRadius
+            self.borderWidth = borderWidth
+            self.borderColor = borderColor
+            self.zIndex = zIndex
+            self.textAlign = textAlign
+            self.textContentAlign = textContentAlign
+            self.textOverflow = textOverflow
+            self.wordBreak = wordBreak
+            self.paddingTop = paddingTop
+            self.paddingRight = paddingRight
+            self.paddingBottom = paddingBottom
+            self.paddingLeft = paddingLeft
+        }
+    }
+
+    public let id: String
+    public let parentId: String?
+    public let name: String
+    public let frame: Frame?
+    public let style: Style?
+    public let text: String?
+    public let visible: Bool?
+    public let children: [ViewTreeNode]
+
+    public init(
+        id: String,
+        parentId: String?,
+        name: String,
+        frame: Frame? = nil,
+        style: Style? = nil,
+        text: String? = nil,
+        visible: Bool? = nil,
+        children: [ViewTreeNode]
+    ) {
+        self.id = id
+        self.parentId = parentId
+        self.name = name
+        self.frame = frame
+        self.style = style
+        self.text = text
+        self.visible = visible
+        self.children = children
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case parentId
+        case name
+        case frame
+        case style
+        case text
+        case visible
+        case children
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        if let parentId {
+            try container.encode(parentId, forKey: .parentId)
+        } else {
+            try container.encodeNil(forKey: .parentId)
+        }
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(frame, forKey: .frame)
+        try container.encodeIfPresent(style, forKey: .style)
+        try container.encodeIfPresent(text, forKey: .text)
+        try container.encodeIfPresent(visible, forKey: .visible)
+        try container.encode(children, forKey: .children)
+    }
+}
+
+public struct ViewTreeSnapshot: Content, Sendable, Equatable {
+    public let snapshotId: String
+    public let capturedAt: String
+    public let platform: String
+    public let roots: [ViewTreeNode]
+
+    public init(snapshotId: String, capturedAt: String, platform: String, roots: [ViewTreeNode]) {
+        self.snapshotId = snapshotId
+        self.capturedAt = capturedAt
+        self.platform = platform
+        self.roots = roots
+    }
+}
+
+public typealias InspectorPayloadValue = JSON
+
+extension JSON: @unchecked @retroactive Sendable {}
+
+public struct InspectorSnapshot: Content, Sendable, Equatable {
+    public let snapshotId: String
+    public let capturedAt: String
+    public let platform: String
+    public let available: Bool
+    public let payload: InspectorPayloadValue?
+    public let reason: String?
+
+    public init(
+        snapshotId: String,
+        capturedAt: String,
+        platform: String,
+        available: Bool,
+        payload: InspectorPayloadValue?,
+        reason: String? = nil
+    ) {
+        self.snapshotId = snapshotId
+        self.capturedAt = capturedAt
+        self.platform = platform
+        self.available = available
+        self.payload = payload
+        self.reason = reason
+    }
+}
+
+public struct ViewTreeRawIngestRequest: Content, Sendable, Equatable {
+    public let platform: String
+    public let appId: String
+    public let sessionId: String
+    public let deviceId: String
+    public let snapshotId: String?
+    public let capturedAt: String?
+    public let payload: InspectorPayloadValue
+
+    public init(
+        platform: String,
+        appId: String,
+        sessionId: String,
+        deviceId: String,
+        snapshotId: String? = nil,
+        capturedAt: String? = nil,
+        payload: InspectorPayloadValue
+    ) {
+        self.platform = platform
+        self.appId = appId
+        self.sessionId = sessionId
+        self.deviceId = deviceId
+        self.snapshotId = snapshotId
+        self.capturedAt = capturedAt
+        self.payload = payload
     }
 }
 

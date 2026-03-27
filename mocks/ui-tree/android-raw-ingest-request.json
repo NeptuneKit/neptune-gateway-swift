@@ -1,0 +1,678 @@
+{
+  "platform": "android",
+  "appId": "com.neptunekit.sdk.android.examples.simulator",
+  "sessionId": "simulator-session",
+  "deviceId": "simulator-device",
+  "snapshotId": "android-inspector-1774588849897",
+  "capturedAt": "2026-03-27T05:20:49.897439Z",
+  "payload": {
+    "activityClass": "com.neptunekit.sdk.android.examples.simulator.MainActivity",
+    "roots": [
+      {
+        "alpha": 1.0,
+        "children": [
+          {
+            "alpha": 1.0,
+            "children": [
+              {
+                "alpha": 1.0,
+                "children": [],
+                "className": "android.view.ViewStub",
+                "frame": {
+                  "height": 0.0,
+                  "width": 0.0,
+                  "x": 0.0,
+                  "y": 0.0
+                },
+                "id": "root/0/0:action_mode_bar_stub",
+                "layoutParams": {
+                  "height": -2,
+                  "marginBottom": 0,
+                  "marginLeft": 0,
+                  "marginRight": 0,
+                  "marginTop": 0,
+                  "width": -1
+                },
+                "name": "ViewStub",
+                "parentId": "root/0",
+                "style": {
+                  "opacity": 1.0,
+                  "zindex": 0.0
+                },
+                "viewId": "action_mode_bar_stub",
+                "visible": false
+              },
+              {
+                "alpha": 1.0,
+                "children": [
+                  {
+                    "alpha": 1.0,
+                    "children": [
+                      {
+                        "alpha": 1.0,
+                        "children": [],
+                        "className": "androidx.appcompat.widget.ViewStubCompat",
+                        "frame": {
+                          "height": 0.0,
+                          "width": 0.0,
+                          "x": 0.0,
+                          "y": 136.0
+                        },
+                        "id": "root/0/1/0/0:action_mode_bar_stub",
+                        "layoutParams": {
+                          "height": -2,
+                          "marginBottom": 0,
+                          "marginLeft": 0,
+                          "marginRight": 0,
+                          "marginTop": 0,
+                          "width": -1
+                        },
+                        "name": "ViewStubCompat",
+                        "parentId": "root/0/1/0:action_bar_root",
+                        "style": {
+                          "opacity": 1.0,
+                          "zindex": 0.0
+                        },
+                        "viewId": "action_mode_bar_stub",
+                        "visible": false
+                      },
+                      {
+                        "alpha": 1.0,
+                        "children": [
+                          {
+                            "alpha": 1.0,
+                            "children": [
+                              {
+                                "alpha": 1.0,
+                                "children": [
+                                  {
+                                    "alpha": 1.0,
+                                    "children": [],
+                                    "className": "com.google.android.material.textview.MaterialTextView",
+                                    "frame": {
+                                      "height": 198.0,
+                                      "width": 954.0,
+                                      "x": 63.0,
+                                      "y": 199.0
+                                    },
+                                    "id": "root/0/1/0/1/0/0/0",
+                                    "layoutParams": {
+                                      "height": -2,
+                                      "marginBottom": 0,
+                                      "marginLeft": 0,
+                                      "marginRight": 0,
+                                      "marginTop": 0,
+                                      "width": -1
+                                    },
+                                    "name": "MaterialTextView",
+                                    "parentId": "root/0/1/0/1/0/0",
+                                    "style": {
+                                      "fontSize": 30.095237731933594,
+                                      "fontWeight": "bold",
+                                      "fontWeightRaw": "style=1,fakeBold=false",
+                                      "letterSpacing": 0.0,
+                                      "lineHeight": 35.0476188659668,
+                                      "opacity": 1.0,
+                                      "platformFontScale": 1.0,
+                                      "sourceTypographyUnit": "sp",
+                                      "textAlign": "gravity",
+                                      "textColor": "#FFF5FAFF",
+                                      "typographyUnit": "dp",
+                                      "zindex": 0.0
+                                    },
+                                    "text": "Neptune SDK Android Demo",
+                                    "visible": true
+                                  },
+                                  {
+                                    "alpha": 1.0,
+                                    "children": [],
+                                    "className": "com.google.android.material.textview.MaterialTextView",
+                                    "frame": {
+                                      "height": 145.0,
+                                      "width": 954.0,
+                                      "x": 63.0,
+                                      "y": 418.0
+                                    },
+                                    "id": "root/0/1/0/1/0/0/1",
+                                    "layoutParams": {
+                                      "height": -2,
+                                      "marginBottom": 0,
+                                      "marginLeft": 0,
+                                      "marginRight": 0,
+                                      "marginTop": 21,
+                                      "width": -1
+                                    },
+                                    "name": "MaterialTextView",
+                                    "parentId": "root/0/1/0/1/0/0",
+                                    "style": {
+                                      "fontSize": 14.857142448425293,
+                                      "fontWeightRaw": "style=0,fakeBold=false",
+                                      "letterSpacing": 0.0,
+                                      "lineHeight": 17.5238094329834,
+                                      "opacity": 1.0,
+                                      "platformFontScale": 1.0,
+                                      "sourceTypographyUnit": "sp",
+                                      "textAlign": "gravity",
+                                      "textColor": "#FFA7BBCB",
+                                      "typographyUnit": "dp",
+                                      "zindex": 0.0
+                                    },
+                                    "text": "Use the unified actions: write a local log batch, discover gateway and auto-upload, then refresh the on-screen snapshot.",
+                                    "visible": true
+                                  },
+                                  {
+                                    "alpha": 1.0,
+                                    "children": [
+                                      {
+                                        "alpha": 1.0,
+                                        "children": [
+                                          {
+                                            "alpha": 1.0,
+                                            "children": [],
+                                            "className": "com.google.android.material.textview.MaterialTextView",
+                                            "frame": {
+                                              "height": 43.0,
+                                              "width": 274.0,
+                                              "x": 116.0,
+                                              "y": 679.0
+                                            },
+                                            "id": "root/0/1/0/1/0/0/2/0/0",
+                                            "layoutParams": {
+                                              "height": -2,
+                                              "marginBottom": 0,
+                                              "marginLeft": 0,
+                                              "marginRight": 0,
+                                              "marginTop": 0,
+                                              "width": -2
+                                            },
+                                            "name": "MaterialTextView",
+                                            "parentId": "root/0/1/0/1/0/0/2/0",
+                                            "style": {
+                                              "fontSize": 12.190476417541504,
+                                              "fontWeightRaw": "style=0,fakeBold=false",
+                                              "letterSpacing": 0.0,
+                                              "lineHeight": 14.476190567016602,
+                                              "opacity": 1.0,
+                                              "platformFontScale": 1.0,
+                                              "sourceTypographyUnit": "sp",
+                                              "textAlign": "gravity",
+                                              "textColor": "#FF53D3C0",
+                                              "typographyUnit": "dp",
+                                              "zindex": 0.0
+                                            },
+                                            "text": "Queue snapshot",
+                                            "visible": true
+                                          },
+                                          {
+                                            "alpha": 1.0,
+                                            "children": [],
+                                            "className": "com.google.android.material.textview.MaterialTextView",
+                                            "frame": {
+                                              "height": 591.0,
+                                              "width": 848.0,
+                                              "x": 116.0,
+                                              "y": 754.0
+                                            },
+                                            "id": "root/0/1/0/1/0/0/2/0/1:queueStatusText",
+                                            "layoutParams": {
+                                              "height": -2,
+                                              "marginBottom": 0,
+                                              "marginLeft": 0,
+                                              "marginRight": 0,
+                                              "marginTop": 32,
+                                              "width": -1
+                                            },
+                                            "name": "MaterialTextView",
+                                            "parentId": "root/0/1/0/1/0/0/2/0",
+                                            "style": {
+                                              "fontSize": 14.095237731933594,
+                                              "fontWeightRaw": "style=0,fakeBold=false",
+                                              "letterSpacing": 0.0,
+                                              "lineHeight": 20.571428298950195,
+                                              "opacity": 1.0,
+                                              "platformFontScale": 1.0,
+                                              "sourceTypographyUnit": "sp",
+                                              "textAlign": "gravity",
+                                              "textColor": "#FFF5FAFF",
+                                              "typographyUnit": "dp",
+                                              "zindex": 0.0
+                                            },
+                                            "text": "Clicks: 0\nHealth: ok=true capacity=16 size=0\nMetrics: queuedRecords=0 droppedOverflow=0\nGateway discovery:\n  status=not-run\nGateway ingest:\n  status=not-run\nRecent logs:\n- none yet\n",
+                                            "viewId": "queueStatusText",
+                                            "visible": true
+                                          }
+                                        ],
+                                        "className": "android.widget.LinearLayout",
+                                        "frame": {
+                                          "height": 772.0,
+                                          "width": 954.0,
+                                          "x": 63.0,
+                                          "y": 626.0
+                                        },
+                                        "id": "root/0/1/0/1/0/0/2/0",
+                                        "layoutParams": {
+                                          "height": -2,
+                                          "marginBottom": 0,
+                                          "marginLeft": 0,
+                                          "marginRight": 0,
+                                          "marginTop": 0,
+                                          "width": -1
+                                        },
+                                        "name": "LinearLayout",
+                                        "parentId": "root/0/1/0/1/0/0/2",
+                                        "style": {
+                                          "opacity": 1.0,
+                                          "zindex": 0.0
+                                        },
+                                        "visible": true
+                                      }
+                                    ],
+                                    "className": "com.google.android.material.card.MaterialCardView",
+                                    "frame": {
+                                      "height": 772.0,
+                                      "width": 954.0,
+                                      "x": 63.0,
+                                      "y": 626.0
+                                    },
+                                    "id": "root/0/1/0/1/0/0/2",
+                                    "layoutParams": {
+                                      "height": -2,
+                                      "marginBottom": 0,
+                                      "marginLeft": 0,
+                                      "marginRight": 0,
+                                      "marginTop": 63,
+                                      "width": -1
+                                    },
+                                    "name": "MaterialCardView",
+                                    "parentId": "root/0/1/0/1/0/0",
+                                    "style": {
+                                      "opacity": 1.0,
+                                      "zindex": 0.0
+                                    },
+                                    "visible": true
+                                  },
+                                  {
+                                    "alpha": 1.0,
+                                    "children": [],
+                                    "className": "com.google.android.material.button.MaterialButton",
+                                    "frame": {
+                                      "height": 147.0,
+                                      "width": 954.0,
+                                      "x": 63.0,
+                                      "y": 1440.0
+                                    },
+                                    "id": "root/0/1/0/1/0/0/3:emitLogButton",
+                                    "layoutParams": {
+                                      "height": -2,
+                                      "marginBottom": 0,
+                                      "marginLeft": 0,
+                                      "marginRight": 0,
+                                      "marginTop": 42,
+                                      "width": -1
+                                    },
+                                    "name": "MaterialButton",
+                                    "parentId": "root/0/1/0/1/0/0",
+                                    "style": {
+                                      "fontSize": 14.095237731933594,
+                                      "fontWeightRaw": "style=0,fakeBold=false",
+                                      "letterSpacing": 1.2585034370422363,
+                                      "lineHeight": 16.380952835083008,
+                                      "opacity": 1.0,
+                                      "platformFontScale": 1.0,
+                                      "sourceTypographyUnit": "sp",
+                                      "textAlign": "gravity",
+                                      "textColor": "#FF04161C",
+                                      "typographyUnit": "dp",
+                                      "zindex": 5.25
+                                    },
+                                    "text": "写入日志批次",
+                                    "viewId": "emitLogButton",
+                                    "visible": true
+                                  },
+                                  {
+                                    "alpha": 1.0,
+                                    "children": [],
+                                    "className": "com.google.android.material.button.MaterialButton",
+                                    "frame": {
+                                      "height": 147.0,
+                                      "width": 954.0,
+                                      "x": 63.0,
+                                      "y": 1619.0
+                                    },
+                                    "id": "root/0/1/0/1/0/0/4:discoverGatewayButton",
+                                    "layoutParams": {
+                                      "height": -2,
+                                      "marginBottom": 0,
+                                      "marginLeft": 0,
+                                      "marginRight": 0,
+                                      "marginTop": 32,
+                                      "width": -1
+                                    },
+                                    "name": "MaterialButton",
+                                    "parentId": "root/0/1/0/1/0/0",
+                                    "style": {
+                                      "fontSize": 14.095237731933594,
+                                      "fontWeightRaw": "style=0,fakeBold=false",
+                                      "letterSpacing": 1.2585034370422363,
+                                      "lineHeight": 16.380952835083008,
+                                      "opacity": 1.0,
+                                      "platformFontScale": 1.0,
+                                      "sourceTypographyUnit": "sp",
+                                      "textAlign": "gravity",
+                                      "textColor": "#FF04161C",
+                                      "typographyUnit": "dp",
+                                      "zindex": 5.25
+                                    },
+                                    "text": "发现并上报",
+                                    "viewId": "discoverGatewayButton",
+                                    "visible": true
+                                  },
+                                  {
+                                    "alpha": 1.0,
+                                    "children": [],
+                                    "className": "com.google.android.material.button.MaterialButton",
+                                    "frame": {
+                                      "height": 147.0,
+                                      "width": 954.0,
+                                      "x": 63.0,
+                                      "y": 1798.0
+                                    },
+                                    "id": "root/0/1/0/1/0/0/5:refreshSnapshotButton",
+                                    "layoutParams": {
+                                      "height": -2,
+                                      "marginBottom": 0,
+                                      "marginLeft": 0,
+                                      "marginRight": 0,
+                                      "marginTop": 32,
+                                      "width": -1
+                                    },
+                                    "name": "MaterialButton",
+                                    "parentId": "root/0/1/0/1/0/0",
+                                    "style": {
+                                      "fontSize": 14.095237731933594,
+                                      "fontWeightRaw": "style=0,fakeBold=false",
+                                      "letterSpacing": 1.2585034370422363,
+                                      "lineHeight": 16.380952835083008,
+                                      "opacity": 1.0,
+                                      "platformFontScale": 1.0,
+                                      "sourceTypographyUnit": "sp",
+                                      "textAlign": "gravity",
+                                      "textColor": "#FF04161C",
+                                      "typographyUnit": "dp",
+                                      "zindex": 5.25
+                                    },
+                                    "text": "刷新快照",
+                                    "viewId": "refreshSnapshotButton",
+                                    "visible": true
+                                  },
+                                  {
+                                    "alpha": 1.0,
+                                    "children": [],
+                                    "className": "com.google.android.material.textview.MaterialTextView",
+                                    "frame": {
+                                      "height": 86.0,
+                                      "width": 954.0,
+                                      "x": 63.0,
+                                      "y": 1987.0
+                                    },
+                                    "id": "root/0/1/0/1/0/0/6",
+                                    "layoutParams": {
+                                      "height": -2,
+                                      "marginBottom": 0,
+                                      "marginLeft": 0,
+                                      "marginRight": 0,
+                                      "marginTop": 42,
+                                      "width": -1
+                                    },
+                                    "name": "MaterialTextView",
+                                    "parentId": "root/0/1/0/1/0/0",
+                                    "style": {
+                                      "fontSize": 12.952381134033203,
+                                      "fontWeightRaw": "style=0,fakeBold=false",
+                                      "letterSpacing": 0.0,
+                                      "lineHeight": 15.2380952835083,
+                                      "opacity": 1.0,
+                                      "platformFontScale": 1.0,
+                                      "sourceTypographyUnit": "sp",
+                                      "textAlign": "gravity",
+                                      "textColor": "#FFA7BBCB",
+                                      "typographyUnit": "dp",
+                                      "zindex": 0.0
+                                    },
+                                    "text": "Use adb logcat with tag NeptuneSimulatorDemo to verify discovery, ingest upload, and write paths.",
+                                    "visible": true
+                                  }
+                                ],
+                                "className": "android.widget.LinearLayout",
+                                "frame": {
+                                  "height": 2201.0,
+                                  "width": 1080.0,
+                                  "x": 0.0,
+                                  "y": 136.0
+                                },
+                                "id": "root/0/1/0/1/0/0",
+                                "layoutParams": {
+                                  "height": -2,
+                                  "marginBottom": 0,
+                                  "marginLeft": 0,
+                                  "marginRight": 0,
+                                  "marginTop": 0,
+                                  "width": -1
+                                },
+                                "name": "LinearLayout",
+                                "parentId": "root/0/1/0/1/0",
+                                "style": {
+                                  "opacity": 1.0,
+                                  "zindex": 0.0
+                                },
+                                "visible": true
+                              }
+                            ],
+                            "className": "android.widget.ScrollView",
+                            "frame": {
+                              "height": 2201.0,
+                              "width": 1080.0,
+                              "x": 0.0,
+                              "y": 136.0
+                            },
+                            "id": "root/0/1/0/1/0",
+                            "layoutParams": {
+                              "height": -1,
+                              "marginBottom": 0,
+                              "marginLeft": 0,
+                              "marginRight": 0,
+                              "marginTop": 0,
+                              "width": -1
+                            },
+                            "name": "ScrollView",
+                            "parentId": "root/0/1/0/1:content",
+                            "style": {
+                              "opacity": 1.0,
+                              "zindex": 0.0
+                            },
+                            "visible": true
+                          }
+                        ],
+                        "className": "androidx.appcompat.widget.ContentFrameLayout",
+                        "frame": {
+                          "height": 2201.0,
+                          "width": 1080.0,
+                          "x": 0.0,
+                          "y": 136.0
+                        },
+                        "id": "root/0/1/0/1:content",
+                        "layoutParams": {
+                          "height": -1,
+                          "marginBottom": 0,
+                          "marginLeft": 0,
+                          "marginRight": 0,
+                          "marginTop": 0,
+                          "width": -1
+                        },
+                        "name": "ContentFrameLayout",
+                        "parentId": "root/0/1/0:action_bar_root",
+                        "style": {
+                          "opacity": 1.0,
+                          "zindex": 0.0
+                        },
+                        "viewId": "content",
+                        "visible": true
+                      }
+                    ],
+                    "className": "androidx.appcompat.widget.FitWindowsLinearLayout",
+                    "frame": {
+                      "height": 2201.0,
+                      "width": 1080.0,
+                      "x": 0.0,
+                      "y": 136.0
+                    },
+                    "id": "root/0/1/0:action_bar_root",
+                    "layoutParams": {
+                      "height": -1,
+                      "marginBottom": 0,
+                      "marginLeft": 0,
+                      "marginRight": 0,
+                      "marginTop": 0,
+                      "width": -1
+                    },
+                    "name": "FitWindowsLinearLayout",
+                    "parentId": "root/0/1",
+                    "style": {
+                      "opacity": 1.0,
+                      "zindex": 0.0
+                    },
+                    "viewId": "action_bar_root",
+                    "visible": true
+                  }
+                ],
+                "className": "android.widget.FrameLayout",
+                "frame": {
+                  "height": 2201.0,
+                  "width": 1080.0,
+                  "x": 0.0,
+                  "y": 136.0
+                },
+                "id": "root/0/1",
+                "layoutParams": {
+                  "height": -1,
+                  "marginBottom": 0,
+                  "marginLeft": 0,
+                  "marginRight": 0,
+                  "marginTop": 0,
+                  "width": -1
+                },
+                "name": "FrameLayout",
+                "parentId": "root/0",
+                "style": {
+                  "opacity": 1.0,
+                  "zindex": 0.0
+                },
+                "visible": true
+              }
+            ],
+            "className": "android.widget.LinearLayout",
+            "frame": {
+              "height": 2337.0,
+              "width": 1080.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            "id": "root/0",
+            "layoutParams": {
+              "height": -1,
+              "marginBottom": 63,
+              "marginLeft": 0,
+              "marginRight": 0,
+              "marginTop": 0,
+              "width": -1
+            },
+            "name": "LinearLayout",
+            "parentId": "root",
+            "style": {
+              "opacity": 1.0,
+              "zindex": 0.0
+            },
+            "visible": true
+          },
+          {
+            "alpha": 1.0,
+            "children": [],
+            "className": "android.view.View",
+            "frame": {
+              "height": 63.0,
+              "width": 1080.0,
+              "x": 0.0,
+              "y": 2337.0
+            },
+            "id": "root/1:navigationBarBackground",
+            "layoutParams": {
+              "height": 63,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "marginRight": 0,
+              "marginTop": 0,
+              "width": -1
+            },
+            "name": "View",
+            "parentId": "root",
+            "style": {
+              "backgroundColor": "#FF0E2A33",
+              "opacity": 1.0,
+              "zindex": 0.0
+            },
+            "viewId": "navigationBarBackground",
+            "visible": true
+          },
+          {
+            "alpha": 1.0,
+            "children": [],
+            "className": "android.view.View",
+            "frame": {
+              "height": 136.0,
+              "width": 1080.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            "id": "root/2:statusBarBackground",
+            "layoutParams": {
+              "height": 136,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "marginRight": 0,
+              "marginTop": 0,
+              "width": -1
+            },
+            "name": "View",
+            "parentId": "root",
+            "style": {
+              "backgroundColor": "#FF08121F",
+              "opacity": 1.0,
+              "zindex": 0.0
+            },
+            "viewId": "statusBarBackground",
+            "visible": true
+          }
+        ],
+        "className": "com.android.internal.policy.DecorView",
+        "frame": {
+          "height": 2400.0,
+          "width": 1080.0,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "id": "root",
+        "layoutParams": {
+          "height": -1,
+          "width": -1
+        },
+        "name": "DecorView",
+        "style": {
+          "backgroundColor": "#FFFFFFFF",
+          "opacity": 1.0,
+          "zindex": 0.0
+        },
+        "visible": true
+      }
+    ]
+  }
+}

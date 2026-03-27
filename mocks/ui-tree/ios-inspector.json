@@ -1,0 +1,1337 @@
+{
+  "platform": "ios",
+  "available": true,
+  "payload": {
+    "roots": [
+      {
+        "id": "0x100e1c950",
+        "name": "UIWindow",
+        "isKeyWindow": true,
+        "children": [
+          {
+            "style": {
+              "borderRadius": 0,
+              "borderWidth": 0,
+              "borderColor": "#000000FF",
+              "opacity": 1,
+              "zIndex": 0
+            },
+            "alpha": 1,
+            "parentId": "0x100e1c950",
+            "frame": {
+              "x": 0,
+              "width": 402,
+              "y": 0,
+              "height": 874
+            },
+            "isUserInteractionEnabled": true,
+            "className": "UITransitionView",
+            "name": "UITransitionView",
+            "hidden": false,
+            "id": "0x102c05ea0",
+            "text": null,
+            "children": [
+              {
+                "isUserInteractionEnabled": true,
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "className": "UINavigationTransitionView",
+                        "frame": {
+                          "x": 0,
+                          "width": 402,
+                          "height": 874,
+                          "y": 0
+                        },
+                        "alpha": 1,
+                        "visible": true,
+                        "text": null,
+                        "isUserInteractionEnabled": true,
+                        "name": "UINavigationTransitionView",
+                        "children": [
+                          {
+                            "children": [
+                              {
+                                "isUserInteractionEnabled": true,
+                                "style": {
+                                  "zIndex": 0,
+                                  "backgroundColor": "#FFFFFFFF",
+                                  "borderWidth": 0,
+                                  "borderRadius": 0,
+                                  "opacity": 1,
+                                  "borderColor": "#000000FF"
+                                },
+                                "id": "0x102c35ef0",
+                                "className": "UIView",
+                                "parentId": "0x100d0e7c0",
+                                "children": [
+                                  {
+                                    "children": [
+                                      {
+                                        "text": null,
+                                        "style": {
+                                          "borderRadius": 0,
+                                          "borderColor": "#000000FF",
+                                          "opacity": 1,
+                                          "borderWidth": 0,
+                                          "zIndex": 0
+                                        },
+                                        "frame": {
+                                          "x": 16,
+                                          "width": 370,
+                                          "height": 114,
+                                          "y": 132
+                                        },
+                                        "alpha": 1,
+                                        "isUserInteractionEnabled": true,
+                                        "hidden": false,
+                                        "name": "UIStackView",
+                                        "id": "0x100d158a0",
+                                        "visible": true,
+                                        "className": "UIStackView",
+                                        "children": [
+                                          {
+                                            "className": "UIButton",
+                                            "children": [
+                                              {
+                                                "children": [],
+                                                "frame": {
+                                                  "x": 156,
+                                                  "height": 18,
+                                                  "y": 138,
+                                                  "width": 90
+                                                },
+                                                "text": "写入日志批次",
+                                                "name": "UIButtonLabel",
+                                                "hidden": false,
+                                                "accessibilityLabel": "写入日志批次",
+                                                "parentId": "0x10291c960",
+                                                "id": "0x102922750",
+                                                "style": {
+                                                  "typographyUnit": "dp",
+                                                  "sourceTypographyUnit": "pt",
+                                                  "borderRadius": 0,
+                                                  "textColor": "#0088FFFF",
+                                                  "borderColor": "#000000FF",
+                                                  "lineHeight": 0,
+                                                  "zIndex": 0,
+                                                  "textAlign": "left",
+                                                  "fontSize": 15,
+                                                  "opacity": 1,
+                                                  "platformFontScale": 1,
+                                                  "borderWidth": 0
+                                                },
+                                                "alpha": 1,
+                                                "className": "UIButtonLabel",
+                                                "visible": true,
+                                                "isUserInteractionEnabled": false
+                                              }
+                                            ],
+                                            "visible": true,
+                                            "hidden": false,
+                                            "alpha": 1,
+                                            "isUserInteractionEnabled": true,
+                                            "id": "0x10291c960",
+                                            "name": "UIButton",
+                                            "style": {
+                                              "typographyUnit": "dp",
+                                              "borderColor": "#000000FF",
+                                              "zIndex": 0,
+                                              "opacity": 1,
+                                              "borderWidth": 0,
+                                              "platformFontScale": 1,
+                                              "borderRadius": 0,
+                                              "textColor": "#0088FFFF",
+                                              "textAlign": "left",
+                                              "lineHeight": 0,
+                                              "sourceTypographyUnit": "pt",
+                                              "fontSize": 15
+                                            },
+                                            "frame": {
+                                              "y": 132,
+                                              "x": 16,
+                                              "width": 370,
+                                              "height": 30
+                                            },
+                                            "text": "写入日志批次",
+                                            "parentId": "0x100d158a0",
+                                            "accessibilityLabel": "写入日志批次"
+                                          },
+                                          {
+                                            "id": "0x102a27460",
+                                            "parentId": "0x100d158a0",
+                                            "children": [
+                                              {
+                                                "alpha": 1,
+                                                "text": "发现并上报",
+                                                "frame": {
+                                                  "y": 180,
+                                                  "x": 163.66666666666666,
+                                                  "width": 75,
+                                                  "height": 18
+                                                },
+                                                "parentId": "0x102a27460",
+                                                "children": [],
+                                                "visible": true,
+                                                "className": "UIButtonLabel",
+                                                "name": "UIButtonLabel",
+                                                "accessibilityLabel": "发现并上报",
+                                                "id": "0x102922410",
+                                                "hidden": false,
+                                                "isUserInteractionEnabled": false,
+                                                "style": {
+                                                  "platformFontScale": 1,
+                                                  "sourceTypographyUnit": "pt",
+                                                  "lineHeight": 0,
+                                                  "textColor": "#0088FFFF",
+                                                  "borderRadius": 0,
+                                                  "zIndex": 0,
+                                                  "fontSize": 15,
+                                                  "opacity": 1,
+                                                  "textAlign": "left",
+                                                  "borderWidth": 0,
+                                                  "typographyUnit": "dp",
+                                                  "borderColor": "#000000FF"
+                                                }
+                                              }
+                                            ],
+                                            "accessibilityLabel": "发现并上报",
+                                            "name": "UIButton",
+                                            "isUserInteractionEnabled": true,
+                                            "className": "UIButton",
+                                            "alpha": 1,
+                                            "style": {
+                                              "textAlign": "left",
+                                              "borderRadius": 0,
+                                              "fontSize": 15,
+                                              "lineHeight": 0,
+                                              "zIndex": 0,
+                                              "platformFontScale": 1,
+                                              "typographyUnit": "dp",
+                                              "borderWidth": 0,
+                                              "borderColor": "#000000FF",
+                                              "opacity": 1,
+                                              "sourceTypographyUnit": "pt",
+                                              "textColor": "#0088FFFF"
+                                            },
+                                            "frame": {
+                                              "x": 16,
+                                              "y": 174,
+                                              "height": 30,
+                                              "width": 370
+                                            },
+                                            "text": "发现并上报",
+                                            "hidden": false,
+                                            "visible": true
+                                          },
+                                          {
+                                            "isUserInteractionEnabled": true,
+                                            "alpha": 1,
+                                            "parentId": "0x100d158a0",
+                                            "id": "0x102a1d570",
+                                            "name": "UIButton",
+                                            "frame": {
+                                              "height": 30,
+                                              "width": 370,
+                                              "x": 16,
+                                              "y": 216
+                                            },
+                                            "accessibilityLabel": "刷新快照",
+                                            "text": "刷新快照",
+                                            "style": {
+                                              "platformFontScale": 1,
+                                              "textAlign": "left",
+                                              "textColor": "#0088FFFF",
+                                              "borderColor": "#000000FF",
+                                              "fontSize": 15,
+                                              "typographyUnit": "dp",
+                                              "sourceTypographyUnit": "pt",
+                                              "lineHeight": 0,
+                                              "borderRadius": 0,
+                                              "borderWidth": 0,
+                                              "zIndex": 0,
+                                              "opacity": 1
+                                            },
+                                            "visible": true,
+                                            "children": [
+                                              {
+                                                "style": {
+                                                  "fontSize": 15,
+                                                  "borderRadius": 0,
+                                                  "typographyUnit": "dp",
+                                                  "textAlign": "left",
+                                                  "borderColor": "#000000FF",
+                                                  "lineHeight": 0,
+                                                  "opacity": 1,
+                                                  "sourceTypographyUnit": "pt",
+                                                  "zIndex": 0,
+                                                  "textColor": "#0088FFFF",
+                                                  "platformFontScale": 1,
+                                                  "borderWidth": 0
+                                                },
+                                                "text": "刷新快照",
+                                                "children": [],
+                                                "id": "0x100e2d150",
+                                                "parentId": "0x102a1d570",
+                                                "isUserInteractionEnabled": false,
+                                                "name": "UIButtonLabel",
+                                                "visible": true,
+                                                "hidden": false,
+                                                "alpha": 1,
+                                                "className": "UIButtonLabel",
+                                                "frame": {
+                                                  "height": 18,
+                                                  "x": 171,
+                                                  "width": 60,
+                                                  "y": 222
+                                                },
+                                                "accessibilityLabel": "刷新快照"
+                                              }
+                                            ],
+                                            "hidden": false,
+                                            "className": "UIButton"
+                                          }
+                                        ],
+                                        "parentId": "0x100f13040"
+                                      },
+                                      {
+                                        "hidden": false,
+                                        "text": "[2026-03-27T05:07:37Z] Simulator demo ready\n[2026-03-27T05:07:38Z] gateway registration started: POST /v2/clients:register callbackEndpoint=http://127.0.0.1:18766/v2/client/command renewInterval=5s\n[2026-03-27T05:07:38Z] gateway registration discovery attempt\n[2026-03-27T05:07:39Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:07:39Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:07:44Z] gateway registration discovery attempt\n[2026-03-27T05:07:45Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:07:45Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:07:50Z] gateway registration discovery attempt\n[2026-03-27T05:07:51Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:07:51Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:07:56Z] gateway registration discovery attempt\n[2026-03-27T05:07:56Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:07:56Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:02Z] gateway registration discovery attempt\n[2026-03-27T05:08:02Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:02Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:07Z] gateway registration discovery attempt\n[2026-03-27T05:08:07Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:07Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:13Z] gateway registration discovery attempt\n[2026-03-27T05:08:13Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:13Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:18Z] gateway registration discovery attempt\n[2026-03-27T05:08:18Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:18Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:23Z] gateway registration discovery attempt\n[2026-03-27T05:08:24Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:24Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:29Z] gateway registration discovery attempt\n[2026-03-27T05:08:29Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:29Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:34Z] gateway registration discovery attempt\n[2026-03-27T05:08:35Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:35Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:40Z] gateway registration discovery attempt\n[2026-03-27T05:08:40Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:40Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:45Z] gateway registration discovery attempt\n[2026-03-27T05:08:45Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:45Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:50Z] gateway registration discovery attempt\n[2026-03-27T05:08:51Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:51Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:08:56Z] gateway registration discovery attempt\n[2026-03-27T05:08:56Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:08:56Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:01Z] gateway registration discovery attempt\n[2026-03-27T05:09:02Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:02Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:07Z] gateway registration discovery attempt\n[2026-03-27T05:09:07Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:07Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:12Z] gateway registration discovery attempt\n[2026-03-27T05:09:13Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:13Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:18Z] gateway registration discovery attempt\n[2026-03-27T05:09:18Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:18Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:24Z] gateway registration discovery attempt\n[2026-03-27T05:09:24Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:24Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:30Z] gateway registration discovery attempt\n[2026-03-27T05:09:30Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:30Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:35Z] gateway registration discovery attempt\n[2026-03-27T05:09:36Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:36Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:41Z] gateway registration discovery attempt\n[2026-03-27T05:09:41Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:41Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:46Z] gateway registration discovery attempt\n[2026-03-27T05:09:47Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:47Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:52Z] gateway registration discovery attempt\n[2026-03-27T05:09:53Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:53Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:09:58Z] gateway registration discovery attempt\n[2026-03-27T05:09:58Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:09:58Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:04Z] gateway registration discovery attempt\n[2026-03-27T05:10:04Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:04Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:09Z] gateway registration discovery attempt\n[2026-03-27T05:10:10Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:10Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:15Z] gateway registration discovery attempt\n[2026-03-27T05:10:15Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:15Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:20Z] gateway registration discovery attempt\n[2026-03-27T05:10:21Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:21Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:26Z] gateway registration discovery attempt\n[2026-03-27T05:10:26Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:26Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:31Z] gateway registration discovery attempt\n[2026-03-27T05:10:32Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:32Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:37Z] gateway registration discovery attempt\n[2026-03-27T05:10:37Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:37Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:43Z] gateway registration discovery attempt\n[2026-03-27T05:10:43Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:43Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:48Z] gateway registration discovery attempt\n[2026-03-27T05:10:48Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:48Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:53Z] gateway registration discovery attempt\n[2026-03-27T05:10:54Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:54Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:10:59Z] gateway registration discovery attempt\n[2026-03-27T05:10:59Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:10:59Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:11:04Z] gateway registration discovery attempt\n[2026-03-27T05:11:04Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:11:04Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:11:10Z] gateway registration discovery attempt\n[2026-03-27T05:11:10Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:11:10Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:11:15Z] gateway registration discovery attempt\n[2026-03-27T05:11:15Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:11:15Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:11:20Z] gateway registration discovery attempt\n[2026-03-27T05:11:21Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:11:21Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:11:26Z] gateway registration discovery attempt\n[2026-03-27T05:11:29Z] gateway registration discovery failure: No discovered gateway returned a valid /v2/gateway/discovery payload.\n[2026-03-27T05:11:34Z] gateway registration discovery attempt\n[2026-03-27T05:11:37Z] gateway registration discovery failure: No discovered gateway returned a valid /v2/gateway/discovery payload.\n[2026-03-27T05:11:42Z] gateway registration discovery attempt\n[2026-03-27T05:11:45Z] gateway registration discovery failure: No discovered gateway returned a valid /v2/gateway/discovery payload.\n[2026-03-27T05:11:51Z] gateway registration discovery attempt\n[2026-03-27T05:11:54Z] gateway registration discovery failure: No discovered gateway returned a valid /v2/gateway/discovery payload.\n[2026-03-27T05:11:59Z] gateway registration discovery attempt\n[2026-03-27T05:11:59Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:11:59Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:04Z] gateway registration discovery attempt\n[2026-03-27T05:12:05Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:05Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:10Z] gateway registration discovery attempt\n[2026-03-27T05:12:10Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:10Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:15Z] gateway registration discovery attempt\n[2026-03-27T05:12:16Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:16Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:21Z] gateway registration discovery attempt\n[2026-03-27T05:12:21Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:21Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:26Z] gateway registration discovery attempt\n[2026-03-27T05:12:26Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:26Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:31Z] gateway registration discovery attempt\n[2026-03-27T05:12:32Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:32Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:37Z] gateway registration discovery attempt\n[2026-03-27T05:12:37Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:37Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:42Z] gateway registration discovery attempt\n[2026-03-27T05:12:42Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:42Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:47Z] gateway registration discovery attempt\n[2026-03-27T05:12:48Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:48Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:53Z] gateway registration discovery attempt\n[2026-03-27T05:12:53Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:53Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:12:58Z] gateway registration discovery attempt\n[2026-03-27T05:12:58Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:12:58Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:03Z] gateway registration discovery attempt\n[2026-03-27T05:13:04Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:04Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:09Z] gateway registration discovery attempt\n[2026-03-27T05:13:09Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:09Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:14Z] gateway registration discovery attempt\n[2026-03-27T05:13:14Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:14Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:20Z] gateway registration discovery attempt\n[2026-03-27T05:13:20Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:20Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:25Z] gateway registration discovery attempt\n[2026-03-27T05:13:26Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:26Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:31Z] gateway registration discovery attempt\n[2026-03-27T05:13:31Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:31Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:36Z] gateway registration discovery attempt\n[2026-03-27T05:13:37Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:37Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:42Z] gateway registration discovery attempt\n[2026-03-27T05:13:42Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:42Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:47Z] gateway registration discovery attempt\n[2026-03-27T05:13:47Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:47Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:52Z] gateway registration discovery attempt\n[2026-03-27T05:13:52Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:52Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:13:58Z] gateway registration discovery attempt\n[2026-03-27T05:13:58Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:13:58Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:03Z] gateway registration discovery attempt\n[2026-03-27T05:14:03Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:03Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:08Z] gateway registration discovery attempt\n[2026-03-27T05:14:09Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:09Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:14Z] gateway registration discovery attempt\n[2026-03-27T05:14:14Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:14Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:19Z] gateway registration discovery attempt\n[2026-03-27T05:14:20Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:20Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:25Z] gateway registration discovery attempt\n[2026-03-27T05:14:25Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:25Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:30Z] gateway registration discovery attempt\n[2026-03-27T05:14:30Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:30Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:36Z] gateway registration discovery attempt\n[2026-03-27T05:14:36Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:36Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:41Z] gateway registration discovery attempt\n[2026-03-27T05:14:41Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:41Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:47Z] gateway registration discovery attempt\n[2026-03-27T05:14:47Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:47Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:52Z] gateway registration discovery attempt\n[2026-03-27T05:14:53Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:53Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:14:58Z] gateway registration discovery attempt\n[2026-03-27T05:14:58Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:14:58Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:03Z] gateway registration discovery attempt\n[2026-03-27T05:15:03Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:03Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:09Z] gateway registration discovery attempt\n[2026-03-27T05:15:09Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:09Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:14Z] gateway registration discovery attempt\n[2026-03-27T05:15:14Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:14Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:19Z] gateway registration discovery attempt\n[2026-03-27T05:15:20Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:20Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:25Z] gateway registration discovery attempt\n[2026-03-27T05:15:25Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:25Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:30Z] gateway registration discovery attempt\n[2026-03-27T05:15:31Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:31Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:36Z] gateway registration discovery attempt\n[2026-03-27T05:15:36Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:36Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:41Z] gateway registration discovery attempt\n[2026-03-27T05:15:42Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:42Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:47Z] gateway registration discovery attempt\n[2026-03-27T05:15:47Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:47Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:52Z] gateway registration discovery attempt\n[2026-03-27T05:15:53Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:53Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:15:58Z] gateway registration discovery attempt\n[2026-03-27T05:15:58Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:15:58Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:03Z] gateway registration discovery attempt\n[2026-03-27T05:16:03Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:03Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:09Z] gateway registration discovery attempt\n[2026-03-27T05:16:09Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:09Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:14Z] gateway registration discovery attempt\n[2026-03-27T05:16:14Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:14Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:20Z] gateway registration discovery attempt\n[2026-03-27T05:16:20Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:20Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:25Z] gateway registration discovery attempt\n[2026-03-27T05:16:25Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:25Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:30Z] gateway registration discovery attempt\n[2026-03-27T05:16:31Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:31Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:36Z] gateway registration discovery attempt\n[2026-03-27T05:16:36Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:36Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:41Z] gateway registration discovery attempt\n[2026-03-27T05:16:41Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:41Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:46Z] gateway registration discovery attempt\n[2026-03-27T05:16:47Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:47Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:52Z] gateway registration discovery attempt\n[2026-03-27T05:16:52Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:52Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:16:57Z] gateway registration discovery attempt\n[2026-03-27T05:16:57Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:16:57Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:02Z] gateway registration discovery attempt\n[2026-03-27T05:17:03Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:03Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:08Z] gateway registration discovery attempt\n[2026-03-27T05:17:08Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:08Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:13Z] gateway registration discovery attempt\n[2026-03-27T05:17:14Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:14Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:19Z] gateway registration discovery attempt\n[2026-03-27T05:17:19Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:19Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:24Z] gateway registration discovery attempt\n[2026-03-27T05:17:25Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:25Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:30Z] gateway registration discovery attempt\n[2026-03-27T05:17:30Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:30Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:35Z] gateway registration discovery attempt\n[2026-03-27T05:17:35Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:35Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:40Z] gateway registration discovery attempt\n[2026-03-27T05:17:41Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:41Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:46Z] gateway registration discovery attempt\n[2026-03-27T05:17:46Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:46Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:51Z] gateway registration discovery attempt\n[2026-03-27T05:17:51Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:51Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:17:57Z] gateway registration discovery attempt\n[2026-03-27T05:17:57Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:17:57Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:02Z] gateway registration discovery attempt\n[2026-03-27T05:18:02Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:02Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:07Z] gateway registration discovery attempt\n[2026-03-27T05:18:07Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:07Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:12Z] gateway registration discovery attempt\n[2026-03-27T05:18:13Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:13Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:18Z] gateway registration discovery attempt\n[2026-03-27T05:18:18Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:18Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:23Z] gateway registration discovery attempt\n[2026-03-27T05:18:23Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:23Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:29Z] gateway registration discovery attempt\n[2026-03-27T05:18:29Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:29Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:34Z] gateway registration discovery attempt\n[2026-03-27T05:18:34Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:34Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:39Z] gateway registration discovery attempt\n[2026-03-27T05:18:40Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:40Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:45Z] gateway registration discovery attempt\n[2026-03-27T05:18:45Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:45Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:50Z] gateway registration discovery attempt\n[2026-03-27T05:18:50Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:50Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:18:55Z] gateway registration discovery attempt\n[2026-03-27T05:18:56Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:18:56Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:01Z] gateway registration discovery attempt\n[2026-03-27T05:19:01Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:01Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:06Z] gateway registration discovery attempt\n[2026-03-27T05:19:06Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:06Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:12Z] gateway registration discovery attempt\n[2026-03-27T05:19:12Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:12Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:17Z] gateway registration discovery attempt\n[2026-03-27T05:19:17Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:17Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:22Z] gateway registration discovery attempt\n[2026-03-27T05:19:23Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:23Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:28Z] gateway registration discovery attempt\n[2026-03-27T05:19:28Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:28Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:33Z] gateway registration discovery attempt\n[2026-03-27T05:19:34Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:34Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:39Z] gateway registration discovery attempt\n[2026-03-27T05:19:39Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:39Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:44Z] gateway registration discovery attempt\n[2026-03-27T05:19:44Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:44Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:49Z] gateway registration discovery attempt\n[2026-03-27T05:19:49Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:50Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:19:55Z] gateway registration discovery attempt\n[2026-03-27T05:19:55Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:19:55Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:00Z] gateway registration discovery attempt\n[2026-03-27T05:20:00Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:00Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:05Z] gateway registration discovery attempt\n[2026-03-27T05:20:06Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:06Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:11Z] gateway registration discovery attempt\n[2026-03-27T05:20:11Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:11Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:16Z] gateway registration discovery attempt\n[2026-03-27T05:20:17Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:17Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:22Z] gateway registration discovery attempt\n[2026-03-27T05:20:22Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:22Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:27Z] gateway registration discovery attempt\n[2026-03-27T05:20:27Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:27Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:33Z] gateway registration discovery attempt\n[2026-03-27T05:20:33Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:33Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:38Z] gateway registration discovery attempt\n[2026-03-27T05:20:38Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:38Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:43Z] gateway registration discovery attempt\n[2026-03-27T05:20:44Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:44Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command\n[2026-03-27T05:20:49Z] gateway registration discovery attempt\n[2026-03-27T05:20:49Z] gateway registration discovery success: source=mdns host=linhey.local. port=18765 version=2.0.0-alpha.1 endpoint=http://linhey.local.:18765\n[2026-03-27T05:20:49Z] gateway registration success: POST /v2/clients:register gatewayEndpoint=http://linhey.local.:18765 callbackEndpoint=http://127.0.0.1:18766/v2/client/command",
+                                        "className": "UITextView",
+                                        "children": [
+                                          {
+                                            "className": "_UITextLayoutView",
+                                            "text": null,
+                                            "hidden": false,
+                                            "frame": {
+                                              "height": 0,
+                                              "width": 0,
+                                              "y": -23548.333333333332,
+                                              "x": 16
+                                            },
+                                            "name": "_UITextLayoutView",
+                                            "children": [],
+                                            "id": "0x102b1bec0",
+                                            "style": {
+                                              "borderColor": "#000000FF",
+                                              "borderRadius": 0,
+                                              "borderWidth": 0,
+                                              "opacity": 1,
+                                              "zIndex": 0
+                                            },
+                                            "alpha": 1,
+                                            "visible": false,
+                                            "parentId": "0x10181b200",
+                                            "isUserInteractionEnabled": true
+                                          },
+                                          {
+                                            "style": {
+                                              "borderWidth": 0,
+                                              "borderRadius": 0,
+                                              "backgroundColor": "#00000000",
+                                              "opacity": 1,
+                                              "zIndex": 0,
+                                              "borderColor": "#000000FF"
+                                            },
+                                            "text": null,
+                                            "frame": {
+                                              "x": 16,
+                                              "y": -23548.333333333332,
+                                              "height": 24373,
+                                              "width": 370
+                                            },
+                                            "children": [
+                                              {
+                                                "hidden": false,
+                                                "className": "_UITextLayoutCanvasView",
+                                                "parentId": "0x102c05780",
+                                                "children": [
+                                                  {
+                                                    "children": [],
+                                                    "id": "0x1028095e0",
+                                                    "hidden": false,
+                                                    "alpha": 1,
+                                                    "className": "UIView",
+                                                    "style": {
+                                                      "borderRadius": 0,
+                                                      "borderColor": "#000000FF",
+                                                      "opacity": 1,
+                                                      "zIndex": 0,
+                                                      "borderWidth": 0
+                                                    },
+                                                    "frame": {
+                                                      "y": -23548.333333333332,
+                                                      "height": 24366,
+                                                      "width": 370,
+                                                      "x": 16
+                                                    },
+                                                    "name": "UIView",
+                                                    "visible": true,
+                                                    "isUserInteractionEnabled": true,
+                                                    "parentId": "0x102c2b620",
+                                                    "text": null
+                                                  },
+                                                  {
+                                                    "text": null,
+                                                    "parentId": "0x102c2b620",
+                                                    "visible": true,
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "style": {
+                                                      "borderRadius": 0,
+                                                      "borderWidth": 0,
+                                                      "borderColor": "#000000FF",
+                                                      "opacity": 1,
+                                                      "zIndex": 0
+                                                    },
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "children": [],
+                                                    "alpha": 1,
+                                                    "hidden": false,
+                                                    "frame": {
+                                                      "x": 18,
+                                                      "y": 720,
+                                                      "width": 366,
+                                                      "height": 97
+                                                    },
+                                                    "isUserInteractionEnabled": true,
+                                                    "id": "0x102936fd0"
+                                                  },
+                                                  {
+                                                    "children": [],
+                                                    "text": null,
+                                                    "frame": {
+                                                      "width": 366,
+                                                      "height": 68,
+                                                      "y": 657.6666666666679,
+                                                      "x": 18
+                                                    },
+                                                    "alpha": 1,
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "parentId": "0x102c2b620",
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "isUserInteractionEnabled": true,
+                                                    "visible": true,
+                                                    "style": {
+                                                      "opacity": 1,
+                                                      "borderColor": "#000000FF",
+                                                      "zIndex": 0,
+                                                      "borderWidth": 0,
+                                                      "borderRadius": 0
+                                                    },
+                                                    "hidden": false,
+                                                    "id": "0x100f08200"
+                                                  },
+                                                  {
+                                                    "style": {
+                                                      "zIndex": 0,
+                                                      "borderRadius": 0,
+                                                      "borderColor": "#000000FF",
+                                                      "opacity": 1,
+                                                      "borderWidth": 0
+                                                    },
+                                                    "frame": {
+                                                      "x": 18,
+                                                      "height": 37,
+                                                      "y": 626.6666666666679,
+                                                      "width": 366
+                                                    },
+                                                    "visible": true,
+                                                    "text": null,
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "parentId": "0x102c2b620",
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "children": [],
+                                                    "alpha": 1,
+                                                    "isUserInteractionEnabled": true,
+                                                    "hidden": false,
+                                                    "id": "0x10296fff0"
+                                                  },
+                                                  {
+                                                    "isUserInteractionEnabled": true,
+                                                    "hidden": false,
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "visible": true,
+                                                    "children": [],
+                                                    "text": null,
+                                                    "frame": {
+                                                      "y": 549.3333333333358,
+                                                      "x": 18,
+                                                      "height": 83,
+                                                      "width": 366
+                                                    },
+                                                    "id": "0x10296f600",
+                                                    "style": {
+                                                      "zIndex": 0,
+                                                      "opacity": 1,
+                                                      "borderRadius": 0,
+                                                      "borderColor": "#000000FF",
+                                                      "borderWidth": 0
+                                                    },
+                                                    "parentId": "0x102c2b620",
+                                                    "alpha": 1,
+                                                    "name": "_UITextLayoutFragmentView"
+                                                  },
+                                                  {
+                                                    "children": [],
+                                                    "alpha": 1,
+                                                    "visible": true,
+                                                    "id": "0x10296df10",
+                                                    "parentId": "0x102c2b620",
+                                                    "style": {
+                                                      "borderRadius": 0,
+                                                      "borderWidth": 0,
+                                                      "borderColor": "#000000FF",
+                                                      "opacity": 1,
+                                                      "zIndex": 0
+                                                    },
+                                                    "text": null,
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "isUserInteractionEnabled": true,
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "hidden": false,
+                                                    "frame": {
+                                                      "height": 68,
+                                                      "x": 18,
+                                                      "y": 487.33333333333576,
+                                                      "width": 366
+                                                    }
+                                                  },
+                                                  {
+                                                    "id": "0x10296cbd0",
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "hidden": false,
+                                                    "parentId": "0x102c2b620",
+                                                    "visible": true,
+                                                    "children": [],
+                                                    "style": {
+                                                      "borderColor": "#000000FF",
+                                                      "borderWidth": 0,
+                                                      "opacity": 1,
+                                                      "zIndex": 0,
+                                                      "borderRadius": 0
+                                                    },
+                                                    "frame": {
+                                                      "height": 37,
+                                                      "width": 366,
+                                                      "y": 456,
+                                                      "x": 18
+                                                    },
+                                                    "isUserInteractionEnabled": true,
+                                                    "alpha": 1,
+                                                    "text": null
+                                                  },
+                                                  {
+                                                    "id": "0x10296c180",
+                                                    "isUserInteractionEnabled": true,
+                                                    "visible": true,
+                                                    "parentId": "0x102c2b620",
+                                                    "text": null,
+                                                    "hidden": false,
+                                                    "style": {
+                                                      "borderColor": "#000000FF",
+                                                      "borderWidth": 0,
+                                                      "opacity": 1,
+                                                      "zIndex": 0,
+                                                      "borderRadius": 0
+                                                    },
+                                                    "children": [],
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "frame": {
+                                                      "y": 378.6666666666679,
+                                                      "x": 18,
+                                                      "width": 366,
+                                                      "height": 83
+                                                    },
+                                                    "alpha": 1
+                                                  },
+                                                  {
+                                                    "children": [],
+                                                    "visible": true,
+                                                    "hidden": false,
+                                                    "alpha": 1,
+                                                    "id": "0x10296a950",
+                                                    "parentId": "0x102c2b620",
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "text": null,
+                                                    "style": {
+                                                      "opacity": 1,
+                                                      "borderWidth": 0,
+                                                      "zIndex": 0,
+                                                      "borderRadius": 0,
+                                                      "borderColor": "#000000FF"
+                                                    },
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "isUserInteractionEnabled": true,
+                                                    "frame": {
+                                                      "height": 68,
+                                                      "x": 18,
+                                                      "width": 366,
+                                                      "y": 316.6666666666679
+                                                    }
+                                                  },
+                                                  {
+                                                    "text": null,
+                                                    "alpha": 1,
+                                                    "isUserInteractionEnabled": true,
+                                                    "frame": {
+                                                      "width": 366,
+                                                      "height": 37,
+                                                      "x": 18,
+                                                      "y": 285.6666666666679
+                                                    },
+                                                    "parentId": "0x102c2b620",
+                                                    "children": [],
+                                                    "className": "_UITextLayoutFragmentView",
+                                                    "style": {
+                                                      "opacity": 1,
+                                                      "borderWidth": 0,
+                                                      "zIndex": 0,
+                                                      "borderColor": "#000000FF",
+                                                      "borderRadius": 0
+                                                    },
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "visible": true,
+                                                    "id": "0x102969610",
+                                                    "hidden": false
+                                                  },
+                                                  {
+                                                    "hidden": false,
+                                                    "alpha": 1,
+                                                    "isUserInteractionEnabled": true,
+                                                    "frame": {
+                                                      "height": 83,
+                                                      "y": 208,
+                                                      "width": 366,
+                                                      "x": 18
+                                                    },
+                                                    "name": "_UITextLayoutFragmentView",
+                                                    "style": {
+                                                      "borderRadius": 0,
+                                                      "zIndex": 0,
+                                                      "borderColor": "#000000FF",
+                                                      "borderWidth": 0,
+                                                      "opacity": 1
+                                                    },
+                                                    "visible": true,
+                                                    "id": "0x102968c20",
+                                                    "parentId": "0x102c2b620",
+                                                    "text": null,
+                                                    "children": [],
+                                                    "className": "_UITextLayoutFragmentView"
+                                                  }
+                                                ],
+                                                "visible": true,
+                                                "text": null,
+                                                "frame": {
+                                                  "y": -23548.333333333332,
+                                                  "height": 24366,
+                                                  "width": 370,
+                                                  "x": 16
+                                                },
+                                                "style": {
+                                                  "opacity": 1,
+                                                  "borderRadius": 0,
+                                                  "backgroundColor": "#00000000",
+                                                  "borderColor": "#000000FF",
+                                                  "zIndex": 0,
+                                                  "borderWidth": 0
+                                                },
+                                                "name": "_UITextLayoutCanvasView",
+                                                "id": "0x102c2b620",
+                                                "isUserInteractionEnabled": true,
+                                                "alpha": 1
+                                              }
+                                            ],
+                                            "className": "_UITextContainerView",
+                                            "isUserInteractionEnabled": true,
+                                            "name": "_UITextContainerView",
+                                            "visible": true,
+                                            "hidden": false,
+                                            "id": "0x102c05780",
+                                            "alpha": 1,
+                                            "parentId": "0x10181b200"
+                                          },
+                                          {
+                                            "hidden": false,
+                                            "className": "_UIScrollViewScrollIndicator",
+                                            "id": "0x100f1b490",
+                                            "children": [
+                                              {
+                                                "children": [],
+                                                "isUserInteractionEnabled": true,
+                                                "alpha": 1,
+                                                "visible": true,
+                                                "text": null,
+                                                "hidden": false,
+                                                "style": {
+                                                  "borderColor": "#000000FF",
+                                                  "borderWidth": 0,
+                                                  "opacity": 1,
+                                                  "borderRadius": 1.5,
+                                                  "zIndex": 0,
+                                                  "backgroundColor": "#00000059"
+                                                },
+                                                "frame": {
+                                                  "width": 3,
+                                                  "x": 380,
+                                                  "y": 773,
+                                                  "height": 36
+                                                },
+                                                "id": "0x100f1b660",
+                                                "className": "UIView",
+                                                "parentId": "0x100f1b490",
+                                                "name": "UIView"
+                                              }
+                                            ],
+                                            "isUserInteractionEnabled": true,
+                                            "accessibilityLabel": "Vertical scroll bar, 44 pages",
+                                            "parentId": "0x10181b200",
+                                            "name": "_UIScrollViewScrollIndicator",
+                                            "text": "Vertical scroll bar, 44 pages",
+                                            "visible": false,
+                                            "frame": {
+                                              "height": 36,
+                                              "y": 773,
+                                              "x": 380,
+                                              "width": 3
+                                            },
+                                            "alpha": 0,
+                                            "style": {
+                                              "borderRadius": 0,
+                                              "opacity": 0,
+                                              "borderColor": "#000000FF",
+                                              "borderWidth": 0,
+                                              "zIndex": 1000
+                                            }
+                                          },
+                                          {
+                                            "isUserInteractionEnabled": true,
+                                            "className": "_UIScrollViewScrollIndicator",
+                                            "accessibilityLabel": "Horizontal scroll bar, 1 page",
+                                            "frame": {
+                                              "width": 340,
+                                              "y": 818,
+                                              "height": 3,
+                                              "x": 31
+                                            },
+                                            "hidden": false,
+                                            "children": [
+                                              {
+                                                "hidden": false,
+                                                "children": [],
+                                                "alpha": 1,
+                                                "name": "UIView",
+                                                "parentId": "0x100f1aec0",
+                                                "style": {
+                                                  "backgroundColor": "#00000059",
+                                                  "borderRadius": 1.5,
+                                                  "opacity": 1,
+                                                  "borderColor": "#000000FF",
+                                                  "borderWidth": 0,
+                                                  "zIndex": 0
+                                                },
+                                                "text": null,
+                                                "id": "0x100f1b090",
+                                                "isUserInteractionEnabled": true,
+                                                "visible": true,
+                                                "className": "UIView",
+                                                "frame": {
+                                                  "x": 31,
+                                                  "height": 3,
+                                                  "width": 340,
+                                                  "y": 818
+                                                }
+                                              }
+                                            ],
+                                            "name": "_UIScrollViewScrollIndicator",
+                                            "visible": false,
+                                            "id": "0x100f1aec0",
+                                            "parentId": "0x10181b200",
+                                            "text": "Horizontal scroll bar, 1 page",
+                                            "style": {
+                                              "borderWidth": 0,
+                                              "zIndex": 1000,
+                                              "opacity": 0,
+                                              "borderRadius": 0,
+                                              "borderColor": "#000000FF"
+                                            },
+                                            "alpha": 0
+                                          }
+                                        ],
+                                        "name": "UITextView",
+                                        "id": "0x10181b200",
+                                        "parentId": "0x100f13040",
+                                        "frame": {
+                                          "height": 562,
+                                          "width": 370,
+                                          "x": 16,
+                                          "y": 262
+                                        },
+                                        "style": {
+                                          "fontSize": 13,
+                                          "backgroundColor": "#FFFFFFFF",
+                                          "borderColor": "#000000FF",
+                                          "zIndex": 0,
+                                          "textAlign": "natural",
+                                          "sourceTypographyUnit": "pt",
+                                          "opacity": 1,
+                                          "borderWidth": 0,
+                                          "typographyUnit": "dp",
+                                          "borderRadius": 0,
+                                          "lineHeight": 15.513671875,
+                                          "platformFontScale": 1,
+                                          "textColor": "#000000FF"
+                                        },
+                                        "alpha": 1,
+                                        "visible": true,
+                                        "isUserInteractionEnabled": true
+                                      }
+                                    ],
+                                    "isUserInteractionEnabled": true,
+                                    "id": "0x100f13040",
+                                    "parentId": "0x102c35ef0",
+                                    "hidden": false,
+                                    "style": {
+                                      "borderWidth": 0,
+                                      "borderRadius": 0,
+                                      "opacity": 1,
+                                      "zIndex": 0,
+                                      "borderColor": "#000000FF"
+                                    },
+                                    "text": null,
+                                    "className": "UIStackView",
+                                    "alpha": 1,
+                                    "name": "UIStackView",
+                                    "frame": {
+                                      "y": 132,
+                                      "width": 370,
+                                      "x": 16,
+                                      "height": 692
+                                    },
+                                    "visible": true
+                                  }
+                                ],
+                                "frame": {
+                                  "width": 402,
+                                  "height": 874,
+                                  "y": 0,
+                                  "x": 0
+                                },
+                                "hidden": false,
+                                "name": "UIView",
+                                "visible": true,
+                                "text": null,
+                                "alpha": 1
+                              }
+                            ],
+                            "className": "UIViewControllerWrapperView",
+                            "isUserInteractionEnabled": true,
+                            "hidden": false,
+                            "frame": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 402,
+                              "height": 874
+                            },
+                            "style": {
+                              "zIndex": 0,
+                              "borderColor": "#000000FF",
+                              "borderWidth": 0,
+                              "borderRadius": 0,
+                              "opacity": 1
+                            },
+                            "id": "0x100d0e7c0",
+                            "alpha": 1,
+                            "text": null,
+                            "name": "UIViewControllerWrapperView",
+                            "visible": true,
+                            "parentId": "0x100d13fc0"
+                          }
+                        ],
+                        "id": "0x100d13fc0",
+                        "parentId": "0x10280b370",
+                        "hidden": false,
+                        "style": {
+                          "borderRadius": 0,
+                          "borderWidth": 0,
+                          "borderColor": "#000000FF",
+                          "opacity": 1,
+                          "zIndex": 0
+                        }
+                      },
+                      {
+                        "children": [
+                          {
+                            "className": "_UIBarBackground",
+                            "parentId": "0x10291d4e0",
+                            "isUserInteractionEnabled": false,
+                            "style": {
+                              "opacity": 1,
+                              "zIndex": 0,
+                              "borderColor": "#000000FF",
+                              "borderRadius": 0,
+                              "borderWidth": 0
+                            },
+                            "alpha": 1,
+                            "frame": {
+                              "width": 402,
+                              "x": 0,
+                              "y": 0,
+                              "height": 116
+                            },
+                            "name": "_UIBarBackground",
+                            "children": [],
+                            "text": null,
+                            "visible": true,
+                            "id": "0x10291d0b0",
+                            "hidden": false
+                          },
+                          {
+                            "parentId": "0x10291d4e0",
+                            "visible": true,
+                            "className": "NavigationBarContentView",
+                            "alpha": 1,
+                            "frame": {
+                              "x": 0,
+                              "y": 62,
+                              "width": 402,
+                              "height": 54
+                            },
+                            "name": "NavigationBarContentView",
+                            "style": {
+                              "borderColor": "#000000FF",
+                              "zIndex": 0,
+                              "opacity": 1,
+                              "borderWidth": 0,
+                              "borderRadius": 0
+                            },
+                            "children": [
+                              {
+                                "frame": {
+                                  "x": 0,
+                                  "y": 62,
+                                  "width": 402,
+                                  "height": 54
+                                },
+                                "className": "NavigationBarTransitionContainer",
+                                "style": {
+                                  "borderRadius": 0,
+                                  "opacity": 1,
+                                  "borderWidth": 0,
+                                  "borderColor": "#000000FF",
+                                  "zIndex": 0
+                                },
+                                "isUserInteractionEnabled": true,
+                                "id": "0x102909dc0",
+                                "text": null,
+                                "parentId": "0x10101c000",
+                                "visible": true,
+                                "children": [
+                                  {
+                                    "visible": true,
+                                    "isUserInteractionEnabled": true,
+                                    "frame": {
+                                      "x": 0,
+                                      "width": 402,
+                                      "height": 54,
+                                      "y": 62
+                                    },
+                                    "id": "0x10291d930",
+                                    "hidden": false,
+                                    "style": {
+                                      "zIndex": 0,
+                                      "borderColor": "#000000FF",
+                                      "borderRadius": 0,
+                                      "borderWidth": 0,
+                                      "opacity": 1
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "0x102810ee0",
+                                        "children": [
+                                          {
+                                            "parentId": "0x102810ee0",
+                                            "frame": {
+                                              "height": 20.66666666666667,
+                                              "width": 151.33333333333337,
+                                              "x": 125.33333333333331,
+                                              "y": 73.66666666666666
+                                            },
+                                            "className": "_UINavigationBarTitleControl",
+                                            "visible": true,
+                                            "style": {
+                                              "borderRadius": 0,
+                                              "borderWidth": 0,
+                                              "opacity": 1,
+                                              "zIndex": 0,
+                                              "borderColor": "#000000FF"
+                                            },
+                                            "hidden": false,
+                                            "name": "_UINavigationBarTitleControl",
+                                            "alpha": 1,
+                                            "isUserInteractionEnabled": true,
+                                            "children": [
+                                              {
+                                                "id": "0x102a14b30",
+                                                "isUserInteractionEnabled": true,
+                                                "style": {
+                                                  "zIndex": 0,
+                                                  "borderRadius": 0,
+                                                  "borderWidth": 0,
+                                                  "borderColor": "#000000FF",
+                                                  "opacity": 1
+                                                },
+                                                "text": null,
+                                                "parentId": "0x102c20fb0",
+                                                "frame": {
+                                                  "width": 151.33333333333331,
+                                                  "x": 125.33333333333331,
+                                                  "height": 20.66666666666667,
+                                                  "y": 73.66666666666666
+                                                },
+                                                "hidden": false,
+                                                "className": "_UIIntrinsicContentSizeInvalidationForwardingWrapperView",
+                                                "children": [
+                                                  {
+                                                    "id": "0x102c21550",
+                                                    "frame": {
+                                                      "y": 73.66666666666666,
+                                                      "height": 20.66666666666667,
+                                                      "width": 151,
+                                                      "x": 125.33333333333331
+                                                    },
+                                                    "accessibilityLabel": "Neptune iOS Demo",
+                                                    "alpha": 1,
+                                                    "className": "UILabel",
+                                                    "visible": true,
+                                                    "text": "Neptune iOS Demo",
+                                                    "hidden": false,
+                                                    "name": "UILabel",
+                                                    "parentId": "0x102a14b30",
+                                                    "children": [],
+                                                    "isUserInteractionEnabled": false,
+                                                    "style": {
+                                                      "textColor": "#000000FF",
+                                                      "lineHeight": 20.287109375,
+                                                      "borderColor": "#000000FF",
+                                                      "zIndex": 0,
+                                                      "typographyUnit": "dp",
+                                                      "opacity": 1,
+                                                      "platformFontScale": 1,
+                                                      "fontWeightRaw": "bold",
+                                                      "sourceTypographyUnit": "pt",
+                                                      "borderWidth": 0,
+                                                      "fontWeight": "bold",
+                                                      "fontSize": 17,
+                                                      "borderRadius": 0,
+                                                      "textAlign": "natural",
+                                                      "backgroundColor": "#00000000"
+                                                    }
+                                                  }
+                                                ],
+                                                "alpha": 1,
+                                                "visible": true,
+                                                "name": "_UIIntrinsicContentSizeInvalidationForwardingWrapperView"
+                                              }
+                                            ],
+                                            "text": null,
+                                            "id": "0x102c20fb0"
+                                          }
+                                        ],
+                                        "hidden": false,
+                                        "parentId": "0x10291d930",
+                                        "alpha": 1,
+                                        "style": {
+                                          "borderWidth": 0,
+                                          "zIndex": 0,
+                                          "borderRadius": 0,
+                                          "opacity": 1,
+                                          "borderColor": "#000000FF"
+                                        },
+                                        "text": null,
+                                        "visible": true,
+                                        "frame": {
+                                          "x": 125.33333333333331,
+                                          "width": 151.33333333333337,
+                                          "y": 73.66666666666666,
+                                          "height": 20.66666666666667
+                                        },
+                                        "isUserInteractionEnabled": true,
+                                        "name": "HostedViewWrapper",
+                                        "className": "HostedViewWrapper"
+                                      }
+                                    ],
+                                    "alpha": 1,
+                                    "text": null,
+                                    "className": "HostedViewContainer",
+                                    "name": "HostedViewContainer",
+                                    "parentId": "0x102909dc0"
+                                  },
+                                  {
+                                    "children": [],
+                                    "text": null,
+                                    "style": {
+                                      "zIndex": 0,
+                                      "borderRadius": 0,
+                                      "borderWidth": 0,
+                                      "borderColor": "#000000FF",
+                                      "opacity": 1
+                                    },
+                                    "hidden": false,
+                                    "parentId": "0x102909dc0",
+                                    "className": "UIView",
+                                    "isUserInteractionEnabled": false,
+                                    "frame": {
+                                      "height": 54,
+                                      "x": 0,
+                                      "width": 402,
+                                      "y": 62
+                                    },
+                                    "alpha": 1,
+                                    "visible": true,
+                                    "id": "0x10291d790",
+                                    "name": "UIView"
+                                  },
+                                  {
+                                    "hidden": false,
+                                    "style": {
+                                      "opacity": 1,
+                                      "zIndex": 0,
+                                      "borderWidth": 0,
+                                      "borderRadius": 0,
+                                      "borderColor": "#000000FF"
+                                    },
+                                    "id": "0x102c24ba0",
+                                    "text": null,
+                                    "parentId": "0x102909dc0",
+                                    "visible": true,
+                                    "className": "NavigationBarPlatterContainer",
+                                    "children": [],
+                                    "name": "NavigationBarPlatterContainer",
+                                    "isUserInteractionEnabled": true,
+                                    "alpha": 1,
+                                    "frame": {
+                                      "x": 0,
+                                      "width": 402,
+                                      "y": 62,
+                                      "height": 54
+                                    }
+                                  }
+                                ],
+                                "name": "NavigationBarTransitionContainer",
+                                "hidden": false,
+                                "alpha": 1
+                              }
+                            ],
+                            "hidden": false,
+                            "id": "0x10101c000",
+                            "text": null,
+                            "isUserInteractionEnabled": true
+                          },
+                          {
+                            "frame": {
+                              "height": 0,
+                              "y": 62,
+                              "x": 0,
+                              "width": 0
+                            },
+                            "className": "_UIPointerInteractionAssistantEffectContainerView",
+                            "style": {
+                              "borderColor": "#000000FF",
+                              "zIndex": 0,
+                              "borderRadius": 0,
+                              "borderWidth": 0,
+                              "opacity": 1
+                            },
+                            "isUserInteractionEnabled": false,
+                            "name": "_UIPointerInteractionAssistantEffectContainerView",
+                            "visible": false,
+                            "id": "0x100e23900",
+                            "hidden": false,
+                            "alpha": 1,
+                            "text": null,
+                            "parentId": "0x10291d4e0",
+                            "children": []
+                          }
+                        ],
+                        "text": null,
+                        "frame": {
+                          "x": 0,
+                          "y": 62,
+                          "height": 54,
+                          "width": 402
+                        },
+                        "isUserInteractionEnabled": true,
+                        "accessibilityIdentifier": "Neptune iOS Demo",
+                        "name": "UINavigationBar",
+                        "id": "0x10291d4e0",
+                        "visible": true,
+                        "alpha": 1,
+                        "hidden": false,
+                        "parentId": "0x10280b370",
+                        "className": "UINavigationBar",
+                        "style": {
+                          "opacity": 1,
+                          "borderRadius": 0,
+                          "zIndex": 0,
+                          "borderWidth": 0,
+                          "borderColor": "#000000FF"
+                        }
+                      },
+                      {
+                        "children": [
+                          {
+                            "visible": true,
+                            "style": {
+                              "zIndex": 0,
+                              "borderRadius": 0,
+                              "borderWidth": 0,
+                              "opacity": 1,
+                              "borderColor": "#000000FF"
+                            },
+                            "alpha": 1,
+                            "isUserInteractionEnabled": true,
+                            "text": null,
+                            "hidden": false,
+                            "className": "FloatingBarHostingView<FloatingBarContainer>",
+                            "children": [],
+                            "name": "FloatingBarHostingView<FloatingBarContainer>",
+                            "frame": {
+                              "height": 874,
+                              "x": 0,
+                              "y": 0,
+                              "width": 402
+                            },
+                            "id": "0x102a0b420",
+                            "parentId": "0x102c28da0"
+                          },
+                          {
+                            "alpha": 1,
+                            "style": {
+                              "borderWidth": 0,
+                              "zIndex": 0,
+                              "opacity": 1,
+                              "borderRadius": 0,
+                              "borderColor": "#000000FF"
+                            },
+                            "frame": {
+                              "y": 0,
+                              "height": 0,
+                              "width": 0,
+                              "x": 0
+                            },
+                            "text": null,
+                            "children": [],
+                            "visible": false,
+                            "parentId": "0x102c28da0",
+                            "hidden": false,
+                            "id": "0x102a3db60",
+                            "isUserInteractionEnabled": false,
+                            "className": "_UIPointerInteractionAssistantEffectContainerView",
+                            "name": "_UIPointerInteractionAssistantEffectContainerView"
+                          }
+                        ],
+                        "id": "0x102c28da0",
+                        "style": {
+                          "borderRadius": 0,
+                          "borderColor": "#000000FF",
+                          "zIndex": 0,
+                          "borderWidth": 0,
+                          "opacity": 1
+                        },
+                        "name": "FloatingBarContainerView",
+                        "parentId": "0x10280b370",
+                        "text": null,
+                        "visible": true,
+                        "frame": {
+                          "x": 0,
+                          "y": 0,
+                          "width": 402,
+                          "height": 874
+                        },
+                        "alpha": 1,
+                        "hidden": false,
+                        "isUserInteractionEnabled": true,
+                        "className": "FloatingBarContainerView"
+                      }
+                    ],
+                    "className": "UILayoutContainerView",
+                    "frame": {
+                      "width": 402,
+                      "x": 0,
+                      "y": 0,
+                      "height": 874
+                    },
+                    "parentId": "0x100e192e0",
+                    "text": null,
+                    "style": {
+                      "borderRadius": 0,
+                      "borderColor": "#000000FF",
+                      "opacity": 1,
+                      "zIndex": 0,
+                      "borderWidth": 0
+                    },
+                    "id": "0x10280b370",
+                    "alpha": 1,
+                    "hidden": false,
+                    "isUserInteractionEnabled": true,
+                    "visible": true,
+                    "name": "UILayoutContainerView"
+                  }
+                ],
+                "frame": {
+                  "height": 874,
+                  "x": 0,
+                  "y": 0,
+                  "width": 402
+                },
+                "visible": true,
+                "name": "UIDropShadowView",
+                "style": {
+                  "borderColor": "#000000FF",
+                  "zIndex": 0,
+                  "borderWidth": 0,
+                  "opacity": 1,
+                  "borderRadius": 0
+                },
+                "parentId": "0x102c05ea0",
+                "className": "UIDropShadowView",
+                "text": null,
+                "alpha": 1,
+                "id": "0x100e192e0",
+                "hidden": false
+              }
+            ],
+            "visible": true
+          }
+        ],
+        "className": "UIWindow",
+        "alpha": 1,
+        "hidden": false,
+        "parentId": null,
+        "text": null,
+        "isUserInteractionEnabled": true,
+        "visible": true,
+        "style": {
+          "opacity": 1,
+          "borderRadius": 0,
+          "borderWidth": 0,
+          "borderColor": "#000000FF",
+          "zIndex": 0
+        },
+        "frame": {
+          "height": 874,
+          "x": 0,
+          "y": 0,
+          "width": 402
+        },
+        "windowLevel": 0
+      }
+    ]
+  },
+  "capturedAt": "2026-03-27T05:20:50Z",
+  "snapshotId": "ios-inspector-1774588850139"
+}

@@ -14,6 +14,9 @@ Gateway ingests upstream logs and serves query/dispatch APIs, while log records 
 
 - `POST /v2/logs:ingest`
 - `GET /v2/logs`
+- `POST /v2/ui-tree/inspector`
+- `GET /v2/ui-tree/inspector`
+- `GET /v2/ui-tree/snapshot`
 - `GET /v2/metrics`
 - `GET /v2/sources`
 - `GET /v2/health`
@@ -69,6 +72,16 @@ Optional environment variables:
 
 - `NEPTUNE_HOST` default `127.0.0.1`
 - `NEPTUNE_PORT` default `18765`
+
+## UI Tree Mock 数据
+
+将 `neptune-inspector-h5` 里的真实 inspector 样本转换为网关模型 `ViewTreeRawIngestRequest`：
+
+```bash
+./scripts/sync-ui-tree-mocks.sh
+```
+
+输出目录：`mocks/ui-tree/`
 
 ## 构建/分发 CLI
 

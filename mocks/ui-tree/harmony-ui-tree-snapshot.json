@@ -1,0 +1,2685 @@
+{
+  "capturedAt" : "2026-03-27T01:14:40.650Z",
+  "platform" : "harmony",
+  "roots" : [
+    {
+      "children" : [
+        {
+          "children" : [
+            {
+              "children" : [
+                {
+                  "children" : [
+                    {
+                      "children" : [
+
+                      ],
+                      "frame" : {
+                        "height" : 70.28571428571429,
+                        "width" : 223.42857142857142,
+                        "x" : 76.85714285714286,
+                        "y" : 83.71428571428571
+                      },
+                      "id" : "8",
+                      "name" : "Text",
+                      "parentId" : "7",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontFamily" : "HarmonyOS Sans",
+                        "fontSize" : 30,
+                        "fontWeight" : "FontWeight.Bold",
+                        "fontWeightRaw" : "FontWeight.Bold",
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 1,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "textColor" : "#F2F7FFFF",
+                        "textContentAlign" : "TextContentAlign.TOP",
+                        "textOverflow" : "TextOverflow.Clip",
+                        "typographyUnit" : "dp",
+                        "wordBreak" : "break-word",
+                        "zIndex" : 0
+                      },
+                      "text" : "Neptune SDK Harmony Demo",
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+
+                      ],
+                      "frame" : {
+                        "height" : 40,
+                        "width" : 285.7142857142857,
+                        "x" : 45.714285714285715,
+                        "y" : 164
+                      },
+                      "id" : "9",
+                      "name" : "Text",
+                      "parentId" : "7",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontFamily" : "HarmonyOS Sans",
+                        "fontSize" : 14,
+                        "fontWeight" : "FontWeight.Normal",
+                        "fontWeightRaw" : "FontWeight.Normal",
+                        "letterSpacing" : 0,
+                        "lineHeight" : 20,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 1,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "textColor" : "#9FB2C7FF",
+                        "textContentAlign" : "TextContentAlign.TOP",
+                        "textOverflow" : "TextOverflow.Clip",
+                        "typographyUnit" : "dp",
+                        "wordBreak" : "break-word",
+                        "zIndex" : 0
+                      },
+                      "text" : "点击下方按钮，把日志写入 HAR Runtime，并在页面内同步观察 metrics 与 sources 摘要。",
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 31.142857142857142,
+                            "width" : 206.28571428571428,
+                            "x" : 42,
+                            "y" : 214
+                          },
+                          "id" : "11",
+                          "name" : "Text",
+                          "parentId" : "10",
+                          "style" : {
+                            "backgroundColor" : "#244A6ABF",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 999,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 13,
+                            "fontWeight" : "FontWeight.Normal",
+                            "fontWeightRaw" : "FontWeight.Normal",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 8,
+                            "paddingLeft" : 12,
+                            "paddingRight" : 12,
+                            "paddingTop" : 8,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#9FD6FFFF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "网关发现成功并已自动上报日志",
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 31.142857142857142,
+                            "width" : 76.85714285714286,
+                            "x" : 258.2857142857143,
+                            "y" : 214
+                          },
+                          "id" : "12",
+                          "name" : "Text",
+                          "parentId" : "10",
+                          "style" : {
+                            "backgroundColor" : "#FFFFFF14",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 999,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 13,
+                            "fontWeight" : "FontWeight.Normal",
+                            "fontWeightRaw" : "FontWeight.Normal",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 8,
+                            "paddingLeft" : 12,
+                            "paddingRight" : 12,
+                            "paddingTop" : 8,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#C7D4E6FF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "batch #1",
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 31.142857142857142,
+                        "width" : 293.14285714285717,
+                        "x" : 42,
+                        "y" : 214
+                      },
+                      "id" : "10",
+                      "name" : "Row",
+                      "parentId" : "7",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    }
+                  ],
+                  "frame" : {
+                    "height" : 203.14285714285714,
+                    "width" : 334.85714285714283,
+                    "x" : 21.142857142857142,
+                    "y" : 62.857142857142854
+                  },
+                  "id" : "7",
+                  "name" : "Column",
+                  "parentId" : "6",
+                  "style" : {
+                    "backgroundColor" : "#09121FEB",
+                    "borderColor" : "#688FB040",
+                    "borderRadius" : 24,
+                    "borderWidth" : 1,
+                    "fontSize" : 0,
+                    "letterSpacing" : 0,
+                    "lineHeight" : 0,
+                    "opacity" : 1,
+                    "paddingBottom" : 20,
+                    "paddingLeft" : 20,
+                    "paddingRight" : 20,
+                    "paddingTop" : 20,
+                    "platformFontScale" : 0,
+                    "sourceTypographyUnit" : "fp",
+                    "textAlign" : "TextAlign.Center",
+                    "typographyUnit" : "dp",
+                    "zIndex" : 0
+                  },
+                  "visible" : true
+                },
+                {
+                  "children" : [
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 21.142857142857142,
+                            "width" : 163.71428571428572,
+                            "x" : 68.85714285714286,
+                            "y" : 305.42857142857144
+                          },
+                          "id" : "15",
+                          "name" : "Text",
+                          "parentId" : "14",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 18,
+                            "fontWeight" : "FontWeight.Bold",
+                            "fontWeightRaw" : "FontWeight.Bold",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#F2F7FFFF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "Gateway Discovery",
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 26,
+                            "width" : 66,
+                            "x" : 242.57142857142858,
+                            "y" : 302.85714285714283
+                          },
+                          "id" : "16",
+                          "name" : "Text",
+                          "parentId" : "14",
+                          "style" : {
+                            "backgroundColor" : "#74D3F7FF",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 999,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 12,
+                            "fontWeight" : "FontWeight.Normal",
+                            "fontWeightRaw" : "FontWeight.Normal",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 6,
+                            "paddingLeft" : 12,
+                            "paddingRight" : 12,
+                            "paddingTop" : 6,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#04121CFF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "success",
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 26,
+                        "width" : 239.71428571428572,
+                        "x" : 68.85714285714286,
+                        "y" : 302.85714285714283
+                      },
+                      "id" : "14",
+                      "name" : "Row",
+                      "parentId" : "13",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+
+                      ],
+                      "frame" : {
+                        "height" : 80,
+                        "width" : 287.7142857142857,
+                        "x" : 44.857142857142854,
+                        "y" : 340.85714285714283
+                      },
+                      "id" : "17",
+                      "name" : "Text",
+                      "parentId" : "13",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontFamily" : "HarmonyOS Sans",
+                        "fontSize" : 13,
+                        "fontWeight" : "FontWeight.Normal",
+                        "fontWeightRaw" : "FontWeight.Normal",
+                        "letterSpacing" : 0,
+                        "lineHeight" : 20,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 1,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "textColor" : "#9FB2C7FF",
+                        "textContentAlign" : "TextContentAlign.TOP",
+                        "textOverflow" : "TextOverflow.Clip",
+                        "typographyUnit" : "dp",
+                        "wordBreak" : "break-word",
+                        "zIndex" : 0
+                      },
+                      "text" : "点击后先尝试 mDNS，再回退到手动 DSN 10.0.2.2:18765，并请求 \/v2\/gateway\/discovery。发现成功后会自动 POST \/v2\/logs:ingest 一条日志。",
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+
+                      ],
+                      "frame" : {
+                        "height" : 54,
+                        "width" : 295.42857142857144,
+                        "x" : 40.857142857142854,
+                        "y" : 432.85714285714283
+                      },
+                      "id" : "18",
+                      "name" : "Button",
+                      "parentId" : "13",
+                      "style" : {
+                        "backgroundColor" : "#74D3F7FF",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontFamily" : "HarmonyOS Sans",
+                        "fontSize" : 16,
+                        "fontWeight" : "FontWeight.Bold",
+                        "fontWeightRaw" : "FontWeight.Bold",
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 16,
+                        "paddingRight" : 16,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 1,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "textColor" : "#04121CFF",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "text" : "发现并上报",
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 18.857142857142858,
+                            "width" : 150,
+                            "x" : 113.71428571428571,
+                            "y" : 514.8571428571429
+                          },
+                          "id" : "21",
+                          "name" : "Text",
+                          "parentId" : "20",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 16,
+                            "fontWeight" : "FontWeight.Medium",
+                            "fontWeightRaw" : "FontWeight.Medium",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#F2F7FFFF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "发现成功 · 手动 DSN",
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 56.57142857142857,
+                            "width" : 211.42857142857142,
+                            "x" : 82.85714285714286,
+                            "y" : 537.7142857142857
+                          },
+                          "id" : "22",
+                          "name" : "Text",
+                          "parentId" : "20",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 13,
+                            "fontWeight" : "FontWeight.Normal",
+                            "fontWeightRaw" : "FontWeight.Normal",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 19,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#A8BFD8FF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "source=manual-dsn host=127.0.0.1 port=18765 version=2.0.0-alpha.1 endpoint=http:\/\/127.0.0.1:18765",
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 14,
+                            "width" : 150.85714285714286,
+                            "x" : 113.14285714285714,
+                            "y" : 598.2857142857143
+                          },
+                          "id" : "23",
+                          "name" : "Text",
+                          "parentId" : "20",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 12,
+                            "fontWeight" : "FontWeight.Normal",
+                            "fontWeightRaw" : "FontWeight.Normal",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#74D3F7FF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "2026-03-27T01:13:56.818Z",
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 129.42857142857142,
+                        "width" : 243.42857142857142,
+                        "x" : 66.85714285714286,
+                        "y" : 498.85714285714283
+                      },
+                      "id" : "20",
+                      "name" : "Column",
+                      "parentId" : "13",
+                      "style" : {
+                        "backgroundColor" : "#0F1B2AF5",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 18,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 16,
+                        "paddingLeft" : 16,
+                        "paddingRight" : 16,
+                        "paddingTop" : 16,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 18.857142857142858,
+                                "width" : 96.85714285714286,
+                                "x" : 98,
+                                "y" : 660
+                              },
+                              "id" : "26",
+                              "name" : "Text",
+                              "parentId" : "25",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 16,
+                                "fontWeight" : "FontWeight.Medium",
+                                "fontWeightRaw" : "FontWeight.Medium",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "Ingest Result",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 26,
+                                "width" : 74.57142857142857,
+                                "x" : 204.85714285714286,
+                                "y" : 656.2857142857143
+                              },
+                              "id" : "27",
+                              "name" : "Text",
+                              "parentId" : "25",
+                              "style" : {
+                                "backgroundColor" : "#F7C873FF",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 999,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 6,
+                                "paddingLeft" : 12,
+                                "paddingRight" : 12,
+                                "paddingTop" : 6,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#04121CFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "ingest ok",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 26,
+                            "width" : 181.42857142857142,
+                            "x" : 98,
+                            "y" : 656.2857142857143
+                          },
+                          "id" : "25",
+                          "name" : "Row",
+                          "parentId" : "24",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 16.285714285714285,
+                            "width" : 84.28571428571429,
+                            "x" : 146.57142857142858,
+                            "y" : 692.2857142857143
+                          },
+                          "id" : "28",
+                          "name" : "Text",
+                          "parentId" : "24",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 14,
+                            "fontWeight" : "FontWeight.Medium",
+                            "fontWeightRaw" : "FontWeight.Medium",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#F2F7FFFF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "日志上报成功",
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 18.857142857142858,
+                            "width" : 263.14285714285717,
+                            "x" : 57.142857142857146,
+                            "y" : 718.5714285714286
+                          },
+                          "id" : "29",
+                          "name" : "Text",
+                          "parentId" : "24",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 13,
+                            "fontWeight" : "FontWeight.Normal",
+                            "fontWeightRaw" : "FontWeight.Normal",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 19,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#A8BFD8FF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "POST \/v2\/logs:ingest -> 202 · {\"accepted\":1}",
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "frame" : {
+                            "height" : 14,
+                            "width" : 150.85714285714286,
+                            "x" : 113.42857142857143,
+                            "y" : 747.4285714285714
+                          },
+                          "id" : "30",
+                          "name" : "Text",
+                          "parentId" : "24",
+                          "style" : {
+                            "backgroundColor" : "#00000000",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 0,
+                            "borderWidth" : 0,
+                            "fontFamily" : "HarmonyOS Sans",
+                            "fontSize" : 12,
+                            "fontWeight" : "FontWeight.Normal",
+                            "fontWeightRaw" : "FontWeight.Normal",
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 0,
+                            "paddingLeft" : 0,
+                            "paddingRight" : 0,
+                            "paddingTop" : 0,
+                            "platformFontScale" : 1,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "textColor" : "#F7C873FF",
+                            "textContentAlign" : "TextContentAlign.TOP",
+                            "textOverflow" : "TextOverflow.Clip",
+                            "typographyUnit" : "dp",
+                            "wordBreak" : "break-word",
+                            "zIndex" : 0
+                          },
+                          "text" : "2026-03-27T01:13:56.829Z",
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 137.14285714285714,
+                        "width" : 295.14285714285717,
+                        "x" : 41.142857142857146,
+                        "y" : 640.2857142857143
+                      },
+                      "id" : "24",
+                      "name" : "Column",
+                      "parentId" : "13",
+                      "style" : {
+                        "backgroundColor" : "#0F1B2AF5",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 18,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 16,
+                        "paddingLeft" : 16,
+                        "paddingRight" : 16,
+                        "paddingTop" : 16,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    }
+                  ],
+                  "frame" : {
+                    "height" : 516.2857142857143,
+                    "width" : 337.14285714285717,
+                    "x" : 20,
+                    "y" : 282
+                  },
+                  "id" : "13",
+                  "name" : "Column",
+                  "parentId" : "6",
+                  "style" : {
+                    "backgroundColor" : "#09121FEB",
+                    "borderColor" : "#688FB040",
+                    "borderRadius" : 24,
+                    "borderWidth" : 1,
+                    "fontSize" : 0,
+                    "letterSpacing" : 0,
+                    "lineHeight" : 0,
+                    "opacity" : 1,
+                    "paddingBottom" : 20,
+                    "paddingLeft" : 20,
+                    "paddingRight" : 20,
+                    "paddingTop" : 20,
+                    "platformFontScale" : 0,
+                    "sourceTypographyUnit" : "fp",
+                    "textAlign" : "TextAlign.Center",
+                    "typographyUnit" : "dp",
+                    "zIndex" : 0
+                  },
+                  "visible" : true
+                },
+                {
+                  "children" : [
+
+                  ],
+                  "frame" : {
+                    "height" : 54,
+                    "width" : 337.14285714285717,
+                    "x" : 20,
+                    "y" : 814.2857142857143
+                  },
+                  "id" : "31",
+                  "name" : "Button",
+                  "parentId" : "6",
+                  "style" : {
+                    "backgroundColor" : "#24C6DCFF",
+                    "borderColor" : "#000000FF",
+                    "borderRadius" : 0,
+                    "borderWidth" : 0,
+                    "fontFamily" : "HarmonyOS Sans",
+                    "fontSize" : 16,
+                    "fontWeight" : "FontWeight.Bold",
+                    "fontWeightRaw" : "FontWeight.Bold",
+                    "letterSpacing" : 0,
+                    "lineHeight" : 0,
+                    "opacity" : 1,
+                    "paddingBottom" : 0,
+                    "paddingLeft" : 16,
+                    "paddingRight" : 16,
+                    "paddingTop" : 0,
+                    "platformFontScale" : 1,
+                    "sourceTypographyUnit" : "fp",
+                    "textAlign" : "TextAlign.Center",
+                    "textColor" : "#04121CFF",
+                    "typographyUnit" : "dp",
+                    "zIndex" : 0
+                  },
+                  "text" : "写入日志批次",
+                  "visible" : true
+                },
+                {
+                  "children" : [
+
+                  ],
+                  "frame" : {
+                    "height" : 54,
+                    "width" : 337.14285714285717,
+                    "x" : 20,
+                    "y" : 884.2857142857143
+                  },
+                  "id" : "33",
+                  "name" : "Button",
+                  "parentId" : "6",
+                  "style" : {
+                    "backgroundColor" : "#74D3F7FF",
+                    "borderColor" : "#000000FF",
+                    "borderRadius" : 0,
+                    "borderWidth" : 0,
+                    "fontFamily" : "HarmonyOS Sans",
+                    "fontSize" : 16,
+                    "fontWeight" : "FontWeight.Bold",
+                    "fontWeightRaw" : "FontWeight.Bold",
+                    "letterSpacing" : 0,
+                    "lineHeight" : 0,
+                    "opacity" : 1,
+                    "paddingBottom" : 0,
+                    "paddingLeft" : 16,
+                    "paddingRight" : 16,
+                    "paddingTop" : 0,
+                    "platformFontScale" : 1,
+                    "sourceTypographyUnit" : "fp",
+                    "textAlign" : "TextAlign.Center",
+                    "textColor" : "#04121CFF",
+                    "typographyUnit" : "dp",
+                    "zIndex" : 0
+                  },
+                  "text" : "刷新快照",
+                  "visible" : true
+                },
+                {
+                  "children" : [
+                    {
+                      "children" : [
+
+                      ],
+                      "frame" : {
+                        "height" : 21.142857142857142,
+                        "width" : 63.42857142857143,
+                        "x" : 156.85714285714286,
+                        "y" : 975.1428571428571
+                      },
+                      "id" : "36",
+                      "name" : "Text",
+                      "parentId" : "35",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontFamily" : "HarmonyOS Sans",
+                        "fontSize" : 18,
+                        "fontWeight" : "FontWeight.Bold",
+                        "fontWeightRaw" : "FontWeight.Bold",
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 1,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "textColor" : "#F2F7FFFF",
+                        "textContentAlign" : "TextContentAlign.TOP",
+                        "textOverflow" : "TextOverflow.Clip",
+                        "typographyUnit" : "dp",
+                        "wordBreak" : "break-word",
+                        "zIndex" : 0
+                      },
+                      "text" : "Metrics",
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 32.857142857142854,
+                                "width" : 16.857142857142858,
+                                "x" : 103.42857142857143,
+                                "y" : 1024.2857142857142
+                              },
+                              "id" : "39",
+                              "name" : "Text",
+                              "parentId" : "38",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 28,
+                                "fontWeight" : "FontWeight.Bold",
+                                "fontWeightRaw" : "FontWeight.Bold",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "3",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 14,
+                                "width" : 56.285714285714285,
+                                "x" : 83.71428571428571,
+                                "y" : 1063.142857142857
+                              },
+                              "id" : "40",
+                              "name" : "Text",
+                              "parentId" : "38",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#9FB2C7FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "queueSize",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 84.85714285714286,
+                            "width" : 141.71428571428572,
+                            "x" : 40.857142857142854,
+                            "y" : 1008.2857142857143
+                          },
+                          "id" : "38",
+                          "name" : "Column",
+                          "parentId" : "37",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 18,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 16,
+                            "paddingLeft" : 16,
+                            "paddingRight" : 16,
+                            "paddingTop" : 16,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 32.857142857142854,
+                                "width" : 16.857142857142858,
+                                "x" : 257.14285714285717,
+                                "y" : 1024.2857142857142
+                              },
+                              "id" : "42",
+                              "name" : "Text",
+                              "parentId" : "41",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 28,
+                                "fontWeight" : "FontWeight.Bold",
+                                "fontWeightRaw" : "FontWeight.Bold",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "3",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 14,
+                                "width" : 73.14285714285714,
+                                "x" : 228.85714285714286,
+                                "y" : 1063.142857142857
+                              },
+                              "id" : "43",
+                              "name" : "Text",
+                              "parentId" : "41",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#9FB2C7FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "totalIngested",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 84.85714285714286,
+                            "width" : 141.71428571428572,
+                            "x" : 194.57142857142858,
+                            "y" : 1008.2857142857143
+                          },
+                          "id" : "41",
+                          "name" : "Column",
+                          "parentId" : "37",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 18,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 16,
+                            "paddingLeft" : 16,
+                            "paddingRight" : 16,
+                            "paddingTop" : 16,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 84.85714285714286,
+                        "width" : 295.42857142857144,
+                        "x" : 40.857142857142854,
+                        "y" : 1008.2857142857143
+                      },
+                      "id" : "37",
+                      "name" : "Row",
+                      "parentId" : "35",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 28,
+                                "width" : 14.571428571428571,
+                                "x" : 104.57142857142857,
+                                "y" : 1121.142857142857
+                              },
+                              "id" : "46",
+                              "name" : "Text",
+                              "parentId" : "45",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 24,
+                                "fontWeight" : "FontWeight.Bold",
+                                "fontWeightRaw" : "FontWeight.Bold",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "0",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 14,
+                                "width" : 96.28571428571429,
+                                "x" : 63.714285714285715,
+                                "y" : 1155.142857142857
+                              },
+                              "id" : "47",
+                              "name" : "Text",
+                              "parentId" : "45",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#9FB2C7FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "droppedOverflow",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 80,
+                            "width" : 141.71428571428572,
+                            "x" : 40.857142857142854,
+                            "y" : 1105.142857142857
+                          },
+                          "id" : "45",
+                          "name" : "Column",
+                          "parentId" : "44",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 18,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 16,
+                            "paddingLeft" : 16,
+                            "paddingRight" : 16,
+                            "paddingTop" : 16,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 28,
+                                "width" : 14.571428571428571,
+                                "x" : 258.2857142857143,
+                                "y" : 1121.142857142857
+                              },
+                              "id" : "49",
+                              "name" : "Text",
+                              "parentId" : "48",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 24,
+                                "fontWeight" : "FontWeight.Bold",
+                                "fontWeightRaw" : "FontWeight.Bold",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "0",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 14,
+                                "width" : 75.42857142857143,
+                                "x" : 227.71428571428572,
+                                "y" : 1155.142857142857
+                              },
+                              "id" : "50",
+                              "name" : "Text",
+                              "parentId" : "48",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#9FB2C7FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "totalExported",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 80,
+                            "width" : 141.71428571428572,
+                            "x" : 194.57142857142858,
+                            "y" : 1105.142857142857
+                          },
+                          "id" : "48",
+                          "name" : "Column",
+                          "parentId" : "44",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 18,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 16,
+                            "paddingLeft" : 16,
+                            "paddingRight" : 16,
+                            "paddingTop" : 16,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 80,
+                        "width" : 295.42857142857144,
+                        "x" : 40.857142857142854,
+                        "y" : 1105.142857142857
+                      },
+                      "id" : "44",
+                      "name" : "Row",
+                      "parentId" : "35",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    }
+                  ],
+                  "frame" : {
+                    "height" : 251.71428571428572,
+                    "width" : 337.14285714285717,
+                    "x" : 20,
+                    "y" : 954.2857142857143
+                  },
+                  "id" : "35",
+                  "name" : "Column",
+                  "parentId" : "6",
+                  "style" : {
+                    "backgroundColor" : "#09121FEB",
+                    "borderColor" : "#688FB040",
+                    "borderRadius" : 24,
+                    "borderWidth" : 1,
+                    "fontSize" : 0,
+                    "letterSpacing" : 0,
+                    "lineHeight" : 0,
+                    "opacity" : 1,
+                    "paddingBottom" : 20,
+                    "paddingLeft" : 20,
+                    "paddingRight" : 20,
+                    "paddingTop" : 20,
+                    "platformFontScale" : 0,
+                    "sourceTypographyUnit" : "fp",
+                    "textAlign" : "TextAlign.Center",
+                    "typographyUnit" : "dp",
+                    "zIndex" : 0
+                  },
+                  "visible" : true
+                },
+                {
+                  "children" : [
+                    {
+                      "children" : [
+
+                      ],
+                      "frame" : {
+                        "height" : 21.142857142857142,
+                        "width" : 96.85714285714286,
+                        "x" : 140.28571428571428,
+                        "y" : 1242.857142857143
+                      },
+                      "id" : "52",
+                      "name" : "Text",
+                      "parentId" : "51",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontFamily" : "HarmonyOS Sans",
+                        "fontSize" : 18,
+                        "fontWeight" : "FontWeight.Bold",
+                        "fontWeightRaw" : "FontWeight.Bold",
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 1,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "textColor" : "#F2F7FFFF",
+                        "textContentAlign" : "TextContentAlign.TOP",
+                        "textOverflow" : "TextOverflow.Clip",
+                        "typographyUnit" : "dp",
+                        "wordBreak" : "break-word",
+                        "zIndex" : 0
+                      },
+                      "text" : "Sources · 2",
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 17.714285714285715,
+                                "width" : 252.85714285714286,
+                                "x" : 62.285714285714285,
+                                "y" : 1290
+                              },
+                              "id" : "58",
+                              "name" : "Text",
+                              "parentId" : "57",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 15,
+                                "fontWeight" : "FontWeight.Medium",
+                                "fontWeightRaw" : "FontWeight.Medium",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "neptune-sdk-harmony-demo@0.1.0",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 36,
+                                "width" : 266,
+                                "x" : 55.714285714285715,
+                                "y" : 1313.7142857142858
+                              },
+                              "id" : "59",
+                              "name" : "Text",
+                              "parentId" : "57",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 18,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#A8BFD8FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "harmony · io.github.neptune.sdk.harmony.demo · sim-session-alpha",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 28,
+                                "width" : 198.28571428571428,
+                                "x" : 89.71428571428571,
+                                "y" : 1355.7142857142858
+                              },
+                              "id" : "60",
+                              "name" : "Text",
+                              "parentId" : "57",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#74D3F7FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "device sim-device-alpha · last seen 2026-03-27T01:13:54.800Z",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 121.71428571428571,
+                            "width" : 294,
+                            "x" : 41.714285714285715,
+                            "y" : 1276
+                          },
+                          "id" : "57",
+                          "name" : "Column",
+                          "parentId" : "54",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 16,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 14,
+                            "paddingLeft" : 14,
+                            "paddingRight" : 14,
+                            "paddingTop" : 14,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 17.714285714285715,
+                                "width" : 252.85714285714286,
+                                "x" : 62.285714285714285,
+                                "y" : 1421.7142857142858
+                              },
+                              "id" : "63",
+                              "name" : "Text",
+                              "parentId" : "62",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 15,
+                                "fontWeight" : "FontWeight.Medium",
+                                "fontWeightRaw" : "FontWeight.Medium",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "neptune-sdk-harmony-demo@0.1.0",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 36,
+                                "width" : 266,
+                                "x" : 55.714285714285715,
+                                "y" : 1445.4285714285713
+                              },
+                              "id" : "64",
+                              "name" : "Text",
+                              "parentId" : "62",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 18,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#A8BFD8FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "harmony · io.github.neptune.sdk.harmony.demo · sim-session-beta",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 28,
+                                "width" : 193.14285714285714,
+                                "x" : 92.28571428571429,
+                                "y" : 1487.4285714285713
+                              },
+                              "id" : "65",
+                              "name" : "Text",
+                              "parentId" : "62",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#74D3F7FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "device sim-device-beta · last seen 2026-03-27T01:13:54.800Z",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 121.71428571428571,
+                            "width" : 294,
+                            "x" : 41.714285714285715,
+                            "y" : 1407.7142857142858
+                          },
+                          "id" : "62",
+                          "name" : "Column",
+                          "parentId" : "54",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 16,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 14,
+                            "paddingLeft" : 14,
+                            "paddingRight" : 14,
+                            "paddingTop" : 14,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 253.42857142857142,
+                        "width" : 294,
+                        "x" : 41.714285714285715,
+                        "y" : 1276
+                      },
+                      "id" : "54",
+                      "name" : "Column",
+                      "parentId" : "51",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    }
+                  ],
+                  "frame" : {
+                    "height" : 328.2857142857143,
+                    "width" : 335.7142857142857,
+                    "x" : 20.857142857142858,
+                    "y" : 1222
+                  },
+                  "id" : "51",
+                  "name" : "Column",
+                  "parentId" : "6",
+                  "style" : {
+                    "backgroundColor" : "#09121FEB",
+                    "borderColor" : "#688FB040",
+                    "borderRadius" : 24,
+                    "borderWidth" : 1,
+                    "fontSize" : 0,
+                    "letterSpacing" : 0,
+                    "lineHeight" : 0,
+                    "opacity" : 1,
+                    "paddingBottom" : 20,
+                    "paddingLeft" : 20,
+                    "paddingRight" : 20,
+                    "paddingTop" : 20,
+                    "platformFontScale" : 0,
+                    "sourceTypographyUnit" : "fp",
+                    "textAlign" : "TextAlign.Center",
+                    "typographyUnit" : "dp",
+                    "zIndex" : 0
+                  },
+                  "visible" : true
+                },
+                {
+                  "children" : [
+                    {
+                      "children" : [
+
+                      ],
+                      "frame" : {
+                        "height" : 21.142857142857142,
+                        "width" : 99.71428571428571,
+                        "x" : 138.85714285714286,
+                        "y" : 1587.142857142857
+                      },
+                      "id" : "67",
+                      "name" : "Text",
+                      "parentId" : "66",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontFamily" : "HarmonyOS Sans",
+                        "fontSize" : 18,
+                        "fontWeight" : "FontWeight.Bold",
+                        "fontWeightRaw" : "FontWeight.Bold",
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 1,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "textColor" : "#F2F7FFFF",
+                        "textContentAlign" : "TextContentAlign.TOP",
+                        "textOverflow" : "TextOverflow.Clip",
+                        "typographyUnit" : "dp",
+                        "wordBreak" : "break-word",
+                        "zIndex" : 0
+                      },
+                      "text" : "Recent logs",
+                      "visible" : true
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 32.57142857142857,
+                                "width" : 262.85714285714283,
+                                "x" : 57.42857142857143,
+                                "y" : 1634.2857142857142
+                              },
+                              "id" : "73",
+                              "name" : "Text",
+                              "parentId" : "72",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 14,
+                                "fontWeight" : "FontWeight.Medium",
+                                "fontWeightRaw" : "FontWeight.Medium",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "INFO · Batch 01 #1 · entry 页面按钮触发了 Neptune SDK 写入",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 36,
+                                "width" : 266,
+                                "x" : 55.714285714285715,
+                                "y" : 1670.857142857143
+                              },
+                              "id" : "74",
+                              "name" : "Text",
+                              "parentId" : "72",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 18,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#A8BFD8FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "harmony · io.github.neptune.sdk.harmony.demo · sim-session-alpha · ui",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 14,
+                                "width" : 150.85714285714286,
+                                "x" : 113.42857142857143,
+                                "y" : 1710.857142857143
+                              },
+                              "id" : "75",
+                              "name" : "Text",
+                              "parentId" : "72",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F6C06BFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "2026-03-27T01:13:54.800Z",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 118.57142857142857,
+                            "width" : 294,
+                            "x" : 41.714285714285715,
+                            "y" : 1620.2857142857142
+                          },
+                          "id" : "72",
+                          "name" : "Column",
+                          "parentId" : "69",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 16,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 14,
+                            "paddingLeft" : 14,
+                            "paddingRight" : 14,
+                            "paddingTop" : 14,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 32.57142857142857,
+                                "width" : 265.42857142857144,
+                                "x" : 56,
+                                "y" : 1762.857142857143
+                              },
+                              "id" : "78",
+                              "name" : "Text",
+                              "parentId" : "77",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 14,
+                                "fontWeight" : "FontWeight.Medium",
+                                "fontWeightRaw" : "FontWeight.Medium",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "NOTICE · Batch 01 #2 · metrics 摘要已刷新并保持在页面内",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 36,
+                                "width" : 266,
+                                "x" : 55.714285714285715,
+                                "y" : 1799.4285714285713
+                              },
+                              "id" : "79",
+                              "name" : "Text",
+                              "parentId" : "77",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 18,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#A8BFD8FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "harmony · io.github.neptune.sdk.harmony.demo · sim-session-beta · metrics",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 14,
+                                "width" : 150.85714285714286,
+                                "x" : 113.42857142857143,
+                                "y" : 1839.4285714285713
+                              },
+                              "id" : "80",
+                              "name" : "Text",
+                              "parentId" : "77",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F6C06BFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "2026-03-27T01:13:54.800Z",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 118.57142857142857,
+                            "width" : 294,
+                            "x" : 41.714285714285715,
+                            "y" : 1748.857142857143
+                          },
+                          "id" : "77",
+                          "name" : "Column",
+                          "parentId" : "69",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 16,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 14,
+                            "paddingLeft" : 14,
+                            "paddingRight" : 14,
+                            "paddingTop" : 14,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        },
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 32.57142857142857,
+                                "width" : 264.85714285714283,
+                                "x" : 56.285714285714285,
+                                "y" : 1891.4285714285713
+                              },
+                              "id" : "83",
+                              "name" : "Text",
+                              "parentId" : "82",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 14,
+                                "fontWeight" : "FontWeight.Medium",
+                                "fontWeightRaw" : "FontWeight.Medium",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F2F7FFFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "DEBUG · Batch 01 #3 · sources 摘要从同一 HAR 实例重建",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 36,
+                                "width" : 266,
+                                "x" : 55.714285714285715,
+                                "y" : 1928
+                              },
+                              "id" : "84",
+                              "name" : "Text",
+                              "parentId" : "82",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 18,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#A8BFD8FF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "harmony · io.github.neptune.sdk.harmony.demo · sim-session-alpha · sources",
+                              "visible" : true
+                            },
+                            {
+                              "children" : [
+
+                              ],
+                              "frame" : {
+                                "height" : 14,
+                                "width" : 150.85714285714286,
+                                "x" : 113.42857142857143,
+                                "y" : 1968
+                              },
+                              "id" : "85",
+                              "name" : "Text",
+                              "parentId" : "82",
+                              "style" : {
+                                "backgroundColor" : "#00000000",
+                                "borderColor" : "#000000FF",
+                                "borderRadius" : 0,
+                                "borderWidth" : 0,
+                                "fontFamily" : "HarmonyOS Sans",
+                                "fontSize" : 12,
+                                "fontWeight" : "FontWeight.Normal",
+                                "fontWeightRaw" : "FontWeight.Normal",
+                                "letterSpacing" : 0,
+                                "lineHeight" : 0,
+                                "opacity" : 1,
+                                "paddingBottom" : 0,
+                                "paddingLeft" : 0,
+                                "paddingRight" : 0,
+                                "paddingTop" : 0,
+                                "platformFontScale" : 1,
+                                "sourceTypographyUnit" : "fp",
+                                "textAlign" : "TextAlign.Center",
+                                "textColor" : "#F6C06BFF",
+                                "textContentAlign" : "TextContentAlign.TOP",
+                                "textOverflow" : "TextOverflow.Clip",
+                                "typographyUnit" : "dp",
+                                "wordBreak" : "break-word",
+                                "zIndex" : 0
+                              },
+                              "text" : "2026-03-27T01:13:54.800Z",
+                              "visible" : true
+                            }
+                          ],
+                          "frame" : {
+                            "height" : 118.57142857142857,
+                            "width" : 294,
+                            "x" : 41.714285714285715,
+                            "y" : 1877.4285714285713
+                          },
+                          "id" : "82",
+                          "name" : "Column",
+                          "parentId" : "69",
+                          "style" : {
+                            "backgroundColor" : "#0F1B2AF5",
+                            "borderColor" : "#000000FF",
+                            "borderRadius" : 16,
+                            "borderWidth" : 0,
+                            "fontSize" : 0,
+                            "letterSpacing" : 0,
+                            "lineHeight" : 0,
+                            "opacity" : 1,
+                            "paddingBottom" : 14,
+                            "paddingLeft" : 14,
+                            "paddingRight" : 14,
+                            "paddingTop" : 14,
+                            "platformFontScale" : 0,
+                            "sourceTypographyUnit" : "fp",
+                            "textAlign" : "TextAlign.Center",
+                            "typographyUnit" : "dp",
+                            "zIndex" : 0
+                          },
+                          "visible" : true
+                        }
+                      ],
+                      "frame" : {
+                        "height" : 375.7142857142857,
+                        "width" : 294,
+                        "x" : 41.714285714285715,
+                        "y" : 1620.2857142857142
+                      },
+                      "id" : "69",
+                      "name" : "Column",
+                      "parentId" : "66",
+                      "style" : {
+                        "backgroundColor" : "#00000000",
+                        "borderColor" : "#000000FF",
+                        "borderRadius" : 0,
+                        "borderWidth" : 0,
+                        "fontSize" : 0,
+                        "letterSpacing" : 0,
+                        "lineHeight" : 0,
+                        "opacity" : 1,
+                        "paddingBottom" : 0,
+                        "paddingLeft" : 0,
+                        "paddingRight" : 0,
+                        "paddingTop" : 0,
+                        "platformFontScale" : 0,
+                        "sourceTypographyUnit" : "fp",
+                        "textAlign" : "TextAlign.Center",
+                        "typographyUnit" : "dp",
+                        "zIndex" : 0
+                      },
+                      "visible" : true
+                    }
+                  ],
+                  "frame" : {
+                    "height" : 450.57142857142856,
+                    "width" : 335.7142857142857,
+                    "x" : 20.857142857142858,
+                    "y" : 1566.2857142857142
+                  },
+                  "id" : "66",
+                  "name" : "Column",
+                  "parentId" : "6",
+                  "style" : {
+                    "backgroundColor" : "#09121FEB",
+                    "borderColor" : "#688FB040",
+                    "borderRadius" : 24,
+                    "borderWidth" : 1,
+                    "fontSize" : 0,
+                    "letterSpacing" : 0,
+                    "lineHeight" : 0,
+                    "opacity" : 1,
+                    "paddingBottom" : 20,
+                    "paddingLeft" : 20,
+                    "paddingRight" : 20,
+                    "paddingTop" : 20,
+                    "platformFontScale" : 0,
+                    "sourceTypographyUnit" : "fp",
+                    "textAlign" : "TextAlign.Center",
+                    "typographyUnit" : "dp",
+                    "zIndex" : 0
+                  },
+                  "visible" : true
+                }
+              ],
+              "frame" : {
+                "height" : 2006,
+                "width" : 377.14285714285717,
+                "x" : 0,
+                "y" : 38.857142857142854
+              },
+              "id" : "6",
+              "name" : "Column",
+              "parentId" : "5",
+              "style" : {
+                "backgroundColor" : "#00000000",
+                "borderColor" : "#000000FF",
+                "borderRadius" : 0,
+                "borderWidth" : 0,
+                "fontSize" : 0,
+                "letterSpacing" : 0,
+                "lineHeight" : 0,
+                "opacity" : 1,
+                "paddingBottom" : 28,
+                "paddingLeft" : 20,
+                "paddingRight" : 20,
+                "paddingTop" : 24,
+                "platformFontScale" : 0,
+                "sourceTypographyUnit" : "fp",
+                "textAlign" : "TextAlign.Center",
+                "typographyUnit" : "dp",
+                "zIndex" : 0
+              },
+              "visible" : true
+            }
+          ],
+          "frame" : {
+            "height" : 749.1428571428571,
+            "width" : 377.14285714285717,
+            "x" : 0,
+            "y" : 38.857142857142854
+          },
+          "id" : "5",
+          "name" : "Scroll",
+          "parentId" : "3",
+          "style" : {
+            "backgroundColor" : "#06101AFF",
+            "borderColor" : "#000000FF",
+            "borderRadius" : 0,
+            "borderWidth" : 0,
+            "fontSize" : 0,
+            "letterSpacing" : 0,
+            "lineHeight" : 0,
+            "opacity" : 1,
+            "paddingBottom" : 0,
+            "paddingLeft" : 0,
+            "paddingRight" : 0,
+            "paddingTop" : 0,
+            "platformFontScale" : 0,
+            "sourceTypographyUnit" : "fp",
+            "textAlign" : "TextAlign.Center",
+            "typographyUnit" : "dp",
+            "zIndex" : 0
+          },
+          "visible" : true
+        }
+      ],
+      "frame" : {
+        "height" : 749.1428571428571,
+        "width" : 377.14285714285717,
+        "x" : 0,
+        "y" : 38.857142857142854
+      },
+      "id" : "3",
+      "name" : "JsView",
+      "parentId" : null,
+      "visible" : true
+    }
+  ],
+  "snapshotId" : "snapshot-harmony-sim-device-alpha-1774613088604"
+}

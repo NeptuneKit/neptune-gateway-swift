@@ -1,5 +1,6 @@
 import XCTest
 import XCTVapor
+import STJSON
 @testable import NeptuneGatewaySwift
 
 final class GatewayRoutesTests: XCTestCase {
@@ -493,6 +494,375 @@ final class GatewayRoutesTests: XCTestCase {
             XCTAssertEqual(payload.records.count, 1)
             XCTAssertEqual(payload.records.first?.platform, "ios")
             XCTAssertEqual(payload.records.first?.message, "ios-only")
+        }
+    }
+
+    func testViewTreeInspectorEndpointReturnsIngestedRawPayload() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let rawPayload = """
+        {
+          "platform": "harmony",
+          "appId": "demo.app",
+          "sessionId": "s-view",
+          "deviceId": "d-view",
+          "snapshotId": "inspector-1",
+          "capturedAt": "2026-03-26T12:00:01Z",
+          "payload": {
+            "$type": "root",
+            "$children": []
+          }
+        }
+        """
+        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: rawPayload)
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .accepted)
+        })
+
+        try app.test(.GET, "v2/ui-tree/inspector?deviceId=d-view") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(InspectorSnapshot.self)
+            XCTAssertEqual(payload.snapshotId, "inspector-1")
+            XCTAssertEqual(payload.platform, "harmony")
+            XCTAssertEqual(payload.available, true)
+            if let object = payload.payload?.dictionary {
+                XCTAssertEqual(object["$type"]?.string, "root")
+            } else {
+                return XCTFail("Expected object payload")
+            }
+        }
+    }
+
+    func testViewTreeSnapshotEndpointBuildsFromIngestedRawPayload() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let rawPayload = """
+        {
+          "platform": "harmony",
+          "appId": "demo.app",
+          "sessionId": "s-view",
+          "deviceId": "d-view",
+          "snapshotId": "raw-1",
+          "capturedAt": "2026-03-26T12:00:00Z",
+          "payload": {
+            "roots": [
+              {
+                "id": "root",
+                "name": "RootView",
+                "children": [
+                  {
+                    "id": "child",
+                    "parentId": "root",
+                    "name": "Text",
+                    "style": {}
+                  }
+                ]
+              }
+            ]
+          }
+        }
+        """
+
+        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: rawPayload)
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .accepted)
+        })
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-view") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            XCTAssertEqual(payload.platform, "harmony")
+            XCTAssertEqual(payload.roots.count, 1)
+            XCTAssertEqual(payload.roots.first?.children.count, 1)
+            XCTAssertEqual(payload.roots.first?.visible, true)
+            XCTAssertEqual(payload.roots.first?.children.first?.children.count, 0)
+            XCTAssertEqual(payload.roots.first?.children.first?.visible, true)
+            XCTAssertEqual(payload.roots.first?.children.first?.style?.borderWidth, 0)
+            XCTAssertEqual(payload.roots.first?.children.first?.style?.zIndex, 0)
+        }
+    }
+
+    func testViewTreeSnapshotEndpointMapsHarmonyInspectorContentChildrenAndRect() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let rawPayload = """
+        {
+          "platform": "harmony",
+          "appId": "demo.app",
+          "sessionId": "s-harmony",
+          "deviceId": "d-harmony",
+          "snapshotId": "raw-harmony-1",
+          "capturedAt": "2026-03-27T12:00:00Z",
+          "payload": {
+            "type": "root",
+            "content": {
+              "$resolution": "3.5",
+              "$children": [
+                {
+                  "$ID": 7,
+                  "$type": "Text",
+                  "$rect": "[269.00, 293.00],[1051.00,539.00]",
+                  "$attrs": {
+                    "content": "Neptune SDK Harmony Demo",
+                    "fontColor": "#FFF2F7FF",
+                    "backgroundColor": "#00000000",
+                    "fontSize": 30,
+                    "lineHeight": 40,
+                    "letterSpacing": 1,
+                    "platformFontScale": 1,
+                    "fontWeightRaw": "FontWeight.Bold",
+                    "zIndex": 2,
+                    "visible": true
+                  },
+                  "$children": []
+                }
+              ]
+            }
+          }
+        }
+        """
+
+        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: rawPayload)
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .accepted)
+        })
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony&deviceId=d-harmony") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            XCTAssertEqual(payload.platform, "harmony")
+            XCTAssertEqual(payload.roots.count, 1)
+            let root = try XCTUnwrap(payload.roots.first)
+            XCTAssertEqual(root.id, "7")
+            XCTAssertEqual(root.name, "Text")
+            XCTAssertEqual(root.text, "Neptune SDK Harmony Demo")
+            XCTAssertEqual(root.visible, true)
+            let frame = try XCTUnwrap(root.frame)
+            XCTAssertEqual(frame.x, 76.85714285714286, accuracy: 0.0001)
+            XCTAssertEqual(frame.y, 83.71428571428571, accuracy: 0.0001)
+            XCTAssertEqual(frame.width, 223.42857142857142, accuracy: 0.0001)
+            XCTAssertEqual(frame.height, 70.28571428571429, accuracy: 0.0001)
+            XCTAssertEqual(root.style?.textColor, "#F2F7FFFF")
+            XCTAssertEqual(root.style?.backgroundColor, "#00000000")
+            XCTAssertEqual(root.style?.fontSize, 30)
+            XCTAssertEqual(root.style?.lineHeight, 40)
+            XCTAssertEqual(root.style?.letterSpacing, 1)
+            XCTAssertEqual(root.style?.fontWeightRaw, "FontWeight.Bold")
+            XCTAssertEqual(root.style?.zIndex, 2)
+            XCTAssertEqual(root.style?.typographyUnit, "dp")
+            XCTAssertEqual(root.style?.sourceTypographyUnit, "fp")
+        }
+    }
+
+    func testViewTreeSnapshotEndpointAppliesHarmonyButtonDefaultsInGateway() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let rawPayload = """
+        {
+          "platform": "harmony",
+          "appId": "demo.app",
+          "sessionId": "s-harmony-button",
+          "deviceId": "d-harmony-button",
+          "snapshotId": "raw-harmony-button-1",
+          "capturedAt": "2026-03-27T12:00:00Z",
+          "payload": {
+            "type": "root",
+            "content": {
+              "$resolution": "3.5",
+              "$children": [
+                {
+                  "$ID": 18,
+                  "$type": "Button",
+                  "$rect": "[140.00, 1515.00],[1174.00,1704.00]",
+                  "$attrs": {
+                    "content": "发现并上报",
+                    "backgroundColor": "#FF74D3F7",
+                    "fontColor": "#FF04121C",
+                    "fontSize": 16,
+                    "fontWeightRaw": "FontWeight.Bold",
+                    "borderRadius": "0.00vp",
+                    "visible": true
+                  },
+                  "$children": []
+                }
+              ]
+            }
+          }
+        }
+        """
+
+        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
+            request.headers.contentType = .json
+            request.body = .init(string: rawPayload)
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .accepted)
+        })
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony-button&deviceId=d-harmony-button") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            let root = try XCTUnwrap(payload.roots.first)
+            XCTAssertEqual(root.name, "Button")
+            XCTAssertEqual(root.text, "发现并上报")
+            XCTAssertEqual(root.style?.textAlign, "Alignment.Center")
+            let borderRadius = try XCTUnwrap(root.style?.borderRadius)
+            XCTAssertEqual(borderRadius, 27, accuracy: 0.0001)
+        }
+    }
+
+    func testViewTreeSnapshotEndpointAutoBackfillsFromClientInspector() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let callbackEndpoint = try makeClientInspectorServer { _ in
+            let raw = """
+            {
+              "snapshotId": "client-inspector-1",
+              "capturedAt": "2026-03-27T12:00:00Z",
+              "platform": "ios",
+              "available": true,
+              "payload": {
+                "roots": [
+                  {
+                    "id": "root-auto",
+                    "name": "UIView",
+                    "children": [
+                      {
+                        "id": "label-auto",
+                        "name": "UILabel",
+                        "text": "Auto backfill text",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+            """
+            return try JSONDecoder().decode(InspectorSnapshot.self, from: Data(raw.utf8))
+        }
+
+        try registerClient(
+            app: app,
+            platform: "ios",
+            appId: "demo.auto.backfill",
+            sessionId: "session-auto",
+            deviceId: "device-auto",
+            callbackEndpoint: callbackEndpoint
+        )
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=ios&appId=demo.auto.backfill&sessionId=session-auto&deviceId=device-auto") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            XCTAssertEqual(payload.platform, "ios")
+            XCTAssertEqual(payload.roots.count, 1)
+            XCTAssertEqual(payload.roots.first?.name, "UIView")
+            XCTAssertEqual(payload.roots.first?.children.first?.name, "UILabel")
+            XCTAssertEqual(payload.roots.first?.children.first?.text, "Auto backfill text")
+        }
+
+        try app.test(.GET, "v2/ui-tree/inspector?deviceId=device-auto") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(InspectorSnapshot.self)
+            XCTAssertEqual(payload.snapshotId, "client-inspector-1")
+            XCTAssertEqual(payload.available, true)
+        }
+    }
+
+    func testViewTreeSnapshotRefreshForcesBackfillEvenWhenCacheExists() throws {
+        final class CallCounterBox: @unchecked Sendable {
+            private let lock = NSLock()
+            private var value = 0
+
+            func next() -> Int {
+                lock.lock()
+                defer { lock.unlock() }
+                value += 1
+                return value
+            }
+        }
+
+        let counter = CallCounterBox()
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        let callbackEndpoint = try makeClientInspectorServer { _ in
+            let callIndex = counter.next()
+            let text = callIndex == 1 ? "Old cache value" : "Fresh refresh value"
+            let raw = """
+            {
+              "snapshotId": "client-inspector-\(callIndex)",
+              "capturedAt": "2026-03-27T12:00:0\(callIndex)Z",
+              "platform": "ios",
+              "available": true,
+              "payload": {
+                "roots": [
+                  {
+                    "id": "root-refresh",
+                    "name": "UIView",
+                    "children": [
+                      {
+                        "id": "label-refresh",
+                        "name": "UILabel",
+                        "text": "\(text)",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+            """
+            return try JSONDecoder().decode(InspectorSnapshot.self, from: Data(raw.utf8))
+        }
+
+        try registerClient(
+            app: app,
+            platform: "ios",
+            appId: "demo.refresh.backfill",
+            sessionId: "session-refresh",
+            deviceId: "device-refresh",
+            callbackEndpoint: callbackEndpoint
+        )
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=ios&appId=demo.refresh.backfill&sessionId=session-refresh&deviceId=device-refresh") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            XCTAssertEqual(payload.roots.first?.children.first?.text, "Old cache value")
+        }
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=ios&appId=demo.refresh.backfill&sessionId=session-refresh&deviceId=device-refresh&refresh=1") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(ViewTreeSnapshot.self)
+            XCTAssertEqual(payload.roots.first?.children.first?.text, "Fresh refresh value")
+        }
+    }
+
+    func testViewTreeSnapshotEndpointRequiresPlatformAppIdAndSessionId() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app") { response in
+            XCTAssertEqual(response.status, .badRequest)
+        }
+    }
+
+    func testViewTreeInspectorEndpointRequiresDeviceId() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/ui-tree/inspector?platform=harmony&appId=demo.app") { response in
+            XCTAssertEqual(response.status, .badRequest)
         }
     }
 
@@ -1049,6 +1419,28 @@ final class GatewayRoutesTests: XCTestCase {
         guard let port = app.http.server.shared.localAddress?.port else {
             XCTFail("client logs server did not start")
             throw NSError(domain: "GatewayRoutesTests", code: 3)
+        }
+        return "http://127.0.0.1:\(port)/v2/client/command"
+    }
+
+    private func makeClientInspectorServer(
+        handler: @escaping @Sendable (Request) throws -> InspectorSnapshot
+    ) throws -> String {
+        let app = Application(.testing)
+        app.http.server.configuration.hostname = "127.0.0.1"
+        app.http.server.configuration.port = 0
+        app.get("v2", "ui-tree", "inspector") { req async throws -> InspectorSnapshot in
+            try handler(req)
+        }
+
+        try app.start()
+        addTeardownBlock {
+            app.shutdown()
+        }
+
+        guard let port = app.http.server.shared.localAddress?.port else {
+            XCTFail("client inspector server did not start")
+            throw NSError(domain: "GatewayRoutesTests", code: 5)
         }
         return "http://127.0.0.1:\(port)/v2/client/command"
     }

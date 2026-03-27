@@ -25,6 +25,10 @@ private struct GatewayClientLogRelayKey: StorageKey {
     typealias Value = GatewayClientLogRelay
 }
 
+private struct GatewayViewTreeStoreKey: StorageKey {
+    typealias Value = GatewayViewTreeStore
+}
+
 private struct GatewayRuntimeStatsKey: StorageKey {
     typealias Value = GatewayRuntimeStats
 }
@@ -73,6 +77,8 @@ public enum NeptuneGatewaySwiftApp {
         webSocketConfiguration: GatewayWebSocketConfiguration = .default
     ) throws {
         configureCORS(on: app)
+        // Raw inspector payload can exceed Vapor's small default body limit.
+        app.routes.defaultMaxBodySize = "2mb"
         app.storage[GatewayDiscoveryRuntimeConfigurationKey.self] = GatewayDiscoveryRuntimeConfiguration(
             advertiseHost: advertiseHost
         )
@@ -80,6 +86,7 @@ public enum NeptuneGatewaySwiftApp {
         let clientRegistry = GatewayClientRegistry()
         let hub = GatewayWebSocketHub(configuration: webSocketConfiguration)
         let relay = GatewayClientLogRelay()
+        let viewTreeStore = GatewayViewTreeStore()
         let runtimeStats = GatewayRuntimeStats()
         let messageBus = GatewayMessageBus(
             adapters: [
@@ -112,6 +119,7 @@ public enum NeptuneGatewaySwiftApp {
         app.storage[GatewayWebSocketHubKey.self] = hub
         app.storage[GatewayMessageBusKey.self] = messageBus
         app.storage[GatewayClientLogRelayKey.self] = relay
+        app.storage[GatewayViewTreeStoreKey.self] = viewTreeStore
         app.storage[GatewayRuntimeStatsKey.self] = runtimeStats
         app.lifecycle.use(
             GatewayClientRegistryCleanupLifecycleHandler(
@@ -196,6 +204,82 @@ public enum NeptuneGatewaySwiftApp {
             }
 
             return try await result.encodeResponse(for: req)
+        }
+
+        app.post("v2", "ui-tree", "inspector") { req async throws -> Response in
+            let payload = try req.content.decode(ViewTreeRawIngestRequest.self)
+            guard !payload.platform.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                  !payload.appId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                  !payload.sessionId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                  !payload.deviceId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            else {
+                throw Abort(.badRequest, reason: "Missing required body fields: platform, appId, sessionId, deviceId, payload.")
+            }
+            await req.gatewayViewTreeStore.ingest(payload)
+            return try await IngestResponse(accepted: 1).encodeResponse(status: .accepted, for: req)
+        }
+
+        app.get("v2", "ui-tree", "inspector") { req async throws -> InspectorSnapshot in
+            guard let deviceId = req.query[String.self, at: "deviceId"]?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !deviceId.isEmpty
+            else {
+                throw Abort(.badRequest, reason: "Missing required query field: deviceId.")
+            }
+            let forceRefresh = Self.parseBooleanQueryFlag(req.query[String.self, at: "refresh"])
+            let hasInspectorCache = await req.gatewayViewTreeStore.inspectorSnapshot(deviceId: deviceId) != nil
+            if forceRefresh || !hasInspectorCache {
+                await Self.backfillViewTreeFromClients(
+                    req: req,
+                    platform: nil,
+                    appId: nil,
+                    sessionId: nil,
+                    deviceId: deviceId
+                )
+            }
+
+            guard let snapshot = await req.gatewayViewTreeStore.inspectorSnapshot(deviceId: deviceId) else {
+                throw Abort(.notFound, reason: "No available ui-tree inspector snapshot for requested client.")
+            }
+            return snapshot
+        }
+
+        app.get("v2", "ui-tree", "snapshot") { req async throws -> ViewTreeSnapshot in
+            guard let platform = req.query[String.self, at: "platform"]?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !platform.isEmpty,
+                  let appId = req.query[String.self, at: "appId"]?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !appId.isEmpty,
+                  let sessionId = req.query[String.self, at: "sessionId"]?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !sessionId.isEmpty
+            else {
+                throw Abort(.badRequest, reason: "Missing required query fields: platform, appId, sessionId.")
+            }
+            let deviceId = req.query[String.self, at: "deviceId"]?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let forceRefresh = Self.parseBooleanQueryFlag(req.query[String.self, at: "refresh"])
+            let hasSnapshotCache = await req.gatewayViewTreeStore.snapshot(
+                platform: platform,
+                appId: appId,
+                sessionId: sessionId,
+                deviceId: deviceId
+            ) != nil
+            if forceRefresh || !hasSnapshotCache {
+                await Self.backfillViewTreeFromClients(
+                    req: req,
+                    platform: platform,
+                    appId: appId,
+                    sessionId: sessionId,
+                    deviceId: deviceId
+                )
+            }
+
+            guard let snapshot = await req.gatewayViewTreeStore.snapshot(
+                platform: platform,
+                appId: appId,
+                sessionId: sessionId,
+                deviceId: deviceId
+            ) else {
+                throw Abort(.notFound, reason: "No available ui-tree snapshot for requested client.")
+            }
+            return snapshot
         }
 
         app.get("v2", "metrics") { req async throws -> MetricsResponse in
@@ -294,6 +378,96 @@ public enum NeptuneGatewaySwiftApp {
         }
 
         return [try decoder.decode(IngestLogRecord.self, from: data)]
+    }
+
+    private static func backfillViewTreeFromClients(
+        req: Request,
+        platform: String?,
+        appId: String?,
+        sessionId: String?,
+        deviceId: String?
+    ) async {
+        func matchedTargets(from clients: [ClientSnapshot]) -> [ClientSnapshot] {
+            clients.filter { client in
+                if let platform, client.platform != platform { return false }
+                if let appId, client.appId != appId { return false }
+                if let sessionId, client.sessionId != sessionId { return false }
+                if let deviceId, client.deviceId != deviceId { return false }
+                return true
+            }
+        }
+
+        let listedClients = await req.gatewayClientRegistry.listClients()
+        let listedClientKeys = listedClients
+            .map { "\($0.platform)|\($0.appId)|\($0.sessionId)|\($0.deviceId)" }
+            .joined(separator: ",")
+        req.logger.info("view-tree backfill listed clients=\(listedClientKeys)")
+        var targets = matchedTargets(from: listedClients)
+        if targets.isEmpty {
+            // Client re-register and snapshot refresh may race. Retry once shortly.
+            try? await Task.sleep(nanoseconds: 350_000_000)
+            targets = matchedTargets(from: await req.gatewayClientRegistry.listClients())
+        }
+        req.logger.info("view-tree backfill start targets=\(targets.count) platform=\(platform ?? "*") appId=\(appId ?? "*") sessionId=\(sessionId ?? "*") deviceId=\(deviceId ?? "*")")
+
+        for client in targets {
+            await backfillViewTreeFromSingleClient(req: req, client: client)
+        }
+    }
+
+    private static func backfillViewTreeFromSingleClient(req: Request, client: ClientSnapshot) async {
+        guard let inspectorURL = inspectorEndpoint(callbackEndpoint: client.callbackEndpoint, deviceId: client.deviceId) else {
+            req.logger.warning("view-tree backfill skipped: invalid inspector endpoint for \(client.platform)|\(client.appId)|\(client.deviceId) callback=\(client.callbackEndpoint)")
+            return
+        }
+
+        do {
+            let response = try await req.client.get(URI(string: inspectorURL))
+            guard response.status == .ok else {
+                req.logger.warning("view-tree backfill failed: inspector endpoint returned \(response.status.code) for \(client.platform)|\(client.appId)|\(client.deviceId) url=\(inspectorURL)")
+                return
+            }
+
+            let inspector = try response.content.decode(InspectorSnapshot.self)
+            guard inspector.available, let payload = inspector.payload else {
+                req.logger.warning("view-tree backfill skipped: inspector unavailable for \(client.platform)|\(client.appId)|\(client.deviceId) snapshot=\(inspector.snapshotId)")
+                return
+            }
+
+            let ingest = ViewTreeRawIngestRequest(
+                platform: client.platform,
+                appId: client.appId,
+                sessionId: client.sessionId,
+                deviceId: client.deviceId,
+                snapshotId: inspector.snapshotId,
+                capturedAt: inspector.capturedAt,
+                payload: payload
+            )
+            await req.gatewayViewTreeStore.ingest(ingest)
+            req.logger.info("view-tree backfill success for \(client.platform)|\(client.appId)|\(client.deviceId) snapshot=\(inspector.snapshotId)")
+        } catch {
+            req.logger.warning("view-tree backfill failed for \(client.platform)|\(client.appId)|\(client.deviceId) url=\(inspectorURL) error=\(error)")
+        }
+    }
+
+    private static func inspectorEndpoint(callbackEndpoint: String, deviceId: String) -> String? {
+        guard let callbackURL = URL(string: callbackEndpoint) else {
+            return nil
+        }
+        guard var components = URLComponents(url: callbackURL, resolvingAgainstBaseURL: false) else {
+            return nil
+        }
+        components.path = "/v2/ui-tree/inspector"
+        components.queryItems = [URLQueryItem(name: "deviceId", value: deviceId)]
+        return components.url?.absoluteString
+    }
+
+    private static func parseBooleanQueryFlag(_ rawValue: String?) -> Bool {
+        guard let rawValue else {
+            return false
+        }
+        let normalized = rawValue.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return normalized == "1" || normalized == "true" || normalized == "yes"
     }
 
     private static func parseLogQuery(from req: Request) throws -> LogQuery {
@@ -404,6 +578,13 @@ private extension Request {
             fatalError("GatewayRuntimeStats not configured")
         }
         return stats
+    }
+
+    var gatewayViewTreeStore: GatewayViewTreeStore {
+        guard let store = application.storage[GatewayViewTreeStoreKey.self] else {
+            fatalError("GatewayViewTreeStore not configured")
+        }
+        return store
     }
 
     var gatewayClientRegistry: GatewayClientRegistry {

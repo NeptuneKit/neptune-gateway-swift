@@ -1,5 +1,5 @@
 {
-  "originHash" : "a2fea33c58c7f19082da051003b45388c2038097d1eaf35ff39cdbbf4ac7e725",
+  "originHash" : "796b14a1034335f362172a2aff290c8b8de1ea7eb8185b56f359caaf681453fe",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -53,6 +53,15 @@
       "state" : {
         "revision" : "1a10ccea61e4248effd23b6e814999ce7bdf0ee0",
         "version" : "4.9.3"
+      }
+    },
+    {
+      "identity" : "stjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/linhay/STJSON.git",
+      "state" : {
+        "revision" : "9aa452a5d7ef5c6a3a283a8532b40252d233440c",
+        "version" : "1.4.10"
       }
     },
     {
