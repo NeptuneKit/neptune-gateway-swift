@@ -52,6 +52,13 @@ actor GatewayViewTreeStore {
         )
     }
 
+    func removeInspectorSnapshot(deviceId: String) {
+        guard let entry = latestByDeviceId.removeValue(forKey: deviceId) else {
+            return
+        }
+        entriesByKey.removeValue(forKey: entry.key)
+    }
+
     func snapshot(
         platform: String,
         appId: String,
@@ -80,6 +87,32 @@ actor GatewayViewTreeStore {
             platform: entry.key.platform,
             roots: roots
         )
+    }
+
+    func removeSnapshot(
+        platform: String,
+        appId: String,
+        sessionId: String,
+        deviceId: String?
+    ) {
+        if let deviceId {
+            let key = Key(platform: platform, appId: appId, sessionId: sessionId, deviceId: deviceId)
+            if let entry = entriesByKey.removeValue(forKey: key),
+               latestByDeviceId[deviceId]?.key == entry.key {
+                latestByDeviceId.removeValue(forKey: deviceId)
+            }
+            return
+        }
+
+        let keysToRemove = entriesByKey.keys.filter {
+            $0.platform == platform && $0.appId == appId && $0.sessionId == sessionId
+        }
+        for key in keysToRemove {
+            if let removed = entriesByKey.removeValue(forKey: key),
+               latestByDeviceId[removed.key.deviceId]?.key == removed.key {
+                latestByDeviceId.removeValue(forKey: removed.key.deviceId)
+            }
+        }
     }
 
     private static func extractRoots(from payload: InspectorPayloadValue, platform: String) -> [ViewTreeNode]? {
@@ -147,16 +180,78 @@ actor GatewayViewTreeStore {
     private static func normalizeTreeNode(_ node: ViewTreeNode, parentId: String?, platform: String) -> ViewTreeNode {
         let normalizedId = normalizeObjectID(node.id)
         let normalizedChildren = node.children.map { normalizeTreeNode($0, parentId: normalizedId, platform: platform) }
+        let normalizedStyle = normalizeStyleDefaults(node.style, nodeName: node.name, frame: node.frame, platform: platform)
+        let normalizedRawNode = normalizedRawNode(node, normalizedId: normalizedId, normalizedStyle: normalizedStyle)
         return ViewTreeNode(
             id: normalizedId,
             parentId: parentId,
             name: node.name,
             frame: node.frame,
-            style: normalizeStyleDefaults(node.style, nodeName: node.name, frame: node.frame, platform: platform),
+            style: normalizedStyle,
+            rawNode: normalizedRawNode,
             text: node.text,
             visible: node.visible ?? true,
             children: normalizedChildren
         )
+    }
+
+    private static func normalizedRawNode(
+        _ node: ViewTreeNode,
+        normalizedId: String,
+        normalizedStyle: ViewTreeNode.Style?
+    ) -> InspectorPayloadValue? {
+        if let rawNode = node.rawNode, rawNode.type != .null {
+            return rawNode
+        }
+        guard let normalizedStyle else {
+            return nil
+        }
+        return normalizedNodeAsRawPayload(
+            node,
+            normalizedId: normalizedId,
+            normalizedStyle: normalizedStyle
+        )
+    }
+
+    private static func normalizedNodeAsRawPayload(
+        _ node: ViewTreeNode,
+        normalizedId: String,
+        normalizedStyle: ViewTreeNode.Style
+    ) -> InspectorPayloadValue? {
+        var object: [String: InspectorPayloadValue] = [:]
+        func assign(_ key: String, _ value: String?) {
+            guard let value, !value.isEmpty else { return }
+            object[key] = InspectorPayloadValue(value)
+        }
+        func assign(_ key: String, _ value: Double?) {
+            guard let value else { return }
+            object[key] = InspectorPayloadValue(value)
+        }
+
+        object["id"] = InspectorPayloadValue(normalizedId)
+        if let parentId = node.parentId {
+            object["parentId"] = InspectorPayloadValue(parentId)
+        }
+        object["name"] = InspectorPayloadValue(node.name)
+        if let text = node.text {
+            object["text"] = InspectorPayloadValue(text)
+        }
+        if let visible = node.visible {
+            object["visible"] = InspectorPayloadValue(visible)
+        }
+        if let frame = node.frame,
+           let frameValue = encodeAsJSON(frame) {
+            object["frame"] = frameValue
+        }
+        if let styleValue = encodeAsJSON(normalizedStyle) {
+            object["style"] = styleValue
+        }
+        object["childCount"] = InspectorPayloadValue(node.children.count)
+
+        guard !object.isEmpty else {
+            return nil
+        }
+        return InspectorPayloadValue(object)
     }
 
     private static func mapInspectorNode(
@@ -187,6 +282,7 @@ actor GatewayViewTreeStore {
         let normalizedFrame = scaleFrame(frame, by: resolutionScale)
 
         let attrs = objectValue(object["$attrs"])
+        let rawNode = extractRawNode(from: object, attrs: attrs)
         let style = normalizeStyleDefaults(
             parseStyle(from: object),
             nodeName: nodeName,
@@ -225,10 +321,36 @@ actor GatewayViewTreeStore {
             name: nodeName,
             frame: normalizedFrame,
             style: style,
+            rawNode: rawNode,
             text: text,
             visible: visible,
             children: children
         )
+    }
+
+    private static func extractRawNode(
+        from object: [String: InspectorPayloadValue],
+        attrs: [String: InspectorPayloadValue]?
+    ) -> InspectorPayloadValue? {
+        var payload = object
+        payload.removeValue(forKey: "children")
+        payload.removeValue(forKey: "$children")
+        if let attrs, !attrs.isEmpty, payload["$attrs"] == nil {
+            payload["$attrs"] = InspectorPayloadValue(attrs)
+        }
+        if payload.isEmpty {
+            return nil
+        }
+        return InspectorPayloadValue(payload)
+    }
+
+    private static func encodeAsJSON<T: Encodable>(_ value: T) -> InspectorPayloadValue? {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(value),
+              let decoded = try? JSONDecoder().decode(InspectorPayloadValue.self, from: data) else {
+            return nil
+        }
+        return decoded
     }
 
     private static func normalizeStyleDefaults(

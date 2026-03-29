@@ -225,17 +225,23 @@ public enum NeptuneGatewaySwiftApp {
             else {
                 throw Abort(.badRequest, reason: "Missing required query field: deviceId.")
             }
-            let forceRefresh = Self.parseBooleanQueryFlag(req.query[String.self, at: "refresh"])
-            let hasInspectorCache = await req.gatewayViewTreeStore.inspectorSnapshot(deviceId: deviceId) != nil
-            if forceRefresh || !hasInspectorCache {
-                await Self.backfillViewTreeFromClients(
-                    req: req,
-                    platform: nil,
-                    appId: nil,
-                    sessionId: nil,
-                    deviceId: deviceId
-                )
+            guard await Self.hasMatchingOnlineClient(
+                req: req,
+                platform: nil,
+                appId: nil,
+                sessionId: nil,
+                deviceId: deviceId
+            ) else {
+                throw Abort(.notFound, reason: "Requested client is offline; no live inspector snapshot available.")
             }
+            await req.gatewayViewTreeStore.removeInspectorSnapshot(deviceId: deviceId)
+            await Self.backfillViewTreeFromClients(
+                req: req,
+                platform: nil,
+                appId: nil,
+                sessionId: nil,
+                deviceId: deviceId
+            )
 
             guard let snapshot = await req.gatewayViewTreeStore.inspectorSnapshot(deviceId: deviceId) else {
                 throw Abort(.notFound, reason: "No available ui-tree inspector snapshot for requested client.")
@@ -254,22 +260,28 @@ public enum NeptuneGatewaySwiftApp {
                 throw Abort(.badRequest, reason: "Missing required query fields: platform, appId, sessionId.")
             }
             let deviceId = req.query[String.self, at: "deviceId"]?.trimmingCharacters(in: .whitespacesAndNewlines)
-            let forceRefresh = Self.parseBooleanQueryFlag(req.query[String.self, at: "refresh"])
-            let hasSnapshotCache = await req.gatewayViewTreeStore.snapshot(
+            guard await Self.hasMatchingOnlineClient(
+                req: req,
                 platform: platform,
                 appId: appId,
                 sessionId: sessionId,
                 deviceId: deviceId
-            ) != nil
-            if forceRefresh || !hasSnapshotCache {
-                await Self.backfillViewTreeFromClients(
-                    req: req,
-                    platform: platform,
-                    appId: appId,
-                    sessionId: sessionId,
-                    deviceId: deviceId
-                )
+            ) else {
+                throw Abort(.notFound, reason: "Requested client is offline; no live ui-tree snapshot available.")
             }
+            await req.gatewayViewTreeStore.removeSnapshot(
+                platform: platform,
+                appId: appId,
+                sessionId: sessionId,
+                deviceId: deviceId
+            )
+            await Self.backfillViewTreeFromClients(
+                req: req,
+                platform: platform,
+                appId: appId,
+                sessionId: sessionId,
+                deviceId: deviceId
+            )
 
             guard let snapshot = await req.gatewayViewTreeStore.snapshot(
                 platform: platform,
@@ -415,6 +427,23 @@ public enum NeptuneGatewaySwiftApp {
         }
     }
 
+    private static func hasMatchingOnlineClient(
+        req: Request,
+        platform: String?,
+        appId: String?,
+        sessionId: String?,
+        deviceId: String?
+    ) async -> Bool {
+        let clients = await req.gatewayClientRegistry.listClients()
+        return clients.contains { client in
+            if let platform, client.platform != platform { return false }
+            if let appId, client.appId != appId { return false }
+            if let sessionId, client.sessionId != sessionId { return false }
+            if let deviceId, client.deviceId != deviceId { return false }
+            return true
+        }
+    }
+
     private static func backfillViewTreeFromSingleClient(req: Request, client: ClientSnapshot) async {
         guard let inspectorURL = inspectorEndpoint(callbackEndpoint: client.callbackEndpoint, deviceId: client.deviceId) else {
             req.logger.warning("view-tree backfill skipped: invalid inspector endpoint for \(client.platform)|\(client.appId)|\(client.deviceId) callback=\(client.callbackEndpoint)")
@@ -460,14 +489,6 @@ public enum NeptuneGatewaySwiftApp {
         components.path = "/v2/ui-tree/inspector"
         components.queryItems = [URLQueryItem(name: "deviceId", value: deviceId)]
         return components.url?.absoluteString
-    }
-
-    private static func parseBooleanQueryFlag(_ rawValue: String?) -> Bool {
-        guard let rawValue else {
-            return false
-        }
-        let normalized = rawValue.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        return normalized == "1" || normalized == "true" || normalized == "yes"
     }
 
     private static func parseLogQuery(from req: Request) throws -> LogQuery {

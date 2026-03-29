@@ -512,15 +512,19 @@ final class GatewayRoutesTests: XCTestCase {
           "payload": {
             "$type": "root",
             "$children": []
-          }
+            }
         }
         """
-        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
-            request.headers.contentType = .json
-            request.body = .init(string: rawPayload)
-        }, afterResponse: { response in
-            XCTAssertEqual(response.status, .accepted)
-        })
+        let ingest = try JSONDecoder().decode(ViewTreeRawIngestRequest.self, from: Data(rawPayload.utf8))
+        let callbackEndpoint = try makeInspectorCallbackEndpoint(fromRawIngestRequest: rawPayload)
+        try registerClient(
+            app: app,
+            platform: ingest.platform,
+            appId: ingest.appId,
+            sessionId: ingest.sessionId,
+            deviceId: ingest.deviceId,
+            callbackEndpoint: callbackEndpoint
+        )
 
         try app.test(.GET, "v2/ui-tree/inspector?deviceId=d-view") { response in
             XCTAssertEqual(response.status, .ok)
@@ -563,16 +567,19 @@ final class GatewayRoutesTests: XCTestCase {
                 ]
               }
             ]
-          }
+            }
         }
         """
-
-        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
-            request.headers.contentType = .json
-            request.body = .init(string: rawPayload)
-        }, afterResponse: { response in
-            XCTAssertEqual(response.status, .accepted)
-        })
+        let ingest = try JSONDecoder().decode(ViewTreeRawIngestRequest.self, from: Data(rawPayload.utf8))
+        let callbackEndpoint = try makeInspectorCallbackEndpoint(fromRawIngestRequest: rawPayload)
+        try registerClient(
+            app: app,
+            platform: ingest.platform,
+            appId: ingest.appId,
+            sessionId: ingest.sessionId,
+            deviceId: ingest.deviceId,
+            callbackEndpoint: callbackEndpoint
+        )
 
         try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-view") { response in
             XCTAssertEqual(response.status, .ok)
@@ -625,16 +632,19 @@ final class GatewayRoutesTests: XCTestCase {
                 }
               ]
             }
-          }
+            }
         }
         """
-
-        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
-            request.headers.contentType = .json
-            request.body = .init(string: rawPayload)
-        }, afterResponse: { response in
-            XCTAssertEqual(response.status, .accepted)
-        })
+        let ingest = try JSONDecoder().decode(ViewTreeRawIngestRequest.self, from: Data(rawPayload.utf8))
+        let callbackEndpoint = try makeInspectorCallbackEndpoint(fromRawIngestRequest: rawPayload)
+        try registerClient(
+            app: app,
+            platform: ingest.platform,
+            appId: ingest.appId,
+            sessionId: ingest.sessionId,
+            deviceId: ingest.deviceId,
+            callbackEndpoint: callbackEndpoint
+        )
 
         try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony&deviceId=d-harmony") { response in
             XCTAssertEqual(response.status, .ok)
@@ -660,6 +670,9 @@ final class GatewayRoutesTests: XCTestCase {
             XCTAssertEqual(root.style?.zIndex, 2)
             XCTAssertEqual(root.style?.typographyUnit, "dp")
             XCTAssertEqual(root.style?.sourceTypographyUnit, "fp")
+            let attrs = root.rawNode?.dictionary?["$attrs"]?.dictionary
+            XCTAssertEqual(attrs?["fontColor"]?.string, "#FFF2F7FF")
+            XCTAssertEqual(attrs?["fontWeightRaw"]?.string, "FontWeight.Bold")
         }
     }
 
@@ -697,16 +710,19 @@ final class GatewayRoutesTests: XCTestCase {
                 }
               ]
             }
-          }
+            }
         }
         """
-
-        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
-            request.headers.contentType = .json
-            request.body = .init(string: rawPayload)
-        }, afterResponse: { response in
-            XCTAssertEqual(response.status, .accepted)
-        })
+        let ingest = try JSONDecoder().decode(ViewTreeRawIngestRequest.self, from: Data(rawPayload.utf8))
+        let callbackEndpoint = try makeInspectorCallbackEndpoint(fromRawIngestRequest: rawPayload)
+        try registerClient(
+            app: app,
+            platform: ingest.platform,
+            appId: ingest.appId,
+            sessionId: ingest.sessionId,
+            deviceId: ingest.deviceId,
+            callbackEndpoint: callbackEndpoint
+        )
 
         try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony-button&deviceId=d-harmony-button") { response in
             XCTAssertEqual(response.status, .ok)
@@ -751,16 +767,19 @@ final class GatewayRoutesTests: XCTestCase {
                 }
               ]
             }
-          }
+            }
         }
         """
-
-        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
-            request.headers.contentType = .json
-            request.body = .init(string: rawPayload)
-        }, afterResponse: { response in
-            XCTAssertEqual(response.status, .accepted)
-        })
+        let ingest = try JSONDecoder().decode(ViewTreeRawIngestRequest.self, from: Data(rawPayload.utf8))
+        let callbackEndpoint = try makeInspectorCallbackEndpoint(fromRawIngestRequest: rawPayload)
+        try registerClient(
+            app: app,
+            platform: ingest.platform,
+            appId: ingest.appId,
+            sessionId: ingest.sessionId,
+            deviceId: ingest.deviceId,
+            callbackEndpoint: callbackEndpoint
+        )
 
         try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony-fill-stroke&deviceId=d-harmony-fill-stroke") { response in
             XCTAssertEqual(response.status, .ok)
@@ -805,16 +824,19 @@ final class GatewayRoutesTests: XCTestCase {
                 }
               ]
             }
-          }
+            }
         }
         """
-
-        try app.test(.POST, "v2/ui-tree/inspector", beforeRequest: { request in
-            request.headers.contentType = .json
-            request.body = .init(string: rawPayload)
-        }, afterResponse: { response in
-            XCTAssertEqual(response.status, .accepted)
-        })
+        let ingest = try JSONDecoder().decode(ViewTreeRawIngestRequest.self, from: Data(rawPayload.utf8))
+        let callbackEndpoint = try makeInspectorCallbackEndpoint(fromRawIngestRequest: rawPayload)
+        try registerClient(
+            app: app,
+            platform: ingest.platform,
+            appId: ingest.appId,
+            sessionId: ingest.sessionId,
+            deviceId: ingest.deviceId,
+            callbackEndpoint: callbackEndpoint
+        )
 
         try app.test(.GET, "v2/ui-tree/snapshot?platform=harmony&appId=demo.app&sessionId=s-harmony-circle-fill&deviceId=d-harmony-circle-fill") { response in
             XCTAssertEqual(response.status, .ok)
@@ -965,12 +987,30 @@ final class GatewayRoutesTests: XCTestCase {
         }
     }
 
+    func testViewTreeSnapshotEndpointReturnsNotFoundWhenClientOffline() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/ui-tree/snapshot?platform=ios&appId=demo.app&sessionId=offline-session&deviceId=offline-device") { response in
+            XCTAssertEqual(response.status, .notFound)
+        }
+    }
+
     func testViewTreeInspectorEndpointRequiresDeviceId() throws {
         let app = try makeApplication()
         defer { app.shutdown() }
 
         try app.test(.GET, "v2/ui-tree/inspector?platform=harmony&appId=demo.app") { response in
             XCTAssertEqual(response.status, .badRequest)
+        }
+    }
+
+    func testViewTreeInspectorEndpointReturnsNotFoundWhenClientOffline() throws {
+        let app = try makeApplication()
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/ui-tree/inspector?deviceId=offline-device") { response in
+            XCTAssertEqual(response.status, .notFound)
         }
     }
 
@@ -1551,6 +1591,19 @@ final class GatewayRoutesTests: XCTestCase {
             throw NSError(domain: "GatewayRoutesTests", code: 5)
         }
         return "http://127.0.0.1:\(port)/v2/client/command"
+    }
+
+    private func makeInspectorCallbackEndpoint(fromRawIngestRequest raw: String) throws -> String {
+        let ingest = try JSONDecoder().decode(ViewTreeRawIngestRequest.self, from: Data(raw.utf8))
+        return try makeClientInspectorServer { _ in
+            InspectorSnapshot(
+                snapshotId: ingest.snapshotId ?? "inspector-\(ingest.platform)-\(ingest.deviceId)",
+                capturedAt: ingest.capturedAt ?? "1970-01-01T00:00:00Z",
+                platform: ingest.platform,
+                available: true,
+                payload: ingest.payload
+            )
+        }
     }
 
     private func makeRecord(from json: String) throws -> IngestLogRecord {

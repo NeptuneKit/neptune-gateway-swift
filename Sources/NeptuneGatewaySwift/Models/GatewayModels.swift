@@ -302,6 +302,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
     public let name: String
     public let frame: Frame?
     public let style: Style?
+    public let rawNode: InspectorPayloadValue?
     public let text: String?
     public let visible: Bool?
     public let children: [ViewTreeNode]
@@ -312,6 +313,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         name: String,
         frame: Frame? = nil,
         style: Style? = nil,
+        rawNode: InspectorPayloadValue? = nil,
         text: String? = nil,
         visible: Bool? = nil,
         children: [ViewTreeNode]
@@ -321,6 +323,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         self.name = name
         self.frame = frame
         self.style = style
+        self.rawNode = rawNode
         self.text = text
         self.visible = visible
         self.children = children
@@ -332,9 +335,23 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         case name
         case frame
         case style
+        case rawNode
         case text
         case visible
         case children
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        parentId = try container.decodeIfPresent(String.self, forKey: .parentId)
+        name = try container.decode(String.self, forKey: .name)
+        frame = try container.decodeIfPresent(Frame.self, forKey: .frame)
+        style = try container.decodeIfPresent(Style.self, forKey: .style)
+        rawNode = try container.decodeIfPresent(InspectorPayloadValue.self, forKey: .rawNode)
+        text = try container.decodeIfPresent(String.self, forKey: .text)
+        visible = try container.decodeIfPresent(Bool.self, forKey: .visible)
+        children = try container.decodeIfPresent([ViewTreeNode].self, forKey: .children) ?? []
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -348,6 +365,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         try container.encode(name, forKey: .name)
         try container.encodeIfPresent(frame, forKey: .frame)
         try container.encodeIfPresent(style, forKey: .style)
+        try container.encodeIfPresent(rawNode, forKey: .rawNode)
         try container.encodeIfPresent(text, forKey: .text)
         try container.encodeIfPresent(visible, forKey: .visible)
         try container.encode(children, forKey: .children)
