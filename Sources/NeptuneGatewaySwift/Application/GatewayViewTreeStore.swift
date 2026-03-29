@@ -188,6 +188,7 @@ actor GatewayViewTreeStore {
             name: node.name,
             frame: node.frame,
             style: normalizedStyle,
+            constraints: node.constraints,
             rawNode: normalizedRawNode,
             text: node.text,
             visible: node.visible ?? true,
@@ -246,6 +247,9 @@ actor GatewayViewTreeStore {
         if let styleValue = encodeAsJSON(normalizedStyle) {
             object["style"] = styleValue
         }
+        if let constraints = node.constraints, let constraintsValue = encodeAsJSON(constraints) {
+            object["constraints"] = constraintsValue
+        }
         object["childCount"] = InspectorPayloadValue(node.children.count)
 
         guard !object.isEmpty else {
@@ -289,6 +293,7 @@ actor GatewayViewTreeStore {
             frame: normalizedFrame,
             platform: platform
         )
+        let constraints = decode(object["constraints"], as: [ViewTreeNode.Constraint].self)
         let text = stringValue(object["text"])
             ?? stringValue(object["content"])
             ?? stringValue(attrs?["text"])
@@ -321,6 +326,7 @@ actor GatewayViewTreeStore {
             name: nodeName,
             frame: normalizedFrame,
             style: style,
+            constraints: constraints,
             rawNode: rawNode,
             text: text,
             visible: visible,

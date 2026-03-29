@@ -297,11 +297,52 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         }
     }
 
+    public struct Constraint: Content, Sendable, Equatable {
+        public let id: String
+        public let source: String
+        public let relation: String
+        public let firstAttribute: String
+        public let secondAttribute: String?
+        public let firstItem: String?
+        public let secondItem: String?
+        public let constant: Double
+        public let multiplier: Double
+        public let priority: Double
+        public let isActive: Bool
+
+        public init(
+            id: String,
+            source: String,
+            relation: String,
+            firstAttribute: String,
+            secondAttribute: String? = nil,
+            firstItem: String? = nil,
+            secondItem: String? = nil,
+            constant: Double,
+            multiplier: Double,
+            priority: Double,
+            isActive: Bool
+        ) {
+            self.id = id
+            self.source = source
+            self.relation = relation
+            self.firstAttribute = firstAttribute
+            self.secondAttribute = secondAttribute
+            self.firstItem = firstItem
+            self.secondItem = secondItem
+            self.constant = constant
+            self.multiplier = multiplier
+            self.priority = priority
+            self.isActive = isActive
+        }
+    }
+
     public let id: String
     public let parentId: String?
     public let name: String
     public let frame: Frame?
     public let style: Style?
+    public let constraints: [Constraint]?
     public let rawNode: InspectorPayloadValue?
     public let text: String?
     public let visible: Bool?
@@ -313,6 +354,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         name: String,
         frame: Frame? = nil,
         style: Style? = nil,
+        constraints: [Constraint]? = nil,
         rawNode: InspectorPayloadValue? = nil,
         text: String? = nil,
         visible: Bool? = nil,
@@ -323,6 +365,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         self.name = name
         self.frame = frame
         self.style = style
+        self.constraints = constraints
         self.rawNode = rawNode
         self.text = text
         self.visible = visible
@@ -335,6 +378,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         case name
         case frame
         case style
+        case constraints
         case rawNode
         case text
         case visible
@@ -348,6 +392,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         name = try container.decode(String.self, forKey: .name)
         frame = try container.decodeIfPresent(Frame.self, forKey: .frame)
         style = try container.decodeIfPresent(Style.self, forKey: .style)
+        constraints = try container.decodeIfPresent([Constraint].self, forKey: .constraints)
         rawNode = try container.decodeIfPresent(InspectorPayloadValue.self, forKey: .rawNode)
         text = try container.decodeIfPresent(String.self, forKey: .text)
         visible = try container.decodeIfPresent(Bool.self, forKey: .visible)
@@ -365,6 +410,7 @@ public struct ViewTreeNode: Content, Sendable, Equatable {
         try container.encode(name, forKey: .name)
         try container.encodeIfPresent(frame, forKey: .frame)
         try container.encodeIfPresent(style, forKey: .style)
+        try container.encodeIfPresent(constraints, forKey: .constraints)
         try container.encodeIfPresent(rawNode, forKey: .rawNode)
         try container.encodeIfPresent(text, forKey: .text)
         try container.encodeIfPresent(visible, forKey: .visible)
