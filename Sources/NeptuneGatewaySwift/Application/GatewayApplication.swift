@@ -225,15 +225,6 @@ public enum NeptuneGatewaySwiftApp {
             else {
                 throw Abort(.badRequest, reason: "Missing required query field: deviceId.")
             }
-            guard await Self.hasMatchingOnlineClient(
-                req: req,
-                platform: nil,
-                appId: nil,
-                sessionId: nil,
-                deviceId: deviceId
-            ) else {
-                throw Abort(.notFound, reason: "Requested client is offline; no live inspector snapshot available.")
-            }
             await req.gatewayViewTreeStore.removeInspectorSnapshot(deviceId: deviceId)
             await Self.backfillViewTreeFromClients(
                 req: req,
@@ -244,7 +235,7 @@ public enum NeptuneGatewaySwiftApp {
             )
 
             guard let snapshot = await req.gatewayViewTreeStore.inspectorSnapshot(deviceId: deviceId) else {
-                throw Abort(.notFound, reason: "No available ui-tree inspector snapshot for requested client.")
+                throw Abort(.notFound, reason: "No live ui-tree inspector snapshot available for requested client.")
             }
             return snapshot
         }
@@ -260,15 +251,6 @@ public enum NeptuneGatewaySwiftApp {
                 throw Abort(.badRequest, reason: "Missing required query fields: platform, appId, sessionId.")
             }
             let deviceId = req.query[String.self, at: "deviceId"]?.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard await Self.hasMatchingOnlineClient(
-                req: req,
-                platform: platform,
-                appId: appId,
-                sessionId: sessionId,
-                deviceId: deviceId
-            ) else {
-                throw Abort(.notFound, reason: "Requested client is offline; no live ui-tree snapshot available.")
-            }
             await req.gatewayViewTreeStore.removeSnapshot(
                 platform: platform,
                 appId: appId,
@@ -289,7 +271,7 @@ public enum NeptuneGatewaySwiftApp {
                 sessionId: sessionId,
                 deviceId: deviceId
             ) else {
-                throw Abort(.notFound, reason: "No available ui-tree snapshot for requested client.")
+                throw Abort(.notFound, reason: "No live ui-tree snapshot available for requested client.")
             }
             return snapshot
         }
@@ -424,23 +406,6 @@ public enum NeptuneGatewaySwiftApp {
 
         for client in targets {
             await backfillViewTreeFromSingleClient(req: req, client: client)
-        }
-    }
-
-    private static func hasMatchingOnlineClient(
-        req: Request,
-        platform: String?,
-        appId: String?,
-        sessionId: String?,
-        deviceId: String?
-    ) async -> Bool {
-        let clients = await req.gatewayClientRegistry.listClients()
-        return clients.contains { client in
-            if let platform, client.platform != platform { return false }
-            if let appId, client.appId != appId { return false }
-            if let sessionId, client.sessionId != sessionId { return false }
-            if let deviceId, client.deviceId != deviceId { return false }
-            return true
         }
     }
 
