@@ -17,6 +17,8 @@ jobs:
     runs-on: macos-15
     permissions:
       contents: write
+    env:
+      HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
 
     steps:
       - name: Resolve release tag
@@ -90,10 +92,9 @@ jobs:
           fail_on_unmatched_files: true
 
       - name: Publish Homebrew Formula
-        if: ${{ secrets.HOMEBREW_TAP_TOKEN != '' }}
+        if: ${{ env.HOMEBREW_TAP_TOKEN != '' }}
         env:
           HOMEBREW_TAP_REPO: ${{ vars.HOMEBREW_TAP_REPO }}
-          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
           HOMEBREW_FORMULA: ${{ vars.HOMEBREW_FORMULA }}
           RELEASE_REPO: ${{ github.repository }}
         run: |
@@ -101,6 +102,6 @@ jobs:
           ./scripts/publish-homebrew-formula.sh --release-tag "${{ steps.release_tag.outputs.release_tag }}"
 
       - name: Skip Homebrew Formula Publish (missing token)
-        if: ${{ secrets.HOMEBREW_TAP_TOKEN == '' }}
+        if: ${{ env.HOMEBREW_TAP_TOKEN == '' }}
         run: |
           echo "Skip Homebrew publish: secrets.HOMEBREW_TAP_TOKEN is empty."
