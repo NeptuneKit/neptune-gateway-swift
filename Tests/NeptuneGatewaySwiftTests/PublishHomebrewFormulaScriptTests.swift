@@ -24,7 +24,8 @@ final class PublishHomebrewFormulaScriptTests: XCTestCase {
         process.environment = [
             "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
             "HOMEBREW_TAP_REPO": "linhay/homebrew-neptune",
-            "HOMEBREW_TAP_TOKEN": "test-token"
+            "HOMEBREW_TAP_TOKEN": "test-token",
+            "RELEASE_REPO": "NeptuneKit/neptune-gateway-swift"
         ]
 
         let pipe = Pipe()

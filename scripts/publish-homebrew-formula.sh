@@ -95,26 +95,33 @@ resolve_tap_repo() {
     echo "linhay/homebrew-tap"
 }
 
-resolve_artifact_inputs() {
-    local release_tag="$1"
-    local artifact_name="neptune-${release_tag}"
+resolve_artifact_sha256() {
+    local release_repo="$1"
+    local release_tag="$2"
+    local artifact_name="$3"
+
     local checksum_file="${ROOT_DIR}/dist/cli-release/${artifact_name}.sha256"
-
-    [[ -f "$checksum_file" ]] || {
-        echo "Checksum file not found: $checksum_file" >&2
-        echo "Run scripts/build-cli-release.sh in the same workflow job before publishing Homebrew." >&2
-        exit 1
-    }
-
-    local sha256
-    sha256="$(awk '{print $1}' "$checksum_file" | head -n 1)"
-    [[ -n "$sha256" ]] || {
+    if [[ -f "$checksum_file" ]]; then
+        local local_sha
+        local_sha="$(awk '{print $1}' "$checksum_file" | head -n 1)"
+        if [[ -n "$local_sha" ]]; then
+            echo "$local_sha"
+            return 0
+        fi
         echo "Unable to parse sha256 from $checksum_file" >&2
-        exit 1
-    }
+        return 1
+    fi
 
-    printf 'artifact_name=%s\n' "$artifact_name"
-    printf 'sha256=%s\n' "$sha256"
+    local checksum_url="https://github.com/${release_repo}/releases/download/${release_tag}/${artifact_name}.sha256"
+    local remote_checksum
+    remote_checksum="$(curl -fsSL "$checksum_url" | awk '{print $1}' | head -n 1 || true)"
+    if [[ -n "$remote_checksum" ]]; then
+        echo "$remote_checksum"
+        return 0
+    fi
+
+    echo "Checksum file not found locally and failed to fetch from release: $checksum_url" >&2
+    return 1
 }
 
 write_formula() {
@@ -151,19 +158,24 @@ EOF
 self_check() {
     require_command git
     require_command awk
+    require_command curl
     require_env HOMEBREW_TAP_TOKEN
     [[ -n "$RELEASE_TAG" ]] || {
         echo "--release-tag is required in self-check mode." >&2
         exit 1
     }
+    local release_repo artifact_name
+    release_repo="$(resolve_release_repo)"
+    artifact_name="neptune-${RELEASE_TAG}"
     resolve_tap_repo >/dev/null
-    resolve_artifact_inputs "$RELEASE_TAG" >/dev/null
+    resolve_artifact_sha256 "$release_repo" "$RELEASE_TAG" "$artifact_name" >/dev/null
     echo "self-check ok: publish-homebrew-formula"
 }
 
 publish_formula() {
     require_command git
     require_command awk
+    require_command curl
     require_env HOMEBREW_TAP_TOKEN
     [[ -n "$RELEASE_TAG" ]] || {
         echo "--release-tag is required." >&2
@@ -176,8 +188,12 @@ publish_formula() {
     formula_name="${HOMEBREW_FORMULA:-neptune}"
     formula_class_name="$(echo "$formula_name" | awk -F'[-_ ]+' '{for(i=1;i<=NF;i++){printf toupper(substr($i,1,1)) tolower(substr($i,2))}}')"
     version="$(normalize_version "$RELEASE_TAG")"
-
-    eval "$(resolve_artifact_inputs "$RELEASE_TAG")"
+    artifact_name="neptune-${RELEASE_TAG}"
+    sha256="$(resolve_artifact_sha256 "$release_repo" "$RELEASE_TAG" "$artifact_name")"
+    [[ -n "$sha256" ]] || {
+        echo "Unable to resolve sha256 for ${artifact_name}" >&2
+        exit 1
+    }
 
     local temp_dir tap_dir formula_dir formula_path
     temp_dir="$(mktemp -d)"
@@ -194,7 +210,7 @@ publish_formula() {
     git config user.name "${GITHUB_ACTOR:-github-actions[bot]}"
     git config user.email "${GITHUB_ACTOR:-github-actions[bot]}@users.noreply.github.com"
 
-    if git diff --quiet -- "$formula_path"; then
+    if [[ -z "$(git status --porcelain -- "$formula_path")" ]]; then
         echo "No formula changes detected. Skip publish."
         popd >/dev/null
         rm -rf "$temp_dir"
