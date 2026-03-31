@@ -21,6 +21,11 @@ final class ReleaseCLIWorkflowTests: XCTestCase {
         XCTAssertTrue(content.contains("git log --no-merges --max-count=10 --pretty=format:'- %s (%h)'"), content)
         XCTAssertTrue(content.contains("softprops/action-gh-release@v2"), content)
         XCTAssertTrue(content.contains("./scripts/build-cli-release.sh"), content)
+        XCTAssertTrue(content.contains("Publish Homebrew Formula"), content)
+        XCTAssertTrue(content.contains("./scripts/publish-homebrew-formula.sh --release-tag"), content)
+        XCTAssertTrue(content.contains("linhay/homebrew-tap"), content)
+        XCTAssertTrue(content.contains("HOMEBREW_TAP_REPO"), content)
+        XCTAssertTrue(content.contains("HOMEBREW_TAP_TOKEN"), content)
         XCTAssertTrue(content.contains("fail_on_unmatched_files: true"), content)
     }
 }

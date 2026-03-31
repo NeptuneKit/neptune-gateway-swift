@@ -129,12 +129,30 @@ workflow 会：
 - 使用 `./scripts/build-cli-release.sh` 生成发布二进制、`sha256` 文件和发布清单
 - 将 `dist/cli-release/` 下的产物上传到对应 GitHub Release
 - 自动生成 Release notes
+- 当配置了 Homebrew 发布参数时，自动执行 `./scripts/publish-homebrew-formula.sh` 更新 tap 仓库中的 `Formula/neptune.rb`
 
 发布到 Release 的文件包含：
 
 - `neptune-<version>`
 - `neptune-<version>.sha256`
 - `neptune-<version>.release-info.txt`
+
+### Homebrew 自动发布配置
+
+`Release CLI (tag)` workflow 会在创建 GitHub Release 后尝试发布 Homebrew Formula。  
+默认发布到 `linhay/homebrew-tap`，需要在仓库设置中至少配置 token：
+
+- Actions Variables:
+  - `HOMEBREW_TAP_REPO`：可选，默认 `linhay/homebrew-tap`
+  - `HOMEBREW_FORMULA`：可选，默认 `neptune`
+- Actions Secrets:
+  - `HOMEBREW_TAP_TOKEN`：可推送到 tap 仓库的 token
+
+workflow 会基于本次 tag 生成下载地址：
+
+- `https://github.com/<release_repo>/releases/download/<tag>/neptune-<tag>`
+
+并写入 tap 仓库 `Formula/<formula>.rb`，随后自动提交并推送。
 
 自检模式只验证脚本依赖和包根目录，不会真正编译：
 

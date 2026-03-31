@@ -88,3 +88,19 @@ jobs:
             dist/cli-release/*
           generate_release_notes: true
           fail_on_unmatched_files: true
+
+      - name: Publish Homebrew Formula
+        if: ${{ secrets.HOMEBREW_TAP_TOKEN != '' }}
+        env:
+          HOMEBREW_TAP_REPO: ${{ vars.HOMEBREW_TAP_REPO }}
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          HOMEBREW_FORMULA: ${{ vars.HOMEBREW_FORMULA }}
+          RELEASE_REPO: ${{ github.repository }}
+        run: |
+          export HOMEBREW_TAP_REPO="${HOMEBREW_TAP_REPO:-linhay/homebrew-tap}"
+          ./scripts/publish-homebrew-formula.sh --release-tag "${{ steps.release_tag.outputs.release_tag }}"
+
+      - name: Skip Homebrew Formula Publish (missing token)
+        if: ${{ secrets.HOMEBREW_TAP_TOKEN == '' }}
+        run: |
+          echo "Skip Homebrew publish: secrets.HOMEBREW_TAP_TOKEN is empty."
