@@ -506,22 +506,33 @@ public enum NeptuneGatewaySwiftApp {
     }
 
     private static func resolveDiscoveryHost(for req: Request) -> String {
-        if let advertiseHost = req.gatewayDiscoveryRuntimeConfiguration.advertiseHost {
+        if let advertiseHost = normalizeDiscoveryHost(req.gatewayDiscoveryRuntimeConfiguration.advertiseHost) {
             return advertiseHost
         }
 
-        if let host = hostFromHeader(req.headers.first(name: .host)) {
-            return host
+        let requestHost = normalizeDiscoveryHost(req.headers.first(name: .host))
+        let configuredHost = normalizeDiscoveryHost(req.application.http.server.configuration.hostname)
+
+        if let requestHost, isRoutableDiscoveryHost(requestHost) {
+            return requestHost
         }
 
-        let configuredHost = req.application.http.server.configuration.hostname
-        if configuredHost == "0.0.0.0" || configuredHost == "::" || configuredHost == "[::]" || configuredHost.isEmpty {
-            return "127.0.0.1"
+        if let configuredHost, isRoutableDiscoveryHost(configuredHost) {
+            return configuredHost
         }
-        return configuredHost
+
+        if let requestHost, !isWildcardDiscoveryHost(requestHost) {
+            return requestHost
+        }
+
+        if let configuredHost, !isWildcardDiscoveryHost(configuredHost) {
+            return configuredHost
+        }
+
+        return "127.0.0.1"
     }
 
-    private static func hostFromHeader(_ rawHost: String?) -> String? {
+    private static func normalizeDiscoveryHost(_ rawHost: String?) -> String? {
         guard let rawHost = rawHost?.trimmingCharacters(in: .whitespacesAndNewlines), !rawHost.isEmpty else {
             return nil
         }
@@ -534,6 +545,25 @@ public enum NeptuneGatewaySwiftApp {
             return nil
         }
         return host
+    }
+
+    private static func isRoutableDiscoveryHost(_ host: String) -> Bool {
+        !isLoopbackDiscoveryHost(host) && !isWildcardDiscoveryHost(host)
+    }
+
+    private static func isLoopbackDiscoveryHost(_ host: String) -> Bool {
+        let normalized = host.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return normalized == "localhost" ||
+            normalized == "127.0.0.1" ||
+            normalized == "::1" ||
+            normalized.hasPrefix("127.")
+    }
+
+    private static func isWildcardDiscoveryHost(_ host: String) -> Bool {
+        let normalized = host.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return normalized == "0.0.0.0" ||
+            normalized == "::" ||
+            normalized == "[::]"
     }
 }
 

@@ -86,4 +86,19 @@ final class GatewayCLIArgumentTests: XCTestCase {
         XCTAssertEqual(serveCommand.mdnsServiceType, "_neptune._tcp.")
         XCTAssertEqual(serveCommand.mdnsDomain, "local.")
     }
+
+    func testServeNormalizeAdvertiseHostStripsSchemePortAndPath() {
+        XCTAssertEqual(
+            ServeCommand.normalizeAdvertiseHost("http://10.0.2.2:18767/v2/gateway/discovery"),
+            "10.0.2.2"
+        )
+        XCTAssertEqual(
+            ServeCommand.normalizeAdvertiseHost("linhey.local:18767"),
+            "linhey.local"
+        )
+        XCTAssertEqual(
+            ServeCommand.normalizeAdvertiseHost("[::1]:18767"),
+            "::1"
+        )
+    }
 }

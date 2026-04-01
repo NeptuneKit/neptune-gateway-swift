@@ -16,6 +16,7 @@ final class GatewayRoutesTests: XCTestCase {
         line: UInt = #line,
         retention: GatewayStoreConfiguration = .default,
         hostname: String = "127.0.0.1",
+        port: Int = 18765,
         advertiseHost: String? = nil
     ) throws -> Application {
         let databaseURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
@@ -27,6 +28,7 @@ final class GatewayRoutesTests: XCTestCase {
         return try NeptuneGatewaySwift.makeApplication(
             environment: .testing,
             hostname: hostname,
+            port: port,
             advertiseHost: advertiseHost,
             storageURL: databaseURL,
             storeConfiguration: retention
@@ -69,6 +71,46 @@ final class GatewayRoutesTests: XCTestCase {
             XCTAssertEqual(payload.host, "10.0.2.2")
             XCTAssertEqual(payload.port, 18765)
         })
+    }
+
+    func testDiscoveryEndpointPrefersConfiguredRoutableHostOverLoopbackRequestHeader() throws {
+        let app = try makeApplication(hostname: "10.0.2.2")
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/gateway/discovery", beforeRequest: { request in
+            request.headers.replaceOrAdd(name: .host, value: "127.0.0.1:18765")
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(DiscoveryResponse.self)
+            XCTAssertEqual(payload.host, "10.0.2.2")
+            XCTAssertEqual(payload.port, 18765)
+        })
+    }
+
+    func testDiscoveryEndpointReturnsActualConfiguredPortAfterPortShift() throws {
+        let app = try makeApplication(hostname: "0.0.0.0", port: 18767)
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/gateway/discovery", beforeRequest: { request in
+            request.headers.replaceOrAdd(name: .host, value: "10.0.2.2:18767")
+        }, afterResponse: { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(DiscoveryResponse.self)
+            XCTAssertEqual(payload.host, "10.0.2.2")
+            XCTAssertEqual(payload.port, 18767)
+        })
+    }
+
+    func testDiscoveryEndpointFallsBackToLoopbackWhenOnlyWildcardBindingExists() throws {
+        let app = try makeApplication(hostname: "0.0.0.0")
+        defer { app.shutdown() }
+
+        try app.test(.GET, "v2/gateway/discovery") { response in
+            XCTAssertEqual(response.status, .ok)
+            let payload = try response.content.decode(DiscoveryResponse.self)
+            XCTAssertEqual(payload.host, "127.0.0.1")
+            XCTAssertEqual(payload.port, 18765)
+        }
     }
 
     func testWebSocketEndpointIsRegistered() throws {

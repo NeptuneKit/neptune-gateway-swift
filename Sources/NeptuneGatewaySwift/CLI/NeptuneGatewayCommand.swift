@@ -107,7 +107,7 @@ public struct ServeCommand: ParsableCommand {
             environment: environment,
             hostname: host,
             port: port,
-            advertiseHost: normalizeAdvertiseHost(advertiseHost)
+            advertiseHost: Self.normalizeAdvertiseHost(advertiseHost)
         )
         let mdnsPublisher = GatewayMDNSPublisher(
             configuration: GatewayMDNSConfiguration(
@@ -126,10 +126,18 @@ public struct ServeCommand: ParsableCommand {
         try app.run()
     }
 
-    private func normalizeAdvertiseHost(_ value: String?) -> String? {
+    static func normalizeAdvertiseHost(_ value: String?) -> String? {
         guard let value = value?.trimmingCharacters(in: .whitespacesAndNewlines), !value.isEmpty else {
             return nil
         }
+
+        let candidate = value.contains("://") ? value : "http://\(value)"
+        if let components = URLComponents(string: candidate),
+           let host = components.host?.trimmingCharacters(in: .whitespacesAndNewlines),
+           !host.isEmpty {
+            return host
+        }
+
         return value
     }
 }
